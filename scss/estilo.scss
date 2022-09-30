@@ -1,4 +1,6 @@
-* {
+
+
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -42,30 +44,30 @@ body{
 
 
 html, body {
-    max-width: 100%;
+    max-width: 100vw;
     overflow-x: hidden;
 }
 
 h1{
     
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Rubik Dirt', cursive;
 
 }
 
-h2, h3, h4{
+h2, h3{
     
-    font-family: "Quicksand-Variable (titulos)" ;
+    font-family: 'Rubik Mono One', sans-serif;;
     
 }
- h5, h6{
+h4, h5, h6{
     
-    font-family: "Playfair (Texto)";
+    font-family: 'Quicksand', sans-serif;
     
 }
 
 p{
     
-    font-family: "Playfair (Texto)";  
+    font-family: 'Quicksand', sans-serif; 
 }   
 
 body{
@@ -90,7 +92,7 @@ body{
     .header{
         grid-area: header; 
     }
-      .footer { 
+    .footer { 
         grid-area: footer; 
     }
       
@@ -112,25 +114,17 @@ body{
 
 .contenedor-equipo {  
     display: grid;
-    grid-template-columns: 0.3fr 1.2fr 0.3fr; 
-    grid-template-rows: 0.2fr 6fr 0.2fr; 
+    grid-template-columns: 1fr; 
+    grid-template-rows: 0.2fr 1fr 0.2fr; 
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
-    "header header header"
-    "aside1-equipo main-equipo aside2-equipo"
-    "footer footer footer";
+    "header"
+    "main-equipo "
+    "footer";
     
     .header { 
         grid-area: header; 
-    }
-      
-    .aside1-equipo { 
-        grid-area: aside1-equipo; 
-    }
-      
-    .aside2-equipo { 
-        grid-area: aside2-equipo; 
     }
       
     .main-equipo { 
@@ -146,24 +140,16 @@ body{
 
 .contenedor-servicios {  
     display: grid;
-    grid-template-columns: 0.3fr 1.2fr 0.3fr;
+    grid-template-columns: 1fr;
     grid-template-rows: 0.2fr 14fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
-    "header header header"
-    "aside1-servicios main-servicios aside2-servicios"
-    "footer footer footer";
+    "header"
+    "main-servicios"
+    "footer";
     .header { 
         grid-area: header; 
-    }
-      
-    .aside1-servicios { 
-        grid-area: aside1-servicios; 
-    }
-      
-    .aside2-servicios { 
-        grid-area: aside2-servicios; 
     }
       
     .main-servicios { 
@@ -180,25 +166,17 @@ body{
 
 .contenedor-contacto {  
     display: grid;
-    grid-template-columns: 0.3fr 1.2fr 0.3fr;
+    grid-template-columns: 1fr;
     grid-template-rows: 0.2fr 9fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
-    "header header header"
-    "aside1-contacto contactos_main aside2-contacto"
-    "footer footer footer";
+    "header"
+    "contactos_main"
+    "footer";
 
     .header { 
         grid-area: header; 
-    }
-      
-    .aside1-contacto { 
-        grid-area: aside1-contacto; 
-    }
-      
-    .aside2-contacto { 
-        grid-area: aside2-contacto;
     }
       
     .contactos_main { 
@@ -215,28 +193,20 @@ body{
 
 .contenedor-nosotros {  
     display: grid;
-    grid-template-columns: 0.3fr 1.2fr 0.3fr;
-    grid-template-rows: 0.2fr 8fr 0.3fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.2fr 2fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
-    "header header header"
-    "aside1-nosotros main-nosotros aside2-nosotros"
-    "footer footer footer";
+    "header"
+    "nosotros_main"
+    "footer";
     .header { 
         grid-area: header; 
     }
       
-    .aside1-nosotros { 
-        grid-area: aside1-nosotros; 
-    }
-      
-    .aside2-nosotros { 
-        grid-area: aside2-nosotros; 
-    }
-      
-    .main-nosotros { 
-        grid-area: main-nosotros; 
+    .nosotros_main { 
+        grid-area: nosotros_main; 
     }
       
     .footer { 
@@ -244,3 +214,182 @@ body{
     }
 }
   
+/*<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS DE TODO EL SITIO WEB------------------------------------------------------------->*/
+
+/*<---------------------------------- HEADER--------------------------------------->*/
+
+.header{
+    display: flex;
+    flex-direction: column;
+    background-image:url(../assets/fondos/fondo_navegacion.jpg);
+    justify-content: space-between;
+    height: fit-content;
+    .Titulo_Navegacion{
+        display: flex;
+        width: 100vw;
+        justify-content: space-between;
+
+        a{
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+
+
+            .titulo-principal{
+                color: black;
+                font-size: 1.38rem;
+                display: flex;
+                align-items: flex-end;
+                margin-left: 1rem;
+                #el_nucleo{
+                    font-size: 2rem;
+                    margin-bottom: 0px;
+                }
+                
+                #cine{
+                    font-size: 0.8rem;
+                    position: relative;
+                    
+                }
+            }
+
+        }
+
+        .menu-principal{
+            display: flex;
+            text-align: center;
+            ul{
+            display: flex;
+            flex-direction: column;
+            margin-right: 2rem;
+            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
+            list-style: none;
+            
+            li{
+                padding: 0.5rem;
+                
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+            
+                a{
+                    text-decoration: none;
+                    color: black;
+                    align-items: center;
+                    h2{
+                       font-size: 1.2rem;
+                       margin-bottom: 0;
+                       text-align: start;
+                       padding-top: 0.45rem;
+                       
+                    }
+                }
+
+                :hover{
+    
+                    opacity: 0.8;
+                    transform: scale(1.1);
+                    -webkit-animation-name: hvr-pulse;
+                    animation-name: hvr-pulse;
+                    -webkit-animation-duration: 1s;
+                    animation-duration: 1s;
+                    -webkit-animation-timing-function: linear;
+                    animation-timing-function: linear;
+                    -webkit-animation-iteration-count: infinite;
+                    animation-iteration-count: infinite;
+                
+                }
+            }
+            }
+        }
+        
+        .barra-separadora{
+            width: 100vw;
+          
+        }
+    
+    }
+}
+
+/*<---------------------------------------------------------FOOTER------------------------------------------------------------>*/
+.footer {
+    background-image: url(../assets/fondos/fondo_navegacion.jpg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    
+    .contenedor-social{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        ul{
+            list-style: none;
+            display: flex;
+            align-items: center;
+            padding: 0px;
+            margin-bottom: 0px;
+            
+            a{
+                text-decoration: none;
+                padding: 0.4rem 0.4rem 0.4rem 0.4rem;
+                
+                li{
+                    display: flex;
+                    justify-content: center;
+                    width: 4rem;
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.5rem;
+                    border-radius: 17px ;
+                    -webkit-transform: perspective(1px) translateZ(0);
+                    transform: perspective(1px) translateZ(0);
+                    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+                    -webkit-transition-duration: 0.5s;
+                    transition-duration: 0.5s;
+                    
+                    
+                }
+                :hover{
+                    -webkit-transform: scale(0.8);
+                    transform: scale(0.8);
+                    -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+                    transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+                }
+            }
+
+        }
+
+
+    }
+
+    .derechos{
+        display: flex;
+        text-align: center;
+        height: min-content;
+    }
+}
+
+/*<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS DE TODO EL SITIO WEB-------FIN------------------------------------------------------>*/
+
+/*<-------------------------------------------------ETIQUETAS DEL INDEX---------------------------->*/
+
+/*<-------------------------------------------------MAIN INDEX---------------------------->*/
+
+.main{
+    .foto1{
+        width: 100%;
+    }
+    .foto2{
+        width: 100%;
+    }
+    .logo{
+        display: none;
+    }
+}
+
+/*<------------------------------- INDEX ETIQUETAS--FIN--------------------------------------------->*/
+
+/*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- NOSOTROS ETIQUETAS -------------------------------------------------------------------->*/
+
+/

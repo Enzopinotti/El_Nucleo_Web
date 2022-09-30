@@ -30,16 +30,16 @@ html, body {
   overflow-x: hidden; }
 
 h1 {
-  font-family: 'Dancing Script', cursive; }
+  font-family: 'Rubik Dirt', cursive; }
 
-h2, h3, h4 {
-  font-family: "Quicksand-Variable (titulos)"; }
+h2, h3 {
+  font-family: 'Rubik Mono One', sans-serif; }
 
-h5, h6 {
-  font-family: "Playfair (Texto)"; }
+h4, h5, h6 {
+  font-family: 'Quicksand', sans-serif; }
 
 p {
-  font-family: "Playfair (Texto)"; }
+  font-family: 'Quicksand', sans-serif; }
 
 body {
   background-color: darkcyan;
@@ -66,17 +66,13 @@ body {
 
 .contenedor-equipo {
   display: grid;
-  grid-template-columns: 0.3fr 1.2fr 0.3fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 0.2fr 6fr 0.2fr;
   gap: 0px 0px;
   grid-auto-flow: row;
-  grid-template-areas: "header header header" "aside1-equipo main-equipo aside2-equipo" "footer footer footer"; }
+  grid-template-areas: "header" "amain-equipo " "footer"; }
   .contenedor-equipo .header {
     grid-area: header; }
-  .contenedor-equipo .aside1-equipo {
-    grid-area: aside1-equipo; }
-  .contenedor-equipo .aside2-equipo {
-    grid-area: aside2-equipo; }
   .contenedor-equipo .main-equipo {
     grid-area: main-equipo; }
   .contenedor-equipo .footer {
@@ -84,17 +80,13 @@ body {
 
 .contenedor-servicios {
   display: grid;
-  grid-template-columns: 0.3fr 1.2fr 0.3fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 0.2fr 14fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
-  grid-template-areas: "header header header" "aside1-servicios main-servicios aside2-servicios" "footer footer footer"; }
+  grid-template-areas: "header" "main-servicios" "footer"; }
   .contenedor-servicios .header {
     grid-area: header; }
-  .contenedor-servicios .aside1-servicios {
-    grid-area: aside1-servicios; }
-  .contenedor-servicios .aside2-servicios {
-    grid-area: aside2-servicios; }
   .contenedor-servicios .main-servicios {
     grid-area: main-servicios; }
   .contenedor-servicios .footer {
@@ -102,17 +94,13 @@ body {
 
 .contenedor-contacto {
   display: grid;
-  grid-template-columns: 0.3fr 1.2fr 0.3fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 0.2fr 9fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
-  grid-template-areas: "header header header" "aside1-contacto contactos_main aside2-contacto" "footer footer footer"; }
+  grid-template-areas: "header" "contactos_main" "footer"; }
   .contenedor-contacto .header {
     grid-area: header; }
-  .contenedor-contacto .aside1-contacto {
-    grid-area: aside1-contacto; }
-  .contenedor-contacto .aside2-contacto {
-    grid-area: aside2-contacto; }
   .contenedor-contacto .contactos_main {
     grid-area: contactos_main; }
   .contenedor-contacto .footer {
@@ -120,18 +108,138 @@ body {
 
 .contenedor-nosotros {
   display: grid;
-  grid-template-columns: 0.3fr 1.2fr 0.3fr;
-  grid-template-rows: 0.2fr 8fr 0.3fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.2fr 2fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
-  grid-template-areas: "header header header" "aside1-nosotros main-nosotros aside2-nosotros" "footer footer footer"; }
+  grid-template-areas: "header" "nosotros_main" "footer"; }
   .contenedor-nosotros .header {
     grid-area: header; }
-  .contenedor-nosotros .aside1-nosotros {
-    grid-area: aside1-nosotros; }
-  .contenedor-nosotros .aside2-nosotros {
-    grid-area: aside2-nosotros; }
-  .contenedor-nosotros .main-nosotros {
-    grid-area: main-nosotros; }
+  .contenedor-nosotros .nosotros_main {
+    grid-area: nosotros_main; }
   .contenedor-nosotros .footer {
     grid-area: footer; }
+
+/*<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS DE TODO EL SITIO WEB------------------------------------------------------------->*/
+/*<---------------------------------- HEADER--------------------------------------->*/
+.header {
+  display: flex;
+  flex-direction: column;
+  background-image: url(../assets/fondos/fondo_navegacion.jpg);
+  justify-content: space-between;
+  height: fit-content; }
+  .header .Titulo_Navegacion {
+    display: flex;
+    width: 100vw;
+    justify-content: space-between; }
+    .header .Titulo_Navegacion a {
+      text-decoration: none;
+      display: flex;
+      align-items: center; }
+      .header .Titulo_Navegacion a .titulo-principal {
+        color: black;
+        font-size: 1.38rem;
+        display: flex;
+        align-items: flex-end;
+        margin-left: 1rem; }
+        .header .Titulo_Navegacion a .titulo-principal #el_nucleo {
+          font-size: 2rem;
+          margin-bottom: 0px; }
+        .header .Titulo_Navegacion a .titulo-principal #cine {
+          font-size: 0.8rem;
+          position: relative; }
+    .header .Titulo_Navegacion .menu-principal {
+      display: flex;
+      text-align: center; }
+      .header .Titulo_Navegacion .menu-principal ul {
+        display: flex;
+        flex-direction: column;
+        margin-right: 2rem;
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
+        list-style: none; }
+        .header .Titulo_Navegacion .menu-principal ul li {
+          padding: 0.5rem;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center; }
+          .header .Titulo_Navegacion .menu-principal ul li a {
+            text-decoration: none;
+            color: black;
+            align-items: center; }
+            .header .Titulo_Navegacion .menu-principal ul li a h2 {
+              font-size: 1.2rem;
+              margin-bottom: 0;
+              text-align: start;
+              padding-top: 0.45rem; }
+          .header .Titulo_Navegacion .menu-principal ul li :hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+            -webkit-animation-name: hvr-pulse;
+            animation-name: hvr-pulse;
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite; }
+    .header .Titulo_Navegacion .barra-separadora {
+      width: 100vw; }
+
+/*<---------------------------------------------------------FOOTER------------------------------------------------------------>*/
+.footer {
+  background-image: url(../assets/fondos/fondo_navegacion.jpg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center; }
+  .footer .contenedor-social {
+    display: flex;
+    justify-content: center;
+    text-align: center; }
+    .footer .contenedor-social ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      padding: 0px;
+      margin-bottom: 0px; }
+      .footer .contenedor-social ul a {
+        text-decoration: none;
+        padding: 0.4rem 0.4rem 0.4rem 0.4rem; }
+        .footer .contenedor-social ul a li {
+          display: flex;
+          justify-content: center;
+          width: 4rem;
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
+          border-radius: 17px;
+          -webkit-transform: perspective(1px) translateZ(0);
+          transform: perspective(1px) translateZ(0);
+          box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+          -webkit-transition-duration: 0.5s;
+          transition-duration: 0.5s; }
+        .footer .contenedor-social ul a :hover {
+          -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+          -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+          transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36); }
+  .footer .derechos {
+    display: flex;
+    text-align: center;
+    height: min-content; }
+
+/*<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS DE TODO EL SITIO WEB-------FIN------------------------------------------------------>*/
+/*<-------------------------------------------------ETIQUETAS DEL INDEX---------------------------->*/
+/*<-------------------------------------------------MAIN INDEX---------------------------->*/
+.main .foto1 {
+  width: 100%; }
+
+.main .foto2 {
+  width: 100%; }
+
+.main .logo {
+  display: none; }
+
+/*<------------------------------- INDEX ETIQUETAS--FIN--------------------------------------------->*/
+/*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- NOSOTROS ETIQUETAS -------------------------------------------------------------------->*/
+/*<-------------------------------------------------------------------------- ASIDES NOSOTROS---------------------------->*/
