@@ -1,0 +1,246 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*<-------------------------------------------------------------------------------------------------------------------------------- INTRODUZCO FUENTES --------------------------------------------------------------------->*/
+
+/*<--------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS GENERALES ---------------------------------------------------------------------------------------------------------->*/
+
+
+
+
+/*<------------------- ETIQUETAS DE ANIMACIONES ----------------------->*/
+
+@-webkit-keyframes hvr-pulse {
+    25% {
+      -webkit-transform: scale(1.1);
+      transform: scale(1.1);
+    }
+    75% {
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+}
+  @keyframes hvr-pulse {
+    25% {
+      -webkit-transform: scale(1.1);
+      transform: scale(1.1);
+    }
+    75% {
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+}
+
+
+
+body{
+    background-color: aquamarine;
+}
+
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+h1{
+    
+    font-family: 'Dancing Script', cursive;
+
+}
+
+h2, h3, h4{
+    
+    font-family: "Quicksand-Variable (titulos)" ;
+    
+}
+ h5, h6{
+    
+    font-family: "Playfair (Texto)";
+    
+}
+
+p{
+    
+    font-family: "Playfair (Texto)";  
+}   
+
+body{
+    background-color: darkcyan;
+    width: 100%;
+}
+
+/*<---------------------------------------------------------------------- ETIQUETAS DE GRID -------------------------------------------------------------------------->*/
+
+.contenedor{  
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 0.2fr 1fr 1.5fr 0.4fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header header"
+    "main main"
+    "main main"
+    "footer footer ";
+    
+    .header{
+        grid-area: header; 
+    }
+      .footer { 
+        grid-area: footer; 
+    }
+      
+    .aside2 { 
+        grid-area: aside2; 
+    }
+      
+    .aside1 { 
+        grid-area: aside1; 
+    }
+      
+    .main { 
+        grid-area: main; 
+    }
+}
+  
+
+  
+
+.contenedor-equipo {  
+    display: grid;
+    grid-template-columns: 0.3fr 1.2fr 0.3fr; 
+    grid-template-rows: 0.2fr 6fr 0.2fr; 
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header header header"
+    "aside1-equipo main-equipo aside2-equipo"
+    "footer footer footer";
+    
+    .header { 
+        grid-area: header; 
+    }
+      
+    .aside1-equipo { 
+        grid-area: aside1-equipo; 
+    }
+      
+    .aside2-equipo { 
+        grid-area: aside2-equipo; 
+    }
+      
+    .main-equipo { 
+        grid-area: main-equipo; 
+    }
+      
+    .footer { 
+        grid-area: footer; 
+    }
+}
+  
+
+
+.contenedor-servicios {  
+    display: grid;
+    grid-template-columns: 0.3fr 1.2fr 0.3fr;
+    grid-template-rows: 0.2fr 14fr 0.4fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header header header"
+    "aside1-servicios main-servicios aside2-servicios"
+    "footer footer footer";
+    .header { 
+        grid-area: header; 
+    }
+      
+    .aside1-servicios { 
+        grid-area: aside1-servicios; 
+    }
+      
+    .aside2-servicios { 
+        grid-area: aside2-servicios; 
+    }
+      
+    .main-servicios { 
+        grid-area: main-servicios; 
+    }
+      
+    .footer { 
+        grid-area: footer; 
+    }
+}
+  
+
+  
+
+.contenedor-contacto {  
+    display: grid;
+    grid-template-columns: 0.3fr 1.2fr 0.3fr;
+    grid-template-rows: 0.2fr 9fr 0.4fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header header header"
+    "aside1-contacto contactos_main aside2-contacto"
+    "footer footer footer";
+
+    .header { 
+        grid-area: header; 
+    }
+      
+    .aside1-contacto { 
+        grid-area: aside1-contacto; 
+    }
+      
+    .aside2-contacto { 
+        grid-area: aside2-contacto;
+    }
+      
+    .contactos_main { 
+        grid-area: contactos_main; 
+    }
+      
+    .footer { 
+        grid-area: footer; 
+    }
+}
+  
+
+
+
+.contenedor-nosotros {  
+    display: grid;
+    grid-template-columns: 0.3fr 1.2fr 0.3fr;
+    grid-template-rows: 0.2fr 8fr 0.3fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header header header"
+    "aside1-nosotros main-nosotros aside2-nosotros"
+    "footer footer footer";
+    .header { 
+        grid-area: header; 
+    }
+      
+    .aside1-nosotros { 
+        grid-area: aside1-nosotros; 
+    }
+      
+    .aside2-nosotros { 
+        grid-area: aside2-nosotros; 
+    }
+      
+    .main-nosotros { 
+        grid-area: main-nosotros; 
+    }
+      
+    .footer { 
+        grid-area: footer; 
+    }
+}
+  
