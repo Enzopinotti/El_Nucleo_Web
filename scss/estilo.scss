@@ -1,4 +1,10 @@
+//VARIABLES GLOBALES//
 
+$color_main:#2c2d2d;
+$color_subtitulo: #dee2e3; 
+$color_nucleo: #7cccd8;
+
+//FUNCIONES GLOBALES//
 
 *{
     margin: 0;
@@ -10,365 +16,25 @@
 
 /*<--------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS GENERALES ---------------------------------------------------------------------------------------------------------->*/
 
-
+@import "etiquetas_generales";
 
 
 /*<------------------- ETIQUETAS DE ANIMACIONES ----------------------->*/
 
-@-webkit-keyframes hvr-pulse {
-    25% {
-      -webkit-transform: scale(1.1);
-      transform: scale(1.1);
-    }
-    75% {
-      -webkit-transform: scale(0.9);
-      transform: scale(0.9);
-    }
-}
-  @keyframes hvr-pulse {
-    25% {
-      -webkit-transform: scale(1.1);
-      transform: scale(1.1);
-    }
-    75% {
-      -webkit-transform: scale(0.9);
-      transform: scale(0.9);
-    }
-}
-
-
-
-body{
-    background-color: aquamarine;
-}
-
-
-html, body {
-    max-width: 100vw;
-    overflow-x: hidden;
-}
-
-h1{
-    
-    font-family: 'Rubik Dirt', cursive;
-
-}
-
-h2, h3{
-    
-    font-family: 'Rubik Mono One', sans-serif;;
-    
-}
-h4, h5, h6{
-    
-    font-family: 'Quicksand', sans-serif;
-    
-}
-
-p{
-    
-    font-family: 'Quicksand', sans-serif; 
-}   
-
-body{
-    background-color: darkcyan;
-    width: 100%;
-}
 
 /*<---------------------------------------------------------------------- ETIQUETAS DE GRID -------------------------------------------------------------------------->*/
 
-.contenedor{  
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0.2fr 1fr 1.5fr 0.4fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-    "header header"
-    "main main"
-    "main main"
-    "footer footer ";
-    
-    .header{
-        grid-area: header; 
-    }
-    .footer { 
-        grid-area: footer; 
-    }
-      
-    .aside2 { 
-        grid-area: aside2; 
-    }
-      
-    .aside1 { 
-        grid-area: aside1; 
-    }
-      
-    .main { 
-        grid-area: main; 
-    }
-}
-  
+@import "grid_estilo";
 
-  
-
-.contenedor-equipo {  
-    display: grid;
-    grid-template-columns: 1fr; 
-    grid-template-rows: 0.2fr 1fr 0.2fr; 
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-    "header"
-    "main-equipo "
-    "footer";
-    
-    .header { 
-        grid-area: header; 
-    }
-      
-    .main-equipo { 
-        grid-area: main-equipo; 
-    }
-      
-    .footer { 
-        grid-area: footer; 
-    }
-}
-  
-
-
-.contenedor-servicios {  
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.2fr 14fr 0.4fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-    "header"
-    "main-servicios"
-    "footer";
-    .header { 
-        grid-area: header; 
-    }
-      
-    .main-servicios { 
-        grid-area: main-servicios; 
-    }
-      
-    .footer { 
-        grid-area: footer; 
-    }
-}
-  
-
-  
-
-.contenedor-contacto {  
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.2fr 9fr 0.4fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-    "header"
-    "contactos_main"
-    "footer";
-
-    .header { 
-        grid-area: header; 
-    }
-      
-    .contactos_main { 
-        grid-area: contactos_main; 
-    }
-      
-    .footer { 
-        grid-area: footer; 
-    }
-}
-  
-
-
-
-.contenedor-nosotros {  
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.2fr 2fr 0.4fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-    "header"
-    "nosotros_main"
-    "footer";
-    .header { 
-        grid-area: header; 
-    }
-      
-    .nosotros_main { 
-        grid-area: nosotros_main; 
-    }
-      
-    .footer { 
-        grid-area: footer; 
-    }
-}
-  
 /*<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS DE TODO EL SITIO WEB------------------------------------------------------------->*/
 
 /*<---------------------------------- HEADER--------------------------------------->*/
 
-.header{
-    display: flex;
-    flex-direction: column;
-    background-image:url(../assets/fondos/fondo_navegacion.jpg);
-    justify-content: space-between;
-    height: fit-content;
-    .Titulo_Navegacion{
-        display: flex;
-        width: 100vw;
-        justify-content: space-between;
-
-        a{
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-
-
-            .titulo-principal{
-                color: black;
-                font-size: 1.38rem;
-                display: flex;
-                align-items: flex-end;
-                margin-left: 1rem;
-                #el_nucleo{
-                    font-size: 2rem;
-                    margin-bottom: 0px;
-                }
-                
-                #cine{
-                    font-size: 0.8rem;
-                    position: relative;
-                    
-                }
-            }
-
-        }
-
-        .menu-principal{
-            display: flex;
-            text-align: center;
-            ul{
-            display: flex;
-            flex-direction: column;
-            margin-right: 2rem;
-            margin-bottom: 0.5rem;
-            margin-top: 0.5rem;
-            list-style: none;
-            
-            li{
-                padding: 0.5rem;
-                
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-            
-                a{
-                    text-decoration: none;
-                    color: black;
-                    align-items: center;
-                    h2{
-                       font-size: 1.2rem;
-                       margin-bottom: 0;
-                       text-align: start;
-                       padding-top: 0.45rem;
-                       
-                    }
-                }
-
-                :hover{
-    
-                    opacity: 0.8;
-                    transform: scale(1.1);
-                    -webkit-animation-name: hvr-pulse;
-                    animation-name: hvr-pulse;
-                    -webkit-animation-duration: 1s;
-                    animation-duration: 1s;
-                    -webkit-animation-timing-function: linear;
-                    animation-timing-function: linear;
-                    -webkit-animation-iteration-count: infinite;
-                    animation-iteration-count: infinite;
-                
-                }
-            }
-            }
-        }
-        
-        .barra-separadora{
-            width: 100vw;
-          
-        }
-    
-    }
-}
+@import "header";
 
 /*<---------------------------------------------------------FOOTER------------------------------------------------------------>*/
-.footer {
-    background-image: url(../assets/fondos/fondo_navegacion.jpg);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    
-    .contenedor-social{
-        display: flex;
-        justify-content: center;
-        text-align: center;
-        ul{
-            list-style: none;
-            display: flex;
-            align-items: center;
-            padding: 0px;
-            margin-bottom: 0px;
-            
-            a{
-                text-decoration: none;
-                padding: 0.4rem 0.4rem 0.4rem 0.4rem;
-                
-                li{
-                    display: flex;
-                    justify-content: center;
-                    width: 4rem;
-                    padding-top: 0.5rem;
-                    padding-bottom: 0.5rem;
-                    border-radius: 17px ;
-                    -webkit-transform: perspective(1px) translateZ(0);
-                    transform: perspective(1px) translateZ(0);
-                    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-                    -webkit-transition-duration: 0.5s;
-                    transition-duration: 0.5s;
-                    
-                    
-                }
-                :hover{
-                    -webkit-transform: scale(0.8);
-                    transform: scale(0.8);
-                    -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
-                    transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
-                }
-            }
 
-        }
-
-
-    }
-
-    .derechos{
-        display: flex;
-        text-align: center;
-        height: min-content;
-    }
-}
+@import "footer";
 
 /*<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS DE TODO EL SITIO WEB-------FIN------------------------------------------------------>*/
 
@@ -377,19 +43,463 @@ body{
 /*<-------------------------------------------------MAIN INDEX---------------------------->*/
 
 .main{
-    .foto1{
-        width: 100%;
+    color: $color_main;
+    .fotos-index{ 
+        height: 100%;  
+        
+        .foto1{
+            width: 100%;
+            height: 25%;
+        }
+        .foto2{
+            width: 100%;
+            height: 25%;
+        }
+        
+
     }
-    .foto2{
-        width: 100%;
-    }
+
     .logo{
         display: none;
     }
+    
 }
 
 /*<------------------------------- INDEX ETIQUETAS--FIN--------------------------------------------->*/
 
 /*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- NOSOTROS ETIQUETAS -------------------------------------------------------------------->*/
 
-/
+/*<-------------------------------------------------------------------------- MAIN NOSOTROS ---------------------------->*/
+
+.main-nosotros{
+    background-color: $color_main;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: fit-content;
+    width: 100vw;
+    height: 100%;
+
+    .nosotros{
+        width: 100vw;
+        height: 50%;
+        background-image: url(../assets/fondos/hexagono.png);
+        background-position-x: center;
+        background-position-y: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+       
+        h2{
+            position: relative;
+            bottom: 4rem;
+        }
+        p{
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    }
+
+    .vision{
+        width: 100vw;
+        height: 50%;
+        background-image: url(../assets/fondos/hexagono.png);
+        background-position-x: center;
+        background-position-y: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+       
+        h2{
+            position: relative;
+            bottom: 4rem;
+        }
+        p{
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    }
+}
+
+/*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- NOSOTROS ETIQUETAS ---FIN----------------------------------------------------------------->*/
+
+/*<---------------------------------------------------------------------------------------------------------------------------------------------------------------------- SERVICIOS ETIQUETAS --------------------------------------------------------------------->*/
+
+
+
+
+/*<----------------------------------------------- MAIN SERVICIOS -------------------------------------------->*/
+
+.main-servicios{
+    background-color: $color_main;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100vw;
+
+    .titulo-servicios{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: inset 10px 10px 0.5px 10px $color_nucleo;
+        border-radius: 25px;
+        background-color: $color_main;
+        color:$color_subtitulo;
+
+        &:hover{
+            color:$color_main;
+            background-color: $color_subtitulo;
+        }
+        h3{
+            
+            margin-bottom: 0px;
+            font-size: 1.3rem;
+            padding: 0.5rem;
+        }
+    }
+    
+    .caja-servicios{
+
+        background-image: url(../assets/fondos/fondo_navegacion.jpg);
+        border-radius: 20px;
+        border: #1c1d1d solid 7px;
+        width: 90%;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+
+        &:hover{
+            box-shadow: 10px 10px 40px 10px $color_nucleo;
+            
+        }
+
+        .videoclip-caja{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            
+            img{
+                width: 80vw;
+            }
+        }
+    
+        .publicidad-caja{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            img{
+                width: 80vw;
+            }
+        }
+
+        .cortometrajes-caja{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            img{
+                width: 80vw;
+            }
+        }
+
+        .coberturas-caja{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            img{
+                width: 80vw;
+            }
+        }
+
+    }
+
+    .titulo-backstage{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        box-shadow: inset 10px 10px 0.5px 10px $color_nucleo;
+        border-radius: 25px;
+        background-color: $color_main;
+        color:$color_subtitulo;
+
+        &:hover{
+            color:$color_main;
+            background-color: $color_subtitulo
+            ;
+        }
+        h3{
+            
+            margin-bottom: 0px;
+            font-size: 1.3rem;
+            padding: 0.5rem;
+        }
+    }
+
+    .caja-backstage{
+        background-image: url(../assets/fondos/fondo_navegacion.jpg);
+        border-radius: 20px;
+        border: #1c1d1d solid 7px;
+        width: 90%;
+        padding-top: 2rem;
+
+        &:hover{
+
+            box-shadow: 10px 10px 40px 10px $color_nucleo;
+
+        }
+        
+        
+        
+        .galeria-backstage1{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 2rem;
+            justify-content: space-around;
+            img{
+                width: 80vw;
+            }
+        }
+
+        .galeria-backstage2{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 2rem;
+            justify-content: space-around;
+            img{
+                width: 80vw;
+            }
+        }
+    }
+   
+
+}
+
+/*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- SERVICIOS ETIQUETAS ---FIN----------------------------------------------------------------->*/
+
+/*<----------------------------------- EQUIPO ETIQUETAS ---------------------------------------------->*/
+
+
+
+/*<---------------------------------------------- ASIDES EQUIPO--------------------------------------->*/
+
+.aside1-equipo{
+    background-image: url(../assets/fondos/esquina.jpeg);
+    display: none;
+    
+}
+.aside2-equipo{
+    background-image: url(../assets/fondos/esquina.jpeg);
+    display: none;
+    
+}
+
+/*<------------------------------------------------ MAIN EQUIPO--------------------------------------------->*/
+
+.main-equipo{
+
+    background-color: $color_main;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100vw;
+
+    .titulo-equipo{
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: inset 10px 10px 0.5px 10px $color_nucleo;
+        border-radius: 25px;
+        background-color: $color_main;
+        color:$color_subtitulo;
+
+        &:hover{
+            color:$color_main;
+            background-color: $color_subtitulo;
+        }
+        h3{
+            
+            margin-bottom: 0px;
+            font-size: 1.3rem;
+            padding: 0.5rem;
+        }
+    }
+
+    .fotos-equipo{
+
+        background-image: url(../assets/fondos/fondo_navegacion.jpg);
+        border-radius: 20px;
+        border: #1c1d1d solid 7px;
+        width: 90%;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+
+        &:hover{
+            box-shadow: 10px 10px 40px 10px $color_nucleo;
+            
+        }
+
+        .fotoynombre{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+
+            a{
+                width: min-content;
+            }
+            h4{
+                font-weight: 900;
+            }
+
+        }
+
+    }
+
+    .titulo-cliente{
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: inset 10px 10px 0.5px 10px $color_nucleo;
+        border-radius: 25px;
+        background-color: $color_main;
+        color:$color_subtitulo;
+
+        &:hover{
+            color:$color_main;
+            background-color: $color_subtitulo;
+        }
+        h3{
+            
+            margin-bottom: 0px;
+            font-size: 1.3rem;
+            padding: 0.5rem;
+        }
+
+    }
+
+    .fotos-cliente{
+
+        background-image: url(../assets/fondos/fondo_navegacion.jpg);
+        border-radius: 20px;
+        border: #1c1d1d solid 7px;
+        width: 90%;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+            
+
+        a{
+            width: min-content;
+        }
+        h4{
+            font-weight: 900;
+        }
+
+        &:hover{
+            box-shadow: 10px 10px 40px 10px $color_nucleo;
+            
+        }
+    }
+
+
+}
+
+/*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- EQUIPO ETIQUETAS ---FIN----------------------------------------------------------------->*/
+
+/*<----------------------------------- CONTACTO ETIQUETAS ---------------------------------------------->*/
+
+.main-contacto{
+
+    background-color: $color_main;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100vw;
+
+    .caja-contacto{
+
+        display: flex;
+        flex-direction: column;
+        background-image: url(../assets/fondos/fondo_navegacion.jpg);
+        border-radius: 20px;
+        border: #1c1d1d solid 7px;
+        width: 90%;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        align-items: center;
+        padding: 1.4rem;
+
+        .titulo-contacto{
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: inset 10px 10px 0.5px 10px $color_nucleo;
+            border-radius: 25px;
+            width: 90%;
+            color:$color_main;
+            text-align: center;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+
+            &:hover{
+                color:$color_subtitulo;
+                background-color: $color_main;
+            }
+
+            h3{
+            
+                margin-bottom: 0px;
+                font-size: 1.3rem;
+                padding: 0.5rem;
+            }
+
+        }
+
+        .main-contacto_txt{
+            margin-bottom: 0.5rem;
+
+            h5{
+                text-align: center;
+                em{
+                    font-weight: 600;
+                }
+            }
+
+
+        }
+
+        .formulario{
+
+            div{
+                display: flex;
+                justify-content: space-between;
+                width: 90%;
+                padding: 0.3rem;
+
+            } 
+            
+        }
+
+    }
+
+}
+

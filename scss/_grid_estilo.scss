@@ -1,0 +1,132 @@
+.contenedor{  
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 0.2fr 3.59fr 0.4fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header header"
+    "main main"
+    "footer footer ";
+    
+    .header{
+        grid-area: header; 
+    }
+    .footer { 
+        grid-area: footer; 
+    }
+      
+      
+    .main { 
+        grid-area: main; 
+    }
+}
+
+
+.contenedor-nosotros {  
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 0.2fr 5.5fr 0.4fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header header"
+    "main-nosotros main-nosotros"
+    "footer footer ";
+
+    .header { 
+        grid-area: header; 
+    }
+      
+    .main-nosotros { 
+        grid-area: main-nosotros; 
+    }
+      
+    .footer { 
+        grid-area: footer; 
+    }
+}
+  
+
+  
+
+.contenedor-equipo {  
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 0.2fr 6fr 0.4fr; 
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header header"
+    "main-equipo main-equipo"
+    "footer footer ";
+    
+    .header { 
+        grid-area: header; 
+    }
+      
+    .main-equipo { 
+        grid-area: main-equipo; 
+    }
+      
+    .footer { 
+        grid-area: footer; 
+    }
+}
+  
+
+
+.contenedor-servicios {  
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 0.2fr 11fr 0.4fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header header"
+    "main-servicios main-servicios"
+    "footer footer";
+    .header { 
+        grid-area: header; 
+    }
+      
+    .main-servicios { 
+        grid-area: main-servicios; 
+    }
+      
+    .footer { 
+        grid-area: footer; 
+    }
+}
+  
+
+.contenedor-contacto {  
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 0.2fr 4fr 0.4fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header header"
+    "main-contacto main-contacto"
+    "footer footer";
+
+    .header { 
+        grid-area: header; 
+    }
+      
+    .main-contacto { 
+        grid-area: main-contacto; 
+    }
+      
+    .footer { 
+        grid-area: footer; 
+    }
+
+    
+}
+  
+
+
+
+  

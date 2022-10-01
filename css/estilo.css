@@ -5,7 +5,6 @@
 
 /*<-------------------------------------------------------------------------------------------------------------------------------- INTRODUZCO FUENTES --------------------------------------------------------------------->*/
 /*<--------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS GENERALES ---------------------------------------------------------------------------------------------------------->*/
-/*<------------------- ETIQUETAS DE ANIMACIONES ----------------------->*/
 @-webkit-keyframes hvr-pulse {
   25% {
     -webkit-transform: scale(1.1);
@@ -45,32 +44,43 @@ body {
   background-color: darkcyan;
   width: 100%; }
 
+/*<------------------- ETIQUETAS DE ANIMACIONES ----------------------->*/
 /*<---------------------------------------------------------------------- ETIQUETAS DE GRID -------------------------------------------------------------------------->*/
 .contenedor {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.2fr 1fr 1.5fr 0.4fr;
+  grid-template-rows: 0.2fr 3.59fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
-  grid-template-areas: "header header" "main main" "main main" "footer footer "; }
+  grid-template-areas: "header header" "main main" "footer footer "; }
   .contenedor .header {
     grid-area: header; }
   .contenedor .footer {
     grid-area: footer; }
-  .contenedor .aside2 {
-    grid-area: aside2; }
-  .contenedor .aside1 {
-    grid-area: aside1; }
   .contenedor .main {
     grid-area: main; }
 
-.contenedor-equipo {
+.contenedor-nosotros {
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 0.2fr 6fr 0.2fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.2fr 5.5fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
-  grid-template-areas: "header" "amain-equipo " "footer"; }
+  grid-template-areas: "header header" "main-nosotros main-nosotros" "footer footer "; }
+  .contenedor-nosotros .header {
+    grid-area: header; }
+  .contenedor-nosotros .main-nosotros {
+    grid-area: main-nosotros; }
+  .contenedor-nosotros .footer {
+    grid-area: footer; }
+
+.contenedor-equipo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.2fr 6fr 0.4fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas: "header header" "main-equipo main-equipo" "footer footer "; }
   .contenedor-equipo .header {
     grid-area: header; }
   .contenedor-equipo .main-equipo {
@@ -80,11 +90,11 @@ body {
 
 .contenedor-servicios {
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 0.2fr 14fr 0.4fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.2fr 11fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
-  grid-template-areas: "header" "main-servicios" "footer"; }
+  grid-template-areas: "header header" "main-servicios main-servicios" "footer footer"; }
   .contenedor-servicios .header {
     grid-area: header; }
   .contenedor-servicios .main-servicios {
@@ -94,30 +104,16 @@ body {
 
 .contenedor-contacto {
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 0.2fr 9fr 0.4fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.2fr 4fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
-  grid-template-areas: "header" "contactos_main" "footer"; }
+  grid-template-areas: "header header" "main-contacto main-contacto" "footer footer"; }
   .contenedor-contacto .header {
     grid-area: header; }
-  .contenedor-contacto .contactos_main {
-    grid-area: contactos_main; }
+  .contenedor-contacto .main-contacto {
+    grid-area: main-contacto; }
   .contenedor-contacto .footer {
-    grid-area: footer; }
-
-.contenedor-nosotros {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 0.2fr 2fr 0.4fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas: "header" "nosotros_main" "footer"; }
-  .contenedor-nosotros .header {
-    grid-area: header; }
-  .contenedor-nosotros .nosotros_main {
-    grid-area: nosotros_main; }
-  .contenedor-nosotros .footer {
     grid-area: footer; }
 
 /*<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS DE TODO EL SITIO WEB------------------------------------------------------------->*/
@@ -143,7 +139,7 @@ body {
         align-items: flex-end;
         margin-left: 1rem; }
         .header .Titulo_Navegacion a .titulo-principal #el_nucleo {
-          font-size: 2rem;
+          font-size: 2.5rem;
           margin-bottom: 0px; }
         .header .Titulo_Navegacion a .titulo-principal #cine {
           font-size: 0.8rem;
@@ -158,31 +154,31 @@ body {
         margin-bottom: 0.5rem;
         margin-top: 0.5rem;
         list-style: none; }
-        .header .Titulo_Navegacion .menu-principal ul li {
-          padding: 0.5rem;
-          display: flex;
-          justify-content: flex-start;
+      .header .Titulo_Navegacion .menu-principal li {
+        padding: 0.5rem;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center; }
+        .header .Titulo_Navegacion .menu-principal li a {
+          text-decoration: none;
+          color: black;
           align-items: center; }
-          .header .Titulo_Navegacion .menu-principal ul li a {
-            text-decoration: none;
-            color: black;
-            align-items: center; }
-            .header .Titulo_Navegacion .menu-principal ul li a h2 {
-              font-size: 1.2rem;
-              margin-bottom: 0;
-              text-align: start;
-              padding-top: 0.45rem; }
-          .header .Titulo_Navegacion .menu-principal ul li :hover {
-            opacity: 0.8;
-            transform: scale(1.1);
-            -webkit-animation-name: hvr-pulse;
-            animation-name: hvr-pulse;
-            -webkit-animation-duration: 1s;
-            animation-duration: 1s;
-            -webkit-animation-timing-function: linear;
-            animation-timing-function: linear;
-            -webkit-animation-iteration-count: infinite;
-            animation-iteration-count: infinite; }
+          .header .Titulo_Navegacion .menu-principal li a h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            text-align: start;
+            padding-top: 0.45rem; }
+        .header .Titulo_Navegacion .menu-principal li:hover {
+          opacity: 0.8;
+          transform: scale(1.1);
+          -webkit-animation-name: hvr-pulse;
+          animation-name: hvr-pulse;
+          -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+          -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+          -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite; }
     .header .Titulo_Navegacion .barra-separadora {
       width: 100vw; }
 
@@ -192,7 +188,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center; }
+  align-items: center;
+  width: 100vw; }
   .footer .contenedor-social {
     display: flex;
     justify-content: center;
@@ -218,7 +215,7 @@ body {
           box-shadow: 0 0 1px rgba(0, 0, 0, 0);
           -webkit-transition-duration: 0.5s;
           transition-duration: 0.5s; }
-        .footer .contenedor-social ul a :hover {
+        .footer .contenedor-social ul a:hover {
           -webkit-transform: scale(0.8);
           transform: scale(0.8);
           -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
@@ -231,15 +228,298 @@ body {
 /*<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS DE TODO EL SITIO WEB-------FIN------------------------------------------------------>*/
 /*<-------------------------------------------------ETIQUETAS DEL INDEX---------------------------->*/
 /*<-------------------------------------------------MAIN INDEX---------------------------->*/
-.main .foto1 {
-  width: 100%; }
-
-.main .foto2 {
-  width: 100%; }
-
-.main .logo {
-  display: none; }
+.main {
+  color: #2c2d2d; }
+  .main .fotos-index {
+    height: 100%; }
+    .main .fotos-index .foto1 {
+      width: 100%;
+      height: 25%; }
+    .main .fotos-index .foto2 {
+      width: 100%;
+      height: 25%; }
+  .main .logo {
+    display: none; }
 
 /*<------------------------------- INDEX ETIQUETAS--FIN--------------------------------------------->*/
 /*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- NOSOTROS ETIQUETAS -------------------------------------------------------------------->*/
-/*<-------------------------------------------------------------------------- ASIDES NOSOTROS---------------------------->*/
+/*<-------------------------------------------------------------------------- MAIN NOSOTROS ---------------------------->*/
+.main-nosotros {
+  background-color: #2c2d2d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: fit-content;
+  width: 100vw;
+  height: 100%; }
+  .main-nosotros .nosotros {
+    width: 100vw;
+    height: 50%;
+    background-image: url(../assets/fondos/hexagono.png);
+    background-position-x: center;
+    background-position-y: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center; }
+    .main-nosotros .nosotros h2 {
+      position: relative;
+      bottom: 4rem; }
+    .main-nosotros .nosotros p {
+      font-size: 1.2rem;
+      font-weight: bold; }
+  .main-nosotros .vision {
+    width: 100vw;
+    height: 50%;
+    background-image: url(../assets/fondos/hexagono.png);
+    background-position-x: center;
+    background-position-y: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center; }
+    .main-nosotros .vision h2 {
+      position: relative;
+      bottom: 4rem; }
+    .main-nosotros .vision p {
+      font-size: 1.2rem;
+      font-weight: bold; }
+
+/*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- NOSOTROS ETIQUETAS ---FIN----------------------------------------------------------------->*/
+/*<---------------------------------------------------------------------------------------------------------------------------------------------------------------------- SERVICIOS ETIQUETAS --------------------------------------------------------------------->*/
+/*<----------------------------------------------- MAIN SERVICIOS -------------------------------------------->*/
+.main-servicios {
+  background-color: #2c2d2d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 100vw; }
+  .main-servicios .titulo-servicios {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: inset 10px 10px 0.5px 10px #7cccd8;
+    border-radius: 25px;
+    background-color: #2c2d2d;
+    color: #dee2e3; }
+    .main-servicios .titulo-servicios:hover {
+      color: #2c2d2d;
+      background-color: #dee2e3; }
+    .main-servicios .titulo-servicios h3 {
+      margin-bottom: 0px;
+      font-size: 1.3rem;
+      padding: 0.5rem; }
+  .main-servicios .caja-servicios {
+    background-image: url(../assets/fondos/fondo_navegacion.jpg);
+    border-radius: 20px;
+    border: #1c1d1d solid 7px;
+    width: 90%;
+    padding-top: 2rem;
+    padding-bottom: 2rem; }
+    .main-servicios .caja-servicios:hover {
+      box-shadow: 10px 10px 40px 10px #7cccd8; }
+    .main-servicios .caja-servicios .videoclip-caja {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center; }
+      .main-servicios .caja-servicios .videoclip-caja img {
+        width: 80vw; }
+    .main-servicios .caja-servicios .publicidad-caja {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center; }
+      .main-servicios .caja-servicios .publicidad-caja img {
+        width: 80vw; }
+    .main-servicios .caja-servicios .cortometrajes-caja {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center; }
+      .main-servicios .caja-servicios .cortometrajes-caja img {
+        width: 80vw; }
+    .main-servicios .caja-servicios .coberturas-caja {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center; }
+      .main-servicios .caja-servicios .coberturas-caja img {
+        width: 80vw; }
+  .main-servicios .titulo-backstage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: inset 10px 10px 0.5px 10px #7cccd8;
+    border-radius: 25px;
+    background-color: #2c2d2d;
+    color: #dee2e3; }
+    .main-servicios .titulo-backstage:hover {
+      color: #2c2d2d;
+      background-color: #dee2e3; }
+    .main-servicios .titulo-backstage h3 {
+      margin-bottom: 0px;
+      font-size: 1.3rem;
+      padding: 0.5rem; }
+  .main-servicios .caja-backstage {
+    background-image: url(../assets/fondos/fondo_navegacion.jpg);
+    border-radius: 20px;
+    border: #1c1d1d solid 7px;
+    width: 90%;
+    padding-top: 2rem; }
+    .main-servicios .caja-backstage:hover {
+      box-shadow: 10px 10px 40px 10px #7cccd8; }
+    .main-servicios .caja-backstage .galeria-backstage1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 2rem;
+      justify-content: space-around; }
+      .main-servicios .caja-backstage .galeria-backstage1 img {
+        width: 80vw; }
+    .main-servicios .caja-backstage .galeria-backstage2 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 2rem;
+      justify-content: space-around; }
+      .main-servicios .caja-backstage .galeria-backstage2 img {
+        width: 80vw; }
+
+/*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- SERVICIOS ETIQUETAS ---FIN----------------------------------------------------------------->*/
+/*<----------------------------------- EQUIPO ETIQUETAS ---------------------------------------------->*/
+/*<---------------------------------------------- ASIDES EQUIPO--------------------------------------->*/
+.aside1-equipo {
+  background-image: url(../assets/fondos/esquina.jpeg);
+  display: none; }
+
+.aside2-equipo {
+  background-image: url(../assets/fondos/esquina.jpeg);
+  display: none; }
+
+/*<------------------------------------------------ MAIN EQUIPO--------------------------------------------->*/
+.main-equipo {
+  background-color: #2c2d2d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 100vw; }
+  .main-equipo .titulo-equipo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: inset 10px 10px 0.5px 10px #7cccd8;
+    border-radius: 25px;
+    background-color: #2c2d2d;
+    color: #dee2e3; }
+    .main-equipo .titulo-equipo:hover {
+      color: #2c2d2d;
+      background-color: #dee2e3; }
+    .main-equipo .titulo-equipo h3 {
+      margin-bottom: 0px;
+      font-size: 1.3rem;
+      padding: 0.5rem; }
+  .main-equipo .fotos-equipo {
+    background-image: url(../assets/fondos/fondo_navegacion.jpg);
+    border-radius: 20px;
+    border: #1c1d1d solid 7px;
+    width: 90%;
+    padding-top: 2rem;
+    padding-bottom: 2rem; }
+    .main-equipo .fotos-equipo:hover {
+      box-shadow: 10px 10px 40px 10px #7cccd8; }
+    .main-equipo .fotos-equipo .fotoynombre {
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+      .main-equipo .fotos-equipo .fotoynombre a {
+        width: min-content; }
+      .main-equipo .fotos-equipo .fotoynombre h4 {
+        font-weight: 900; }
+  .main-equipo .titulo-cliente {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: inset 10px 10px 0.5px 10px #7cccd8;
+    border-radius: 25px;
+    background-color: #2c2d2d;
+    color: #dee2e3; }
+    .main-equipo .titulo-cliente:hover {
+      color: #2c2d2d;
+      background-color: #dee2e3; }
+    .main-equipo .titulo-cliente h3 {
+      margin-bottom: 0px;
+      font-size: 1.3rem;
+      padding: 0.5rem; }
+  .main-equipo .fotos-cliente {
+    background-image: url(../assets/fondos/fondo_navegacion.jpg);
+    border-radius: 20px;
+    border: #1c1d1d solid 7px;
+    width: 90%;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .main-equipo .fotos-cliente a {
+      width: min-content; }
+    .main-equipo .fotos-cliente h4 {
+      font-weight: 900; }
+    .main-equipo .fotos-cliente:hover {
+      box-shadow: 10px 10px 40px 10px #7cccd8; }
+
+/*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- EQUIPO ETIQUETAS ---FIN----------------------------------------------------------------->*/
+/*<----------------------------------- CONTACTO ETIQUETAS ---------------------------------------------->*/
+.main-contacto {
+  background-color: #2c2d2d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 100vw; }
+  .main-contacto .caja-contacto {
+    display: flex;
+    flex-direction: column;
+    background-image: url(../assets/fondos/fondo_navegacion.jpg);
+    border-radius: 20px;
+    border: #1c1d1d solid 7px;
+    width: 90%;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    align-items: center;
+    padding: 1.4rem; }
+    .main-contacto .caja-contacto .titulo-contacto {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: inset 10px 10px 0.5px 10px #7cccd8;
+      border-radius: 25px;
+      width: 90%;
+      color: #2c2d2d;
+      text-align: center;
+      margin-top: 1rem;
+      margin-bottom: 2rem; }
+      .main-contacto .caja-contacto .titulo-contacto:hover {
+        color: #dee2e3;
+        background-color: #2c2d2d; }
+      .main-contacto .caja-contacto .titulo-contacto h3 {
+        margin-bottom: 0px;
+        font-size: 1.3rem;
+        padding: 0.5rem; }
+    .main-contacto .caja-contacto .main-contacto_txt {
+      margin-bottom: 0.5rem; }
+      .main-contacto .caja-contacto .main-contacto_txt h5 {
+        text-align: center; }
+        .main-contacto .caja-contacto .main-contacto_txt h5 em {
+          font-weight: 600; }
+    .main-contacto .caja-contacto .formulario div {
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+      padding: 0.3rem; }

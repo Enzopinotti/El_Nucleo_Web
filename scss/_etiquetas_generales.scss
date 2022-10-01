@@ -1,0 +1,59 @@
+@-webkit-keyframes hvr-pulse {
+    25% {
+      -webkit-transform: scale(1.1);
+      transform: scale(1.1);
+    }
+    75% {
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+}
+  @keyframes hvr-pulse {
+    25% {
+      -webkit-transform: scale(1.1);
+      transform: scale(1.1);
+    }
+    75% {
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+}
+
+
+
+body{
+    background-color: aquamarine;
+}
+
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+h1{
+    
+    font-family: 'Rubik Dirt', cursive;
+
+}
+
+h2, h3{
+    
+    font-family: 'Rubik Mono One', sans-serif;;
+    
+}
+h4, h5, h6{
+    
+    font-family: 'Quicksand', sans-serif;
+    
+}
+
+p{
+    
+    font-family: 'Quicksand', sans-serif; 
+}   
+
+body{
+    background-color: darkcyan;
+    width: 100%;
+}
