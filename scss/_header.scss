@@ -4,7 +4,7 @@
     background-image:url(../assets/fondos/fondo_navegacion.jpg);
     justify-content: space-between;
     height: fit-content;
-    .Titulo_Navegacion{
+    .titulo_navegacion{
         display: flex;
         width: 100vw;
         justify-content: space-between;
@@ -45,44 +45,46 @@
                 margin-bottom: 0.5rem;
                 margin-top: 0.5rem;
                 list-style: none;
-            }
-            
-            li{
-                padding: 0.5rem;
-                
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-            
-                a{
-                    text-decoration: none;
-                    color: black;
-                    align-items: center;
-                    h2{
-                       font-size: 1.2rem;
-                       margin-bottom: 0;
-                       text-align: start;
-                       padding-top: 0.45rem;
-                       
-                    }
-                }
 
-                &:hover{
+                li{
+                    padding: 0.5rem;
+                    
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                
+                    a{
+                        text-decoration: none;
+                        color: black;
+                        align-items: center;
+                        h2{
+                           font-size: 1.2rem;
+                           margin-bottom: 0;
+                           text-align: start;
+                           padding-top: 0.45rem;
+                           
+                        }
+                    }
     
-                    opacity: 0.8;
-                    transform: scale(1.1);
-                    -webkit-animation-name: hvr-pulse;
-                    animation-name: hvr-pulse;
-                    -webkit-animation-duration: 1s;
-                    animation-duration: 1s;
-                    -webkit-animation-timing-function: linear;
-                    animation-timing-function: linear;
-                    -webkit-animation-iteration-count: infinite;
-                    animation-iteration-count: infinite;
+                    &:hover{
+        
+                        opacity: 0.8;
+                        transform: scale(1.1);
+                        -webkit-animation-name: hvr-pulse;
+                        animation-name: hvr-pulse;
+                        -webkit-animation-duration: 1s;
+                        animation-duration: 1s;
+                        -webkit-animation-timing-function: linear;
+                        animation-timing-function: linear;
+                        -webkit-animation-iteration-count: infinite;
+                        animation-iteration-count: infinite;
+                    
+                    }
                 
                 }
-            
             }
+            
+           
         }
         
         .barra-separadora{

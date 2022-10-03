@@ -1,0 +1,24 @@
+
+.main{
+    color: $color_main;
+    
+    .fotos-index{ 
+        height: 100%;  
+        
+        .foto1{
+            width: 100%;
+            height: 25%;
+        }
+        .foto2{
+            width: 100%;
+            height: 25%;
+        }
+        
+
+    }
+
+    .logo{
+        display: none;
+    }
+    
+}

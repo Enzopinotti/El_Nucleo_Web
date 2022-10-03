@@ -1,0 +1,178 @@
+
+.main-servicios{
+    background-color: $color_main;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100vw;
+
+    .titulo-servicios{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: inset 10px 10px 0.5px 10px $color_nucleo;
+        border-radius: 25px;
+        background-color: $color_main;
+        color:$color_subtitulo;
+
+        &:hover{
+            color:$color_main;
+            background-color: $color_subtitulo;
+        }
+        h3{
+            
+            margin-bottom: 0px;
+            font-size: 1.3rem;
+            padding: 0.5rem;
+        }
+    }
+    
+    .caja-servicios{
+
+        background-image: url(../assets/fondos/fondo_navegacion.jpg);
+        border-radius: 20px;
+        border: #1c1d1d solid 7px;
+        width: 90%;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+
+        &:hover{
+            box-shadow: 10px 10px 40px 10px $color_nucleo;
+            
+        }
+
+        .videoclip-caja{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+
+            h5{
+                font-weight: 900;
+            }
+            
+            img{
+                width: 80vw;
+            }
+        }
+    
+        .publicidad-caja{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+
+            h5{
+                font-weight: 900;
+            }
+
+            img{
+                width: 80vw;
+            }
+        }
+
+        .cortometrajes-caja{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+
+            h5{
+                font-weight: 900;
+            }
+
+            img{
+                width: 80vw;
+            }
+        }
+
+        .coberturas-caja{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+
+            h5{
+                font-weight: 900;
+            }
+            
+            img{
+                width: 80vw;
+            }
+        }
+
+    }
+
+    .titulo-backstage{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        box-shadow: inset 10px 10px 0.5px 10px $color_nucleo;
+        border-radius: 25px;
+        background-color: $color_main;
+        color:$color_subtitulo;
+
+        &:hover{
+            color:$color_main;
+            background-color: $color_subtitulo
+            ;
+        }
+        h3{
+            
+            margin-bottom: 0px;
+            font-size: 1.3rem;
+            padding: 0.5rem;
+        }
+    }
+
+    .caja-backstage{
+        background-image: url(../assets/fondos/fondo_navegacion.jpg);
+        border-radius: 20px;
+        border: #1c1d1d solid 7px;
+        width: 90%;
+        padding-top: 2rem;
+
+        &:hover{
+
+            box-shadow: 10px 10px 40px 10px $color_nucleo;
+
+        }
+        
+        
+        
+        .galeria-backstage1{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 2rem;
+            justify-content: space-around;
+            img{
+                width: 80vw;
+            }
+        }
+
+        .galeria-backstage2{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 2rem;
+            justify-content: space-around;
+            img{
+                width: 80vw;
+            }
+        }
+    }
+   
+
+}
+
+.aside1-servicios{
+    display: none;
+}
+
+.aside2-servicios{
+    display: none;
+}
