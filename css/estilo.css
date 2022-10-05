@@ -63,7 +63,7 @@ body {
 .contenedor-nosotros {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.2fr 5.5fr 0.4fr;
+  grid-template-rows: 0.2fr 5gifr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas: "header header" "main-nosotros main-nosotros" "footer footer "; }
@@ -260,6 +260,7 @@ body {
     background-image: url(../assets/fondos/hexagono.png);
     background-position-x: center;
     background-position-y: center;
+    background-size: 27rem;
     background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
@@ -267,10 +268,13 @@ body {
     text-align: center; }
     .main-nosotros .nosotros h2 {
       position: relative;
-      bottom: 4rem; }
+      bottom: 2rem;
+      font-size: 1.5rem; }
     .main-nosotros .nosotros p {
-      font-size: 1.2rem;
-      font-weight: bold; }
+      font-size: 0.9rem;
+      font-weight: bold;
+      width: 81%;
+      align-self: center; }
   .main-nosotros .vision {
     width: 100vw;
     height: 50%;
@@ -278,16 +282,20 @@ body {
     background-position-x: center;
     background-position-y: center;
     background-repeat: no-repeat;
+    background-size: 27rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center; }
     .main-nosotros .vision h2 {
       position: relative;
-      bottom: 4rem; }
+      bottom: 2rem;
+      font-size: 1.5rem; }
     .main-nosotros .vision p {
-      font-size: 1.2rem;
-      font-weight: bold; }
+      font-size: 0.9rem;
+      font-weight: bold;
+      width: 81%;
+      align-self: center; }
 
 .aside1-nosotros {
   display: none; }
