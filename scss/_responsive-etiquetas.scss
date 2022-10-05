@@ -34,6 +34,8 @@
             background-image: url(../assets/fondos/hexagono.png);
             background-position-x: center;
             background-position-y: center;
+            background-size: 35rem;
+            background-repeat: no-repeat;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -41,23 +43,42 @@
            
             h2{
                 position: relative;
-                bottom: 4rem;
+                bottom: 2rem;
+                font-size: 1.5rem;
             }
             p{
-                font-size: 1.2rem;
+                font-size: 0.9rem;
                 font-weight: bold;
-                width: 70%;
-                text-align: center;
+                width: 30rem;
                 align-self: center;
-                
+    
             }
         }
 
         .vision{
-            .parrafo-vision{
-                width: 70%;
-                text-align: center;
+            width: 100vw;
+            height: 50%;
+            background-image: url(../assets/fondos/hexagono.png);
+            background-position-x: center;
+            background-position-y: center;
+            background-repeat: no-repeat;
+            background-size: 35rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+           
+            h2{
+                position: relative;
+                bottom: 2rem;
+                font-size: 1.5rem;
+            }
+            p{
+                font-size: 0.9rem;
+                font-weight: bold;
+                width: 29rem;
                 align-self: center;
+    
             }
         }
     }
@@ -735,15 +756,41 @@
             height: 100%;
             .nosotros{
 
-                width: 100%;
+                background-image: url(../assets/fondos/hexagono.png);
+                background-position-x: center;
+                background-position-y: center;
+                background-size: 45rem;
+                background-repeat: no-repeat;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                h2{
+                    position: relative;
+                    bottom: 5rem;
+                    font-size: 1.9rem;
+                }
                 p{
-                    width: 50%;
+                    font-size: 1.4rem;
                 }
             }
             .vision{
-                width: 100%;
+                background-image: url(../assets/fondos/hexagono.png);
+                background-position-x: center;
+                background-position-y: center;
+                background-size: 45rem;
+                background-repeat: no-repeat;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                h2{
+                    position: relative;
+                    bottom: 5rem;
+                    font-size: 1.9rem;
+                }
                 p{
-                    width: 50%;
+                    font-size: 1.4rem;
                 }
             }
         }
