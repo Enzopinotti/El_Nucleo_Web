@@ -1,6 +1,6 @@
 
 .main-servicios{
-    background-color: $color_main;
+    background-image: url(../assets/fondos/fondo_main.jpg);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -14,11 +14,11 @@
         justify-content: center;
         box-shadow: inset 10px 10px 0.5px 10px $color_nucleo;
         border-radius: 25px;
-        background-color: $color_main;
+        background-color:$color_fondo_subtitulo;
         color:$color_subtitulo;
 
         &:hover{
-            color:$color_main;
+            color:$color_fondo_subtitulo;
             background-color: $color_subtitulo;
         }
         h3{
@@ -112,11 +112,11 @@
         
         box-shadow: inset 10px 10px 0.5px 10px $color_nucleo;
         border-radius: 25px;
-        background-color: $color_main;
+        background-color: $color_fondo_subtitulo;
         color:$color_subtitulo;
 
         &:hover{
-            color:$color_main;
+            color:$color_fondo_subtitulo;
             background-color: $color_subtitulo
             ;
         }

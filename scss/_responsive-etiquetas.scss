@@ -241,7 +241,7 @@
         }
     
         .main-nosotros{
-            background-color: $color_main;
+            background-color: $color_fondo_subtitulo;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -334,7 +334,7 @@
         }
         
         .main-servicios{
-            background-color: $color_main;
+            background-color: $color_fondo_subtitulo;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -502,7 +502,7 @@
 
         .main-equipo{
 
-            background-color: $color_main;
+            background-color: $color_fondo_subtitulo;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -557,7 +557,7 @@
     
         .main-contacto{
 
-            background-color: $color_main;
+            background-color: $color_fondo_subtitulo;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -659,7 +659,7 @@
         }
 
         .main{
-            color: $color_main;
+            color: $color_fondo_subtitulo;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -699,7 +699,7 @@
     .contenedor-nosotros {  
         display: grid; 
         grid-template-columns: 0.1fr 0.5fr 0.1fr; 
-        grid-template-rows: 0.2fr 17fr 0.4fr; 
+        grid-template-rows: 0.2fr 20fr 0.4fr; 
         gap: 0px 0px; 
         grid-template-areas: 
         "header header header"
@@ -725,7 +725,7 @@
         }
 
         .main-nosotros{
-            background-color: $color_main;
+            background-color: $color_fondo_subtitulo;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -780,7 +780,7 @@
         }
         
         .main-servicios{
-            background-color: $color_main;
+            background-color: $color_fondo_subtitulo;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
