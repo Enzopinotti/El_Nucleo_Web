@@ -1,7 +1,7 @@
 .contenedor{  
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0.2fr 3.59fr 0.4fr;
+    grid-template-rows: 2.9fr 4fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
@@ -26,7 +26,7 @@
 .contenedor-nosotros {  
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0.2fr 5fr 0.4fr;
+    grid-template-rows: 2.9fr 8fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
@@ -50,7 +50,7 @@
 .contenedor-servicios {  
     display: grid;
     grid-template-columns: 1fr 1fr; 
-    grid-template-rows: 0.2fr 11fr 0.4fr;
+    grid-template-rows: 2.9fr 23fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
@@ -74,7 +74,7 @@
 .contenedor-equipo {  
     display: grid;
     grid-template-columns: 1fr 1fr; 
-    grid-template-rows: 0.2fr 6fr 0.4fr; 
+    grid-template-rows: 2.9fr 12fr 0.4fr; 
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
@@ -103,7 +103,7 @@
 .contenedor-contacto {  
     display: grid;
     grid-template-columns: 1fr 1fr; 
-    grid-template-rows: 0.2fr 4fr 0.4fr;
+    grid-template-rows: 2.9fr 10fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:

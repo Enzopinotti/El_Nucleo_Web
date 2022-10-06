@@ -91,42 +91,33 @@
 
                     <!-- Barra de navegación-->
 
-                    <div class="menu-principal">
-                        <ul>
-                            <li>
-                                <a href="./views/nosotros.html">
-                                    
-                                    <h2>Nosotros</h2>
-                                
-                                </a>
-                        
-                            </li>
-                            <li>
-                                <a href="./views/servicios.html">
-                                
-                                    <h2>Servicios</h2>
-
-                                </a>
-                            </li>
-                            <li>
-
-                                <a href="./views/equipo.html">
-                                    
-                                    <h2>Equipo</h2>
-
-                                </a>
-
-                            </li>
-                            <li>
-                                <a href="./views/contacto.html">
-
-                                    <h2>Contacto</h2>
-
-                                </a>
-
-                            </li>
-                        </ul>
-                    </div>
+                    <nav class="navbar navbar-expand-lg ">
+                        <div class="container-fluid">
+                            
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                              <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                              <ul class="navbar-nav">
+                                <li class="nav-item">
+                                  <a class="nav-link active" aria-current="page" href="./index.html"><h2>Inicio</h2></a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="./views/nosotros.html"><h2>Nosotros</h2></a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="./views/servicios.html"><h2>Servicios</h2></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="./views/equipo.html"><h2>Equipo</h2></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" href="./views/contacto.html"><h2>Contacto</h2></a>
+                                  </li>
+                              </ul>
+                            </div>
+                          </div>
+                    </nav>
                 </section>
 
                 <!-- Barra separadora Header/Main-->
@@ -147,28 +138,120 @@
 
                     <section class="foto1">
 
-                            <img src="./assets/recursos/fotos-servicios/fotoCorto.jpg" width="100%" height="100%" alt="Foto de cortometrajes">
+                        <div id="carouselExampleControls1" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                              <div class="carousel-item active" >
+                                <img src="./assets/recursos/fotos-servicios/fotoAnimacion.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="./assets/recursos/fotos-servicios/fotoCorto.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="./assets/recursos/fotos-servicios/fotoEventos.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="./assets/recursos/fotos-servicios/fotoPublicidad.jpg" class="d-block w-100" alt="...">
+                              </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls1" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls1" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                          </div>
+
+                    </section>
+
+
+                    <section class="foto1">
+
+                        <div id="carouselExampleControls2" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                              <div class="carousel-item ">
+                                <img src="./assets/recursos/fotos-servicios/fotoAnimacion.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item active">
+                                <img src="./assets/recursos/fotos-servicios/fotoCorto.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="./assets/recursos/fotos-servicios/fotoEventos.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="./assets/recursos/fotos-servicios/fotoPublicidad.jpg" class="d-block w-100" alt="...">
+                              </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls2" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls2" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                          </div>
 
                     </section>
 
 
                     <section class="foto2">
 
-                            <img src="./assets/recursos/fotos-servicios/fotoPublicidad.jpg" width="100%" height="100%"  alt="Foto de publicidad">
+                        <div id="carouselExampleControls3" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                              <div class="carousel-item ">
+                                <img src="./assets/recursos/fotos-servicios/fotoAnimacion.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="./assets/recursos/fotos-servicios/fotoCorto.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item active">
+                                <img src="./assets/recursos/fotos-servicios/fotoEventos.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="./assets/recursos/fotos-servicios/fotoPublicidad.jpg" class="d-block w-100" alt="...">
+                              </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls3" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls3" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                          </div>
 
                     </section>
 
 
                     <section class="foto2">
 
-                            <img src="./assets/recursos/fotos-servicios/fotoEventos.jpg" width="100%" height="100%" alt="Foto de eventos">
-
-                    </section>
-
-
-                    <section class="foto2">
-
-                            <img src="./assets/recursos/fotos-servicios/fotoAnimacion.jpg" width="100%" height="100%"  alt="Foto de animación">
+                        <div id="carouselExampleControls4" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                              <div class="carousel-item ">
+                                <img src="./assets/recursos/fotos-servicios/fotoAnimacion.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="./assets/recursos/fotos-servicios/fotoCorto.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="./assets/recursos/fotos-servicios/fotoEventos.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item active">
+                                <img src="./assets/recursos/fotos-servicios/fotoPublicidad.jpg" class="d-block w-100" alt="...">
+                              </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls4" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls4" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                          </div>
 
                     </section>
                     

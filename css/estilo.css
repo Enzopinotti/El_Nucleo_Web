@@ -49,7 +49,7 @@ body {
 .contenedor {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.2fr 3.59fr 0.4fr;
+  grid-template-rows: 2.9fr 4fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas: "header header" "main main" "footer footer "; }
@@ -63,7 +63,7 @@ body {
 .contenedor-nosotros {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.2fr 5fr 0.4fr;
+  grid-template-rows: 2.9fr 8fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas: "header header" "main-nosotros main-nosotros" "footer footer "; }
@@ -77,7 +77,7 @@ body {
 .contenedor-servicios {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.2fr 11fr 0.4fr;
+  grid-template-rows: 2.9fr 23fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas: "header header" "main-servicios main-servicios" "footer footer"; }
@@ -91,7 +91,7 @@ body {
 .contenedor-equipo {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.2fr 6fr 0.4fr;
+  grid-template-rows: 2.9fr 12fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas: "header header" "main-equipo main-equipo" "footer footer "; }
@@ -105,7 +105,7 @@ body {
 .contenedor-contacto {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.2fr 4fr 0.4fr;
+  grid-template-rows: 2.9fr 10fr 0.4fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas: "header header" "main-contacto main-contacto" "footer footer"; }
@@ -123,15 +123,19 @@ body {
   flex-direction: column;
   background-image: url(../assets/fondos/fondo_navegacion.jpg);
   justify-content: space-between;
-  height: fit-content; }
+  height: 100%; }
   .header .titulo_navegacion {
     display: flex;
     width: 100vw;
-    justify-content: space-between; }
+    justify-content: space-between;
+    height: 100%; }
     .header .titulo_navegacion a {
       text-decoration: none;
       display: flex;
-      align-items: center; }
+      align-items: center;
+      height: 100%;
+      width: 50%;
+      justify-content: center; }
       .header .titulo_navegacion a .titulo-principal {
         color: black;
         font-size: 1.38rem;
@@ -142,44 +146,25 @@ body {
           font-size: 2.5rem;
           margin-bottom: 0px; }
         .header .titulo_navegacion a .titulo-principal #cine {
-          font-size: 0.8rem;
-          position: relative; }
-    .header .titulo_navegacion .menu-principal {
+          font-size: 0.8rem; }
+    .header .titulo_navegacion .navbar {
+      width: 50%;
       display: flex;
-      text-align: center; }
-      .header .titulo_navegacion .menu-principal ul {
-        display: flex;
-        flex-direction: column;
-        margin-right: 6rem;
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem;
-        list-style: none;
-        padding-left: 12pxs; }
-        .header .titulo_navegacion .menu-principal ul li {
-          padding: 0.5rem;
-          display: flex;
-          justify-content: flex-start;
-          align-items: center; }
-          .header .titulo_navegacion .menu-principal ul li a {
-            text-decoration: none;
-            color: black;
-            align-items: center; }
-            .header .titulo_navegacion .menu-principal ul li a h2 {
-              font-size: 1.2rem;
-              margin-bottom: 0;
-              text-align: start;
-              padding-top: 0.45rem; }
-          .header .titulo_navegacion .menu-principal ul li:hover {
-            opacity: 0.8;
-            transform: scale(1.1);
-            -webkit-animation-name: hvr-pulse;
-            animation-name: hvr-pulse;
-            -webkit-animation-duration: 1s;
-            animation-duration: 1s;
-            -webkit-animation-timing-function: linear;
-            animation-timing-function: linear;
-            -webkit-animation-iteration-count: infinite;
-            animation-iteration-count: infinite; }
+      padding: 0px;
+      height: 100%;
+      align-items: center; }
+      .header .titulo_navegacion .navbar button {
+        margin-left: 30%;
+        position: relative;
+        top: 0.2rem; }
+      .header .titulo_navegacion .navbar .navbar-nav {
+        position: relative;
+        left: 2rem; }
+        .header .titulo_navegacion .navbar .navbar-nav .nav-item a {
+          text-align: center;
+          width: 100%; }
+          .header .titulo_navegacion .navbar .navbar-nav .nav-item a h2 {
+            font-size: 0.9rem; }
     .header .titulo_navegacion .barra-separadora {
       width: 100vw; }
 
@@ -235,10 +220,19 @@ body {
     height: 100%; }
     .main .fotos-index .foto1 {
       width: 100%;
-      height: 25%; }
+      height: 50%; }
+      .main .fotos-index .foto1 div {
+        height: 100%; }
+        .main .fotos-index .foto1 div img {
+          height: 100%; }
     .main .fotos-index .foto2 {
       width: 100%;
-      height: 25%; }
+      height: 25%;
+      display: none; }
+      .main .fotos-index .foto2 div {
+        height: 100%; }
+        .main .fotos-index .foto2 div img {
+          height: 100%; }
   .main .logo {
     display: none; }
 
@@ -321,7 +315,8 @@ body {
     box-shadow: inset 10px 10px 0.5px 10px #83d2b5;
     border-radius: 25px;
     background-color: #dee2e3;
-    color: #2c2d2d; }
+    color: #2c2d2d;
+    margin-top: 2rem; }
     .main-servicios .titulo-servicios:hover {
       color: #dee2e3;
       background-color: #2c2d2d; }
@@ -422,15 +417,6 @@ body {
 
 /*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- SERVICIOS ETIQUETAS ---FIN----------------------------------------------------------------->*/
 /*<----------------------------------- EQUIPO ETIQUETAS ---------------------------------------------->*/
-/*<---------------------------------------------- ASIDES EQUIPO--------------------------------------->*/
-.aside1-equipo {
-  background-image: url(../assets/fondos/esquina.jpeg);
-  display: none; }
-
-.aside2-equipo {
-  background-image: url(../assets/fondos/esquina.jpeg);
-  display: none; }
-
 /*<------------------------------------------------ MAIN EQUIPO--------------------------------------------->*/
 .main-equipo {
   background-image: url(../assets/fondos/fondo_main.jpg);
@@ -570,11 +556,11 @@ body {
 
 /*<--------------------------------------------------------------------------------------------------------------------------------------------------------------------- CONTACTO ETIQUETAS ---FIN----------------------------------------------------------------->*/
 /*<------------------------------------------------------------------------------------------------------------------------------------------------------------------------ ETIQUETAS MEDIA PARA GENERAR RESPONSIVIDAD-------------------------------------------------------->*/
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 430px) {
   .contenedor {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0.2fr 5.5fr 0.4fr;
+    grid-template-rows: 3.9fr 7fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas: "header header" "main main" "footer footer "; }
@@ -584,6 +570,19 @@ body {
       grid-area: footer; }
     .contenedor .main {
       grid-area: main; }
+  .contenedor-nosotros {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 3.9fr 14fr 0.4fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: "header header" "main-nosotros main-nosotros" "footer footer "; }
+    .contenedor-nosotros .header {
+      grid-area: header; }
+    .contenedor-nosotros .main-nosotros {
+      grid-area: main-nosotros; }
+    .contenedor-nosotros .footer {
+      grid-area: footer; }
   .main-nosotros .nosotros {
     width: 100vw;
     height: 50%;
@@ -629,7 +628,7 @@ body {
   .contenedor-servicios {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0.2fr 13fr 0.4fr;
+    grid-template-rows: 3.9fr 37fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas: "header header" "main-servicios main-servicios" "footer footer"; }
@@ -650,14 +649,40 @@ body {
   .main-servicios .caja-backstage .galeria-backstage1 img {
     height: 280px; }
   .main-servicios .caja-backstage .galeria-backstage2 img {
-    height: 280px; } }
+    height: 280px; }
+  .contenedor-equipo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 3.9fr 16fr 0.4fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: "header header" "main-equipo main-equipo" "footer footer "; }
+    .contenedor-equipo .header {
+      grid-area: header; }
+    .contenedor-equipo .main-equipo {
+      grid-area: main-equipo; }
+    .contenedor-equipo .footer {
+      grid-area: footer; }
+  .contenedor-contacto {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 3.9fr 12fr 0.4fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: "header header" "main-contacto main-contacto" "footer footer"; }
+    .contenedor-contacto .header {
+      grid-area: header; }
+    .contenedor-contacto .main-contacto {
+      grid-area: main-contacto; }
+    .contenedor-contacto .footer {
+      grid-area: footer; } }
 
 /*<--------------------------------------------- RESPONSIVIDAD EN TABLETS ----------------------------------------------------------->*/
 @media screen and (min-width: 768px) {
   .contenedor {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0.2fr 4fr 0.2fr;
+    grid-template-rows: 1.9fr 4fr 0.2fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas: "header header" "main main" "footer footer"; }
@@ -672,10 +697,10 @@ body {
     flex-direction: column;
     background-image: url(../assets/fondos/fondo_navegacion.jpg);
     justify-content: space-between;
-    height: fit-content; }
+    height: 100%; }
     .header .titulo_navegacion {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       width: 100vw;
       justify-content: space-between; }
       .header .titulo_navegacion a .titulo-principal {
@@ -692,7 +717,7 @@ body {
   .contenedor-nosotros {
     display: grid;
     grid-template-columns: 0.1fr 0.5fr 0.1fr;
-    grid-template-rows: 0.2fr 9fr 0.4fr;
+    grid-template-rows: 3.9fr 14fr 0.4fr;
     gap: 0px 0px;
     grid-template-areas: "header header header" "aside1-nosotros main-nosotros aside2-nosotros" "footer footer footer"; }
     .contenedor-nosotros .header {
@@ -756,7 +781,7 @@ body {
   .contenedor-servicios {
     display: grid;
     grid-template-columns: 0.1fr 0.5fr 0.1fr;
-    grid-template-rows: 0.2fr 21fr 0.4fr;
+    grid-template-rows: 3.9fr 37fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas: "header header header" "aside1-servicios main-servicios aside2-servicios" "footer footer footer"; }
@@ -856,7 +881,7 @@ body {
   .contenedor-equipo {
     display: grid;
     grid-template-columns: 0.1fr 0.5fr 0.1fr;
-    grid-template-rows: 0.2fr 10fr 0.4fr;
+    grid-template-rows: 3.9fr 16fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas: "header header header" "aside1-equipo main-equipo aside2-equipo" "footer footer footer"; }
@@ -887,7 +912,7 @@ body {
   .contenedor-contacto {
     display: grid;
     grid-template-columns: 0.1fr 0.5fr 0.1fr;
-    grid-template-rows: 0.2fr 7fr 0.4fr;
+    grid-template-rows: 3.9fr 12fr 0.4fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas: "header header header" "aside1-contacto main-contacto aside2-contacto" "footer footer footer"; }
@@ -924,18 +949,24 @@ body {
       flex-direction: row; }
       .header .titulo_navegacion a {
         display: flex;
-        flex-direction: column; }
+        flex-direction: column;
+        width: 30%; }
         .header .titulo_navegacion a .titulo-principal h1 {
           position: relative;
           bottom: 0.7rem; }
-      .header .titulo_navegacion .menu-principal {
-        width: 73vw; }
-        .header .titulo_navegacion .menu-principal ul {
+      .header .titulo_navegacion .navbar {
+        width: 70%; }
+        .header .titulo_navegacion .navbar .container-fluid .collapse {
           display: flex;
-          flex-direction: row;
-          width: 100%;
-          margin: 0;
-          padding-left: 1rem; }
+          justify-content: center;
+          width: 100%; }
+          .header .titulo_navegacion .navbar .container-fluid .collapse .navbar-nav {
+            display: flex;
+            justify-content: space-around;
+            width: 90%; }
+            .header .titulo_navegacion .navbar .container-fluid .collapse .navbar-nav a h2 {
+              margin-bottom: 0px;
+              font-size: 1rem; }
   .footer {
     display: flex;
     flex-direction: row;
@@ -978,7 +1009,8 @@ body {
           height: 50%; }
         .contenedor .main .fotos-index .foto2 {
           width: 50%;
-          height: 50%; }
+          height: 50%;
+          display: flex; }
       .contenedor .main .logo {
         display: flex;
         width: 100%;

@@ -7,11 +7,24 @@
         
         .foto1{
             width: 100%;
-            height: 25%;
+            height: 50%;
+            div{
+                height: 100%;
+                img{
+                    height: 100%;
+                }
+            }
         }
         .foto2{
             width: 100%;
             height: 25%;
+            display: none;
+            div{
+                height: 100%;
+                img{
+                    height: 100%;
+                }
+            }
         }
         
 

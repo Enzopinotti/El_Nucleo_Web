@@ -3,16 +3,20 @@
     flex-direction: column;
     background-image:url(../assets/fondos/fondo_navegacion.jpg);
     justify-content: space-between;
-    height: fit-content;
+    height: 100%;
     .titulo_navegacion{
         display: flex;
         width: 100vw;
         justify-content: space-between;
+        height: 100%;
 
         a{
             text-decoration: none;
             display: flex;
             align-items: center;
+            height: 100%;
+            width: 50%;
+            justify-content: center;
 
 
             .titulo-principal{
@@ -28,64 +32,45 @@
                 
                 #cine{
                     font-size: 0.8rem;
-                    position: relative;
+                    
                     
                 }
+            
+
             }
 
+           
         }
-
-        .menu-principal{
+        
+        .navbar{
+            width: 50%;
             display: flex;
-            text-align: center;
-            ul{
-                display: flex;
-                flex-direction: column;
-                margin-right: 6rem;
-                margin-bottom: 0.5rem;
-                margin-top: 0.5rem;
-                list-style: none;
-                padding-left: 12pxs;
+            padding: 0px;
+            height: 100%;
+            align-items: center;
 
-                li{
-                    padding: 0.5rem;
-                    
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
+            button{
+                margin-left: 30%;
+                position: relative;
+                top:0.2rem;
+            }
+
+            .navbar-nav{
+                position: relative;
+                left: 2rem;
                 
+                
+                .nav-item{
                     a{
-                        text-decoration: none;
-                        color: black;
-                        align-items: center;
+                        text-align: center;
+                        width: 100%;
                         h2{
-                           font-size: 1.2rem;
-                           margin-bottom: 0;
-                           text-align: start;
-                           padding-top: 0.45rem;
-                           
+                            font-size: 0.9rem;
                         }
                     }
-    
-                    &:hover{
-        
-                        opacity: 0.8;
-                        transform: scale(1.1);
-                        -webkit-animation-name: hvr-pulse;
-                        animation-name: hvr-pulse;
-                        -webkit-animation-duration: 1s;
-                        animation-duration: 1s;
-                        -webkit-animation-timing-function: linear;
-                        animation-timing-function: linear;
-                        -webkit-animation-iteration-count: infinite;
-                        animation-iteration-count: infinite;
                     
-                    }
-                
                 }
             }
-            
-           
         }
         
         .barra-separadora{

@@ -1,8 +1,8 @@
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 430px) {
     .contenedor{  
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 0.2fr 5.5fr 0.4fr;
+        grid-template-rows: 3.9fr 7fr 0.4fr;
         gap: 0px 0px;
         grid-auto-flow: row;
         grid-template-areas:
@@ -20,10 +20,33 @@
           
         .main { 
             grid-area: main; 
+
         }
     }
     
+    .contenedor-nosotros {  
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 3.9fr 14fr 0.4fr;
+        gap: 0px 0px;
+        grid-auto-flow: row;
+        grid-template-areas:
+        "header header"
+        "main-nosotros main-nosotros"
+        "footer footer ";
     
+        .header { 
+            grid-area: header; 
+        }
+          
+        .main-nosotros { 
+            grid-area: main-nosotros; 
+        }
+          
+        .footer { 
+            grid-area: footer; 
+        }
+    }
 
     .main-nosotros{
         
@@ -86,7 +109,7 @@
     .contenedor-servicios {  
         display: grid;
         grid-template-columns: 1fr 1fr; 
-        grid-template-rows: 0.2fr 13fr 0.4fr;
+        grid-template-rows: 3.9fr 37fr 0.4fr;
         gap: 0px 0px;
         grid-auto-flow: row;
         grid-template-areas:
@@ -146,10 +169,57 @@
             }
         }
     }
+
+    .contenedor-equipo {  
+        display: grid;
+        grid-template-columns: 1fr 1fr; 
+        grid-template-rows: 3.9fr 16fr 0.4fr; 
+        gap: 0px 0px;
+        grid-auto-flow: row;
+        grid-template-areas:
+        "header header"
+        "main-equipo main-equipo"
+        "footer footer ";
+        
+        .header { 
+            grid-area: header; 
+        }
+          
+        .main-equipo { 
+            grid-area: main-equipo; 
+        }
+          
+        .footer { 
+            grid-area: footer; 
+        }
+    }
+
+    .contenedor-contacto {  
+        display: grid;
+        grid-template-columns: 1fr 1fr; 
+        grid-template-rows: 3.9fr 12fr 0.4fr;
+        gap: 0px 0px;
+        grid-auto-flow: row;
+        grid-template-areas:
+        "header header"
+        "main-contacto main-contacto"
+        "footer footer";
+    
+        .header { 
+            grid-area: header; 
+        }
+          
+        .main-contacto { 
+            grid-area: main-contacto; 
+        }
+          
+        .footer { 
+            grid-area: footer; 
+        }
+    
+        
+    }
 }
-
-
-
 
 
 
@@ -160,16 +230,13 @@
 
 
 
-
-
-
 @media screen and (min-width: 768px) {
 
 
     .contenedor{  
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 0.2fr 4fr 0.2fr;
+        grid-template-rows: 1.9fr 4fr 0.2fr;
         gap: 0px 0px;
         grid-auto-flow: row;
         grid-template-areas:
@@ -195,10 +262,10 @@
         flex-direction: column;
         background-image:url(../assets/fondos/fondo_navegacion.jpg);
         justify-content: space-between;
-        height: fit-content;
+        height: 100%;
         .titulo_navegacion{
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             width: 100vw;
             
             justify-content: space-between;
@@ -226,7 +293,7 @@
     .contenedor-nosotros {  
         display: grid; 
         grid-template-columns: 0.1fr 0.5fr 0.1fr; 
-        grid-template-rows: 0.2fr 9fr 0.4fr; 
+        grid-template-rows: 3.9fr 14fr 0.4fr;
         gap: 0px 0px; 
         grid-template-areas: 
         "header header header"
@@ -327,7 +394,7 @@
     .contenedor-servicios {  
         display: grid;
         grid-template-columns: 0.1fr 0.5fr 0.1fr; 
-        grid-template-rows: 0.2fr 21fr 0.4fr;
+        grid-template-rows: 3.9fr 37fr 0.4fr;
         gap: 0px 0px;
         grid-auto-flow: row;
         grid-template-areas:
@@ -494,7 +561,7 @@
     .contenedor-equipo {  
         display: grid;
         grid-template-columns: 0.1fr 0.5fr 0.1fr; 
-        grid-template-rows: 0.2fr 10fr 0.4fr; 
+        grid-template-rows: 3.9fr 16fr 0.4fr; 
         gap: 0px 0px;
         grid-auto-flow: row;
         grid-template-areas:
@@ -547,7 +614,7 @@
     .contenedor-contacto {  
         display: grid;
         grid-template-columns: 0.1fr 0.5fr 0.1fr; 
-        grid-template-rows: 0.2fr 7fr 0.4fr;
+        grid-template-rows: 3.9fr 12fr 0.4fr;
         gap: 0px 0px;
         grid-auto-flow: row;
         grid-template-areas:
@@ -615,6 +682,7 @@
             a{
                 display: flex;
                 flex-direction: column;
+                width: 30%;
                 .titulo-principal{
                     
                     h1{
@@ -624,14 +692,26 @@
                 }
                 
             }
-            .menu-principal{
-                width: 73vw;
-                ul{
-                    display: flex;
-                    flex-direction: row;
-                    width: 100%;
-                    margin:0;
-                    padding-left: 1rem;
+            .navbar{
+                width: 70%;
+                .container-fluid{
+                    .collapse{
+                        display: flex;
+                        justify-content: center;
+                        width: 100%;
+                        .navbar-nav{
+                            display: flex;
+                            justify-content: space-around;
+                            width: 90%;
+                            a{
+                                h2{
+                                    margin-bottom: 0px;
+                                    font-size: 1rem;
+                                }
+                            }
+                        }   
+                        
+                    }
                 }
                 
             }
@@ -696,6 +776,7 @@
                 .foto2{
                     width: 50%;
                     height: 50%;
+                    display: flex;
                 }
                 
         
