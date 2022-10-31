@@ -952,16 +952,24 @@
                 display: flex;
                 flex-wrap: wrap;
                 width: 85%;
-                .galeria-backstage1{
-                    width: 50%;
-                    img{
-                        width: 95%;
-                    }
-                }
-                .galeria-backstage2{
-                    width: 50%;
-                    img{
-                        width: 95%;
+                padding-right: 130px;
+                padding-left: 130px;
+                padding-top: 40px;
+                padding-bottom: 40px;
+
+                .carousel{
+
+            
+                    .carousel-inner{
+                        div{
+                            
+                            img{
+                                
+                                
+                                height: 350px;
+        
+                            }
+                        }
                     }
                 }
             }

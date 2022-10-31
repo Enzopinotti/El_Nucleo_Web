@@ -210,6 +210,9 @@ body {
     display: flex;
     text-align: center;
     height: min-content; }
+    .footer .derechos h5 {
+      margin-bottom: 0px;
+      font-weight: bolder; }
 
 /*<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ETIQUETAS DE TODO EL SITIO WEB-------FIN------------------------------------------------------>*/
 /*<-------------------------------------------------ETIQUETAS DEL INDEX---------------------------->*/
@@ -341,7 +344,8 @@ body {
       .main-servicios .caja-servicios .videoclip-caja h5 {
         font-weight: 900; }
       .main-servicios .caja-servicios .videoclip-caja img {
-        width: 80vw; }
+        width: 80vw;
+        border-radius: 10px; }
     .main-servicios .caja-servicios .publicidad-caja {
       display: flex;
       flex-direction: column;
@@ -350,7 +354,8 @@ body {
       .main-servicios .caja-servicios .publicidad-caja h5 {
         font-weight: 900; }
       .main-servicios .caja-servicios .publicidad-caja img {
-        width: 80vw; }
+        width: 80vw;
+        border-radius: 10px; }
     .main-servicios .caja-servicios .cortometrajes-caja {
       display: flex;
       flex-direction: column;
@@ -359,7 +364,8 @@ body {
       .main-servicios .caja-servicios .cortometrajes-caja h5 {
         font-weight: 900; }
       .main-servicios .caja-servicios .cortometrajes-caja img {
-        width: 80vw; }
+        width: 80vw;
+        border-radius: 10px; }
     .main-servicios .caja-servicios .coberturas-caja {
       display: flex;
       flex-direction: column;
@@ -368,7 +374,8 @@ body {
       .main-servicios .caja-servicios .coberturas-caja h5 {
         font-weight: 900; }
       .main-servicios .caja-servicios .coberturas-caja img {
-        width: 80vw; }
+        width: 80vw;
+        border-radius: 10px; }
   .main-servicios .titulo-backstage {
     display: flex;
     flex-direction: column;
@@ -389,25 +396,14 @@ body {
     border-radius: 20px;
     border: #1c1d1d solid 7px;
     width: 90%;
-    padding-top: 2rem; }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px; }
     .main-servicios .caja-backstage:hover {
       box-shadow: 10px 10px 40px 10px #83d2b5; }
-    .main-servicios .caja-backstage .galeria-backstage1 {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-bottom: 2rem;
-      justify-content: space-around; }
-      .main-servicios .caja-backstage .galeria-backstage1 img {
-        width: 80vw; }
-    .main-servicios .caja-backstage .galeria-backstage2 {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-bottom: 2rem;
-      justify-content: space-around; }
-      .main-servicios .caja-backstage .galeria-backstage2 img {
-        width: 80vw; }
+    .main-servicios .caja-backstage .carousel .carousel-inner div img {
+      height: 250px; }
 
 .aside1-servicios {
   display: none; }
@@ -456,6 +452,8 @@ body {
       align-items: center; }
       .main-equipo .fotos-equipo .fotoynombre a {
         width: min-content; }
+        .main-equipo .fotos-equipo .fotoynombre a img {
+          border-radius: 20px; }
       .main-equipo .fotos-equipo .fotoynombre h4 {
         font-weight: 900; }
   .main-equipo .titulo-cliente {
@@ -1126,15 +1124,13 @@ body {
       .contenedor-servicios .main-servicios .caja-backstage {
         display: flex;
         flex-wrap: wrap;
-        width: 85%; }
-        .contenedor-servicios .main-servicios .caja-backstage .galeria-backstage1 {
-          width: 50%; }
-          .contenedor-servicios .main-servicios .caja-backstage .galeria-backstage1 img {
-            width: 95%; }
-        .contenedor-servicios .main-servicios .caja-backstage .galeria-backstage2 {
-          width: 50%; }
-          .contenedor-servicios .main-servicios .caja-backstage .galeria-backstage2 img {
-            width: 95%; }
+        width: 85%;
+        padding-right: 130px;
+        padding-left: 130px;
+        padding-top: 40px;
+        padding-bottom: 40px; }
+        .contenedor-servicios .main-servicios .caja-backstage .carousel .carousel-inner div img {
+          height: 350px; }
   .contenedor-equipo {
     display: grid;
     grid-template-columns: 0.1fr 0.5fr 0.1fr;
