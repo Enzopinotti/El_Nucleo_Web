@@ -75,6 +75,7 @@ jobs:
             name="$1"
             width="$2"
             height="$3"
+            suffix="$4"
 
             "$CHROME_BIN" \
               --headless=new \
@@ -86,20 +87,27 @@ jobs:
               --force-device-scale-factor=1 \
               --window-size="${width},${height}" \
               --screenshot="visual-qa/${name}.png" \
-              http://127.0.0.1:4173/
+              "http://127.0.0.1:4173/${suffix}"
           }
 
-          capture home-mobile-360 360 1000
-          capture home-tablet-768 768 1200
-          capture home-desktop-1440 1440 1200
+          capture home-mobile-360 360 1000 ""
+          capture home-tablet-768 768 1200 ""
+          capture home-desktop-1440 1440 1200 ""
+
+          capture archive-mobile-360 360 1000 "#archivo"
+          capture archive-tablet-768 768 1200 "#archivo"
+          capture archive-desktop-1440 1440 1200 "#archivo"
+
+          capture history-mobile-360 360 1000 "#historia"
+          capture history-desktop-1440 1440 1200 "#historia"
 
           curl --fail --silent http://127.0.0.1:4173/ > visual-qa/rendered-index.html
           printf '%s\n' \
             'Home responsive smoke evidence' \
             'branch=modernize/2026-home' \
-            'mobile=360x1000' \
-            'tablet=768x1200' \
-            'desktop=1440x1200' \
+            'hero=360x1000,768x1200,1440x1200' \
+            'archive=360x1000,768x1200,1440x1200' \
+            'history=360x1000,1440x1200' \
             'source=Vite production preview' \
             > visual-qa/manifest.txt
 
