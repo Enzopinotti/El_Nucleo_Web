@@ -76,6 +76,25 @@ Home must keep:
 
 Automated tests cover DOM semantics and interaction but do not replace manual keyboard, contrast and responsive review.
 
+## Automated validation checkpoint
+
+The Home implementation was normalized with the exact Prettier version resolved by the committed lockfile and then validated with the repository quality contract.
+
+The validation run completed the following successfully before publishing the canonical formatting commit:
+
+- `pnpm install --frozen-lockfile`;
+- Prettier check;
+- ESLint with zero warnings;
+- TypeScript `tsc --noEmit`;
+- Vitest: **5/5 tests passing**;
+- Vite production build.
+
+At that checkpoint the production bundle reported approximately 9.24 kB of CSS and 227.42 kB of JavaScript before gzip. These values are evidence for this slice, not permanent performance budgets.
+
+The temporary formatter workflow removed itself after publishing the canonical formatting commit. Only the read-only permanent quality workflow remains in the branch.
+
+A new human-authored documentation commit follows that bot-generated formatting commit specifically so the permanent pull-request quality workflow can validate the final branch head under the normal repository path.
+
 ## QA still required before Home is considered complete
 
 The PR for this slice should remain Draft until the following are visually checked in a browser:
@@ -89,5 +108,7 @@ The PR for this slice should remain Draft until the following are visually check
 - reduced-motion experience;
 - no unintended horizontal overflow;
 - production build served using the expected Vite base path.
+
+Automated CI being green is necessary, but it is not treated as proof of visual quality.
 
 No root/GitHub Pages cutover belongs to this Home slice.
