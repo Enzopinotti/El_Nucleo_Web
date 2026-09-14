@@ -61,7 +61,7 @@ jobs:
           cat ../visual-qa/preview.log
           exit 1
 
-      - name: Capture responsive evidence
+      - name: Capture full-page and interactive evidence through Chrome DevTools
         run: |
           CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
           if [ -z "$CHROME_BIN" ]; then
@@ -71,42 +71,202 @@ jobs:
 
           "$CHROME_BIN" --version | tee visual-qa/browser-version.txt
 
-          capture() {
-            name="$1"
-            width="$2"
-            height="$3"
+          "$CHROME_BIN" \
+            --headless=new \
+            --no-sandbox \
+            --disable-gpu \
+            --hide-scrollbars \
+            --remote-debugging-port=9222 \
+            --user-data-dir=/tmp/el-nucleo-cdp \
+            http://127.0.0.1:4173/ \
+            > visual-qa/chrome.log 2>&1 &
+          echo $! > visual-qa/chrome.pid
 
-            "$CHROME_BIN" \
-              --headless=new \
-              --no-sandbox \
-              --disable-gpu \
-              --hide-scrollbars \
-              --run-all-compositor-stages-before-draw \
-              --virtual-time-budget=3000 \
-              --force-device-scale-factor=1 \
-              --window-size="${width},${height}" \
-              --screenshot="visual-qa/${name}.png" \
-              http://127.0.0.1:4173/
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:9222/json/list > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          cat > visual-qa/capture.mjs <<'NODE'
+          import fs from "node:fs/promises";
+
+          const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+          const targets = await fetch("http://127.0.0.1:9222/json/list").then((response) => response.json());
+          const target = targets.find((candidate) => candidate.type === "page");
+
+          if (!target?.webSocketDebuggerUrl) {
+            throw new Error("Chrome page target was not available through CDP.");
           }
 
-          capture home-mobile-360 360 1000
-          capture home-tablet-768 768 1200
-          capture home-desktop-1440 1440 1200
+          const socket = new WebSocket(target.webSocketDebuggerUrl);
+          await new Promise((resolve, reject) => {
+            socket.addEventListener("open", resolve, { once: true });
+            socket.addEventListener("error", reject, { once: true });
+          });
 
-          # Tall captures intentionally include the archive, history and rebuild sections
-          # in one rendered viewport so the first migration slice can be reviewed end-to-end.
-          capture home-full-mobile-360 360 5200
-          capture home-full-tablet-768 768 3800
-          capture home-full-desktop-1440 1440 3200
+          let nextId = 1;
+          const pending = new Map();
 
+          socket.addEventListener("message", (event) => {
+            const message = JSON.parse(event.data);
+            if (!message.id) return;
+
+            const waiter = pending.get(message.id);
+            if (!waiter) return;
+            pending.delete(message.id);
+
+            if (message.error) {
+              waiter.reject(new Error(`${message.error.code}: ${message.error.message}`));
+            } else {
+              waiter.resolve(message.result ?? {});
+            }
+          });
+
+          const send = (method, params = {}) =>
+            new Promise((resolve, reject) => {
+              const id = nextId++;
+              pending.set(id, { resolve, reject });
+              socket.send(JSON.stringify({ id, method, params }));
+            });
+
+          const evaluate = async (expression) => {
+            const result = await send("Runtime.evaluate", {
+              expression,
+              awaitPromise: true,
+              returnByValue: true,
+            });
+            return result.result?.value;
+          };
+
+          const setViewport = async (width, height) => {
+            await send("Emulation.setDeviceMetricsOverride", {
+              width,
+              height,
+              deviceScaleFactor: 1,
+              mobile: false,
+              screenWidth: width,
+              screenHeight: height,
+            });
+            await evaluate("window.scrollTo(0, 0)");
+            await sleep(350);
+          };
+
+          const captureViewport = async (name) => {
+            const result = await send("Page.captureScreenshot", {
+              format: "png",
+              fromSurface: true,
+            });
+            await fs.writeFile(`visual-qa/${name}.png`, Buffer.from(result.data, "base64"));
+          };
+
+          const captureFullPage = async (name) => {
+            const metrics = await send("Page.getLayoutMetrics");
+            const content = metrics.cssContentSize ?? metrics.contentSize;
+            const result = await send("Page.captureScreenshot", {
+              format: "png",
+              fromSurface: true,
+              captureBeyondViewport: true,
+              clip: {
+                x: 0,
+                y: 0,
+                width: content.width,
+                height: content.height,
+                scale: 1,
+              },
+            });
+            await fs.writeFile(`visual-qa/${name}.png`, Buffer.from(result.data, "base64"));
+            return { width: content.width, height: content.height };
+          };
+
+          const scrollTo = async (selector) => {
+            const found = await evaluate(`(() => {
+              const element = document.querySelector(${JSON.stringify(selector)});
+              if (!element) return false;
+              element.scrollIntoView({ block: "center", inline: "nearest", behavior: "instant" });
+              return true;
+            })()`);
+            if (!found) throw new Error(`Could not find ${selector}`);
+            await sleep(300);
+          };
+
+          const clickNext = async () => {
+            const clicked = await evaluate(`(() => {
+              const button = [...document.querySelectorAll("button")]
+                .find((candidate) => candidate.textContent?.trim().includes("Siguiente"));
+              if (!button) return false;
+              button.click();
+              return true;
+            })()`);
+            if (!clicked) throw new Error("Gallery next button was not found.");
+            await sleep(300);
+          };
+
+          const activeGalleryText = async () =>
+            evaluate(`(() => {
+              const live = document.querySelector('[aria-live]');
+              return live?.textContent?.replace(/\\s+/g, " ").trim() ?? null;
+            })()`);
+
+          await send("Page.enable");
+          await send("Runtime.enable");
+          await sleep(500);
+
+          const evidence = {
+            url: await evaluate("location.href"),
+            title: await evaluate("document.title"),
+            viewports: {},
+            gallery: {},
+          };
+
+          for (const viewport of [
+            { name: "mobile-360", width: 360, height: 900 },
+            { name: "tablet-768", width: 768, height: 1024 },
+            { name: "desktop-1440", width: 1440, height: 1000 },
+          ]) {
+            await setViewport(viewport.width, viewport.height);
+            await captureViewport(`hero-${viewport.name}`);
+            evidence.viewports[viewport.name] = await captureFullPage(`full-${viewport.name}`);
+
+            await scrollTo("#archivo");
+            await captureViewport(`archive-${viewport.name}`);
+
+            await scrollTo("#historia");
+            await captureViewport(`history-${viewport.name}`);
+          }
+
+          for (const viewport of [
+            { name: "mobile-360", width: 360, height: 900 },
+            { name: "desktop-1440", width: 1440, height: 1000 },
+          ]) {
+            await setViewport(viewport.width, viewport.height);
+            await scrollTo("#archivo");
+
+            evidence.gallery[viewport.name] = [];
+            for (let index = 1; index <= 4; index += 1) {
+              evidence.gallery[viewport.name].push(await activeGalleryText());
+              await captureViewport(`gallery-${viewport.name}-${index}`);
+              if (index < 4) await clickNext();
+            }
+          }
+
+          evidence.h1Count = await evaluate('document.querySelectorAll("h1").length');
+          evidence.horizontalOverflowDesktop = await (async () => {
+            await setViewport(1440, 1000);
+            return evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth");
+          })();
+          evidence.horizontalOverflowMobile = await (async () => {
+            await setViewport(360, 900);
+            return evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth");
+          })();
+
+          await fs.writeFile("visual-qa/evidence.json", `${JSON.stringify(evidence, null, 2)}\n`);
+          socket.close();
+          NODE
+
+          node visual-qa/capture.mjs
           curl --fail --silent http://127.0.0.1:4173/ > visual-qa/rendered-index.html
-          printf '%s\n' \
-            'Home responsive smoke evidence' \
-            'branch=modernize/2026-home' \
-            'hero=360x1000,768x1200,1440x1200' \
-            'tall=360x5200,768x3800,1440x3200' \
-            'source=Vite production preview' \
-            > visual-qa/manifest.txt
 
       - name: Upload visual QA evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
