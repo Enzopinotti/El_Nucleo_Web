@@ -41,40 +41,44 @@ pnpm check
 - `dist/`: generated production output; never hand-edit.
 - `pnpm-lock.yaml`: reproducible dependency resolution.
 - `../docs/modern-app-architecture.md`: migration/cutover architecture.
-- `../docs/home-migration-2026.md`: Home-specific design and QA decisions.
+- `../docs/home-migration-2026.md`: Home-specific design and qualification evidence.
 - `../docs/asset-provenance.md`: exact origin of promoted historical media.
 
 ## Current migration state
 
 The foundation is merged and verified on `main`.
 
-The active product slice is **Home**. It replaces the four duplicate Bootstrap carousels from the historical root page with one accessible, manually controlled archive gallery while preserving the historical logo, service categories and `#83d2b5` accent.
+The **Home** slice has completed its technical and browser qualification in its dedicated PR lane. It replaces the four duplicate Bootstrap carousels from the historical root page with one accessible, manually controlled archive gallery while preserving the historical logo, service categories and `#83d2b5` accent.
 
-The Home copy deliberately distinguishes historical project context from current commercial claims. Team/client/service facts are not promoted as current without review.
+Home copy deliberately distinguishes historical project context from current commercial claims. Team/client/service facts are not promoted as current without review.
 
-Remaining sections (`Nosotros`, `Servicios`, `Equipo`, `Contacto`) are outside the Home slice and stay historical until their own migration work begins.
+The next content slice after Home is `Nosotros`. `Servicios`, `Equipo` and `Contacto` remain historical until their own migration work begins.
 
 ## Home validation contract
 
-The canonical Home branch must satisfy all of the following before the slice can advance:
+The qualified Home slice satisfies all of the following:
 
 1. `pnpm install --frozen-lockfile` succeeds on Node 24 with pnpm 9.15.9.
 2. `pnpm check` passes Prettier, ESLint, TypeScript, Vitest and the Vite production build.
-3. Gallery next/previous navigation and wrap behavior remain covered by tests.
+3. Gallery next/previous navigation and wrap behavior are covered by tests.
 4. Historical media keeps documented source-path and blob-SHA provenance.
 5. No historical team/client/service claim is silently promoted to a current claim.
 6. The permanent GitHub Actions workflow remains read-only and pinned to immutable action SHAs.
-7. Browser QA covers mobile, tablet and desktop widths, focus order, reduced motion, crop quality and horizontal overflow.
+7. Production-build browser QA covers mobile, tablet and desktop widths, gallery crops, focus order, reduced motion and horizontal overflow.
 
-The canonical-format checkpoint passed all five automated quality stages with **5/5 tests green**. A human-authored README/documentation checkpoint follows the formatter-bot commit so the permanent pull-request workflow validates the final branch head through its normal trigger.
+The canonical Home checkpoint has **5/5 tests green** and passed its permanent pull-request quality workflow.
 
-Automated success is a release gate, not a substitute for visual QA.
+Browser evidence was generated from the production Vite preview at 360 px, 768 px and 1440 px. Chrome-level checks confirmed one H1, no horizontal overflow in required widths, the expected four-state gallery sequence, skip-link-first keyboard focus and the reduced-motion override.
+
+Temporary formatting/browser evidence workflows are migration tools only; they are removed after use and are not part of the permanent repository automation surface.
 
 ## Accessibility baseline
 
 The app includes semantic landmarks, a skip link, visible focus treatment, native gallery controls, useful alt text, mobile-first layout and reduced-motion handling.
 
-Automated tests cover key semantics and archive interaction. Manual keyboard, responsive, contrast and crop review remain required before a visual slice is considered complete.
+Browser qualification confirmed the first Tab target exposes the skip link visibly and that focus then proceeds through brand, navigation, hero actions and gallery controls. Reduced-motion emulation resolves document smooth scrolling to `auto`.
+
+Cross-cutting accessibility issue #10 remains open because later slices — especially Contact — introduce additional form/error/status requirements.
 
 ## Media policy
 
@@ -84,9 +88,9 @@ Only media used by a migrated slice is promoted. Original assets stay untouched;
 
 ## Next migration gates
 
-After Home is accepted, migration continues in small reviewable slices rather than one rewrite:
+Migration continues in small reviewable slices rather than one rewrite:
 
-- `Nosotros`: historical narrative, current-truth boundary and semantic editorial layout;
+- `Nosotros`: preserve the 2022 narrative as archive context, establish current-truth boundaries and build a semantic editorial section;
 - `Servicios`: service/archive structure plus backstage media only where intentionally used;
 - `Equipo`: historical people and client references treated as archive unless separately verified as current;
 - `Contacto`: no fake-success form; transport, validation, spam/privacy behavior and failure states must be explicit before the form is presented as operational;
@@ -94,4 +98,4 @@ After Home is accepted, migration continues in small reviewable slices rather th
 
 ## Deployment boundary
 
-No production/root cutover is part of the Home slice. The historical root site remains the deployable baseline until the modern application has completed the remaining content slices, responsive/accessibility QA and an explicit deployment/rollback plan.
+Home qualification does not change the production/root deployment boundary. The historical root site remains the deployable baseline until the modern application has completed the remaining content slices, responsive/accessibility review and an explicit deployment/rollback plan.

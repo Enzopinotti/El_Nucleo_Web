@@ -6,7 +6,7 @@ This note records how the first product-facing slice of the modern application m
 
 The 2022 root page used Bootstrap and repeated four nearly identical carousel instances. Each carousel rotated through the same four service images but started on a different active item.
 
-That implementation is preserved in Git history and remains untouched in the root site during this migration.
+That implementation remains preserved in Git history and in the historical root site during migration.
 
 ## 2026 Home decision
 
@@ -16,20 +16,20 @@ Reasons:
 
 - one source of truth for the historical service set;
 - no autoplay or competing motion;
-- explicit previous/next buttons work with standard keyboard activation;
-- active item is announced through an `aria-live` status;
-- image space is reserved with CSS `aspect-ratio` to reduce layout shift;
-- below-fold historical media is lazy loaded;
+- explicit previous/next native buttons;
+- active item announced through `aria-live`;
+- CSS `aspect-ratio` reserves media space;
+- below-fold historical media uses lazy loading;
 - gallery behavior is covered by tests;
 - the interface states clearly that the archive is not automatically a current commercial catalog.
 
 ## Content truth boundary
 
-The Home may say what the 2022 project was created to represent, because that is documented by the historical source.
+Home may describe what the 2022 project was created to represent because that is documented by the historical source.
 
 It must **not** infer that the same collective, client list, team, service availability or commercial activity remains current in 2026.
 
-That distinction is intentional in the hero copy, archive note and later migration issues.
+That distinction is intentional in the hero copy, archive note and later migration lanes.
 
 ## Visual continuity
 
@@ -37,11 +37,11 @@ The reconstruction preserves:
 
 - `El Núcleo / CINE` naming;
 - the historical logo;
-- the historical accent `#83d2b5` as a design token;
-- the four service categories used by the original site;
+- `#83d2b5` as a design token;
+- the four original service categories;
 - a dark, image-led audiovisual character.
 
-It does not try to reproduce Bootstrap cards/carousels or the original page layout pixel-for-pixel.
+It does not reproduce Bootstrap cards/carousels or the original page pixel-for-pixel.
 
 ## Source architecture
 
@@ -62,25 +62,23 @@ Historical content paths are represented in `historical-home.ts`; promoted media
 
 ## Accessibility contract
 
-Home must keep:
+Home keeps:
 
 - one H1;
 - semantic header/nav/main/footer;
-- skip link;
-- visible focus styles;
-- native buttons for gallery controls;
+- a keyboard-first skip link;
+- visible focus treatment;
+- native gallery controls with accessible names;
 - useful image alternative text;
 - no autoplay;
 - `prefers-reduced-motion` behavior;
-- readable layout from small mobile widths upward.
+- readable mobile-first layout.
 
-Automated tests cover DOM semantics and interaction but do not replace manual keyboard, contrast and responsive review.
+Automated DOM tests complement browser-level interaction and visual review.
 
-## Automated validation checkpoint
+## Automated quality evidence
 
-The Home implementation was normalized with the exact Prettier version resolved by the committed lockfile and then validated with the repository quality contract.
-
-The validation run completed the following successfully before publishing the canonical formatting commit:
+The canonical Home branch was validated with the repository quality contract using the committed lockfile:
 
 - `pnpm install --frozen-lockfile`;
 - Prettier check;
@@ -89,26 +87,43 @@ The validation run completed the following successfully before publishing the ca
 - Vitest: **5/5 tests passing**;
 - Vite production build.
 
-At that checkpoint the production bundle reported approximately 9.24 kB of CSS and 227.42 kB of JavaScript before gzip. These values are evidence for this slice, not permanent performance budgets.
+At the qualification checkpoint the production bundle reported approximately 9.24 kB of CSS and 227.42 kB of JavaScript before gzip. These are slice evidence, not permanent performance budgets.
 
-The temporary formatter workflow removed itself after publishing the canonical formatting commit. Only the read-only permanent quality workflow remains in the branch.
+The permanent `Modern app quality` pull-request workflow also passed on a human-authored branch head after canonical formatting was committed.
 
-A new human-authored documentation commit follows that bot-generated formatting commit specifically so the permanent pull-request quality workflow can validate the final branch head under the normal repository path.
+## Browser / responsive qualification
 
-## QA still required before Home is considered complete
+Home was then served from the **production Vite build** and inspected with Google Chrome 152.0.7977.82 through Chrome DevTools Protocol.
 
-The PR for this slice should remain Draft until the following are visually checked in a browser:
+Evidence was generated for real responsive viewports rather than oversized fake full-page windows:
 
-- ~320–375 px mobile;
-- ~768 px tablet;
-- ~1280–1440 px desktop;
-- logo legibility against the new hero treatment;
-- service-image crop quality for all four archive items;
-- focus visibility and tab order;
-- reduced-motion experience;
-- no unintended horizontal overflow;
-- production build served using the expected Vite base path.
+| Viewport | Rendered document |
+| --- | ---: |
+| 360 px mobile | 360 × 4231 px |
+| 768 px tablet | 768 × 3226 px |
+| 1440 px desktop | 1440 × 3651 px |
 
-Automated CI being green is necessary, but it is not treated as proof of visual quality.
+The browser qualification verified:
 
-No root/GitHub Pages cutover belongs to this Home slice.
+- full-page rendering at mobile, tablet and desktop widths;
+- no horizontal overflow at 360 px or 1440 px;
+- exactly one H1;
+- logo legibility and editorial hierarchy across all three widths;
+- all four gallery states render cleanly on mobile and desktop: Videoclips → Publicidad → Cortometrajes → Coberturas;
+- historical image crops remain readable in every gallery state;
+- the first real `Tab` target is the visible `Saltar al contenido` link;
+- subsequent tab order continues through brand, primary navigation, hero actions and gallery controls;
+- `prefers-reduced-motion: reduce` changes document scroll behavior to `auto` and collapses transition duration to the reduced-motion override;
+- the production preview responds correctly from the expected Vite root base path.
+
+Screenshots and machine-readable evidence were generated as short-lived CI artifacts for review. They are deliberately **not** committed to the repository as permanent binary noise.
+
+The dedicated browser-smoke workflow was a bounded migration tool and is removed in the same closing commit after evidence is accepted. The repository keeps only its normal read-only quality workflow.
+
+## Home completion boundary
+
+This slice is considered qualified when the closing branch head passes the permanent quality workflow after the temporary QA tooling has been removed.
+
+Home qualification does **not** authorize a root/GitHub Pages cutover. The historical implementation remains the deployable baseline until the remaining content slices and final rollback/deployment plan are complete.
+
+The next content lane is `Nosotros`, with the 2022 wording treated as historical source material rather than a current commercial claim.
