@@ -5,7 +5,7 @@ on:
     branches:
       - modernize/2026-foundation
     paths:
-      - modern/package.json
+      - modern/**
       - .github/workflows/modern-lockfile-bootstrap.yml
 
 permissions:
@@ -37,22 +37,23 @@ jobs:
         with:
           node-version: 24
 
-      - name: Generate and validate lockfile
+      - name: Generate lockfile and normalize modern source
         working-directory: modern
         run: |
           pnpm install --lockfile-only
           pnpm install --frozen-lockfile
+          pnpm format
           pnpm check
 
-      - name: Commit lockfile when changed
+      - name: Commit canonical bootstrap output when changed
         run: |
-          if git diff --quiet -- modern/pnpm-lock.yaml && git ls-files --error-unmatch modern/pnpm-lock.yaml >/dev/null 2>&1; then
-            echo "Lockfile already current."
+          if [ -z "$(git status --porcelain -- modern)" ]; then
+            echo "Modern app source and lockfile are already canonical."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add modern/pnpm-lock.yaml
-          git commit -m "chore(modern): lock reproducible dependencies"
+          git add modern
+          git commit -m "chore(modern): normalize source and lock dependencies"
           git push origin HEAD:modernize/2026-foundation
