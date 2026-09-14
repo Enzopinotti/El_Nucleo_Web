@@ -1,8 +1,8 @@
-# El Núcleo — modern app foundation
+# El Núcleo — modern app
 
 This directory contains the 2026 reconstruction of the original 2022 El Núcleo site.
 
-It is intentionally isolated under `modern/` while migration is in progress. The historical root HTML/SCSS site remains untouched until the replacement has reproducible CI and visual/accessibility QA.
+It remains intentionally isolated under `modern/` while migration is in progress. The historical root HTML/SCSS site stays intact until the replacement has reproducible CI plus visual, accessibility and content QA.
 
 ## Runtime
 
@@ -15,7 +15,7 @@ It is intentionally isolated under `modern/` while migration is in progress. The
 - Vitest + Testing Library
 - ESLint + Prettier
 
-TypeScript 6 is an intentional compatibility choice for the first migration slice. The current TypeScript ESLint line explicitly supports TS6 while TS7 support is still a separate ecosystem consideration. Upgrading compiler/tooling majors is handled as a compatibility change, not as a version-number race.
+TypeScript 6 is an intentional compatibility choice. Upgrading compiler/tooling majors is handled as a compatibility change, not as a version-number race.
 
 ## Local workflow
 
@@ -31,26 +31,41 @@ Before a PR is considered reviewable:
 pnpm check
 ```
 
-`pnpm check` runs formatting validation, lint, typecheck, behavior tests and a production build.
+`pnpm check` validates formatting, lint, type safety, behavior tests and the production build.
 
 ## Source authority during migration
 
 - `../index.html`, `../views/`, `../scss/`, `../css/`: historical 2022 implementation.
 - `src/`: source authority for the 2026 application.
+- `public/media/`: only historical media intentionally promoted into the modern app.
 - `dist/`: generated production output; never hand-edit.
-- `pnpm-lock.yaml`: reproducible dependency resolution; committed after bootstrap.
+- `pnpm-lock.yaml`: reproducible dependency resolution.
 - `../docs/modern-app-architecture.md`: migration/cutover architecture.
+- `../docs/home-migration-2026.md`: Home-specific design and QA decisions.
+- `../docs/asset-provenance.md`: exact origin of promoted historical media.
 
-## Current scope
+## Current migration state
 
-The current shell proves the technical foundation and preserves visible project identity. It does **not** yet claim that all historical company/team/client/service information remains commercially current.
+The foundation is merged and verified on `main`.
 
-The first content migration after this foundation is Home. Remaining pages are migrated only after that slice is accepted.
+The active product slice is **Home**. It replaces the four duplicate Bootstrap carousels from the historical root page with one accessible, manually controlled archive gallery while preserving the historical logo, service categories and `#83d2b5` accent.
+
+The Home copy deliberately distinguishes historical project context from current commercial claims. Team/client/service facts are not promoted as current without review.
+
+Remaining sections (`Nosotros`, `Servicios`, `Equipo`, `Contacto`) are outside the Home slice and stay historical until their own migration work begins.
 
 ## Accessibility baseline
 
-The shell includes semantic landmarks, a skip link, visible focus treatment, mobile-first layout and reduced-motion handling. Automated tests complement rather than replace keyboard and visual QA.
+The app includes semantic landmarks, a skip link, visible focus treatment, native gallery controls, useful alt text, mobile-first layout and reduced-motion handling.
+
+Automated tests cover key semantics and archive interaction. Manual keyboard, responsive, contrast and crop review remain required before a visual slice is considered complete.
+
+## Media policy
+
+Do not copy the entire historical asset directory into `modern/`.
+
+Only media used by a migrated slice is promoted. Original assets stay untouched; promoted files keep documented blob-level provenance. Optimization derivatives may be added later only with a reproducible process and visual review.
 
 ## Deployment boundary
 
-No production cutover is part of this phase. The historical root site remains the deployable baseline until the modern app has green CI, content review, responsive QA, accessibility review and an explicit deployment/rollback plan.
+No production/root cutover is part of the Home slice. The historical root site remains the deployable baseline until the modern application has completed the remaining content slices, responsive/accessibility QA and an explicit deployment/rollback plan.
