@@ -13,13 +13,14 @@ afterEach(() => {
   cleanup();
 });
 
-describe("El Núcleo modern Home", () => {
+describe("El Núcleo modern migration", () => {
   it("preserves the project identity and distinguishes historical context", () => {
     render(<App />);
 
     expect(
       screen.getByRole("heading", { name: "El Núcleo", level: 1 }),
     ).toBeInTheDocument();
+    expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(
       screen.getByText(/proyecto de aprendizaje 2022/i),
     ).toBeInTheDocument();
@@ -29,6 +30,63 @@ describe("El Núcleo modern Home", () => {
     expect(
       screen.getByAltText(/logotipo histórico de El Núcleo/i),
     ).toBeInTheDocument();
+  });
+
+  it("exposes Nosotros as a historical source instead of a current company claim", () => {
+    render(<App />);
+
+    const about = screen.getByRole("region", {
+      name: /lo que El Núcleo decía de sí mismo/i,
+    });
+
+    expect(
+      within(about).getByText(/somos un colectivo emprendedor dedicado/i),
+    ).toBeInTheDocument();
+    expect(
+      within(about).getByText(/no confirma que ese colectivo siga operativo/i),
+    ).toBeInTheDocument();
+    expect(within(about).getByText("No asumida")).toBeInTheDocument();
+    expect(within(about).getByText(/views\/nosotros\.html/i)).toBeInTheDocument();
+  });
+
+  it("keeps historical aspirations explicit without claiming they happened", () => {
+    render(<App />);
+
+    const about = screen.getByRole("region", {
+      name: /lo que El Núcleo decía de sí mismo/i,
+    });
+
+    expect(
+      within(about).getByText(/colaboración con distintas ONGs/i),
+    ).toBeInTheDocument();
+    expect(
+      within(about).getByText(
+        /no afirmamos que esas campañas, colaboraciones o el largometraje se hayan concretado/i,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("does not promote the unverified generic social links from the 2022 page", () => {
+    render(<App />);
+
+    for (const network of [
+      "Facebook",
+      "YouTube",
+      "Instagram",
+      "Vimeo",
+      "Twitter",
+    ]) {
+      expect(screen.queryByRole("link", { name: network })).not.toBeInTheDocument();
+    }
+  });
+
+  it("links the primary navigation to the migrated Nosotros section", () => {
+    render(<App />);
+
+    expect(screen.getByRole("link", { name: "Nosotros" })).toHaveAttribute(
+      "href",
+      "#nosotros",
+    );
   });
 
   it("exposes the historical archive without presenting it as a current commercial catalog", () => {
