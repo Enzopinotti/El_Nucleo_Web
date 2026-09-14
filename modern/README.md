@@ -54,6 +54,22 @@ The Home copy deliberately distinguishes historical project context from current
 
 Remaining sections (`Nosotros`, `Servicios`, `Equipo`, `Contacto`) are outside the Home slice and stay historical until their own migration work begins.
 
+## Home validation contract
+
+The canonical Home branch must satisfy all of the following before the slice can advance:
+
+1. `pnpm install --frozen-lockfile` succeeds on Node 24 with pnpm 9.15.9.
+2. `pnpm check` passes Prettier, ESLint, TypeScript, Vitest and the Vite production build.
+3. Gallery next/previous navigation and wrap behavior remain covered by tests.
+4. Historical media keeps documented source-path and blob-SHA provenance.
+5. No historical team/client/service claim is silently promoted to a current claim.
+6. The permanent GitHub Actions workflow remains read-only and pinned to immutable action SHAs.
+7. Browser QA covers mobile, tablet and desktop widths, focus order, reduced motion, crop quality and horizontal overflow.
+
+The canonical-format checkpoint passed all five automated quality stages with **5/5 tests green**. A human-authored README/documentation checkpoint follows the formatter-bot commit so the permanent pull-request workflow validates the final branch head through its normal trigger.
+
+Automated success is a release gate, not a substitute for visual QA.
+
 ## Accessibility baseline
 
 The app includes semantic landmarks, a skip link, visible focus treatment, native gallery controls, useful alt text, mobile-first layout and reduced-motion handling.
@@ -65,6 +81,16 @@ Automated tests cover key semantics and archive interaction. Manual keyboard, re
 Do not copy the entire historical asset directory into `modern/`.
 
 Only media used by a migrated slice is promoted. Original assets stay untouched; promoted files keep documented blob-level provenance. Optimization derivatives may be added later only with a reproducible process and visual review.
+
+## Next migration gates
+
+After Home is accepted, migration continues in small reviewable slices rather than one rewrite:
+
+- `Nosotros`: historical narrative, current-truth boundary and semantic editorial layout;
+- `Servicios`: service/archive structure plus backstage media only where intentionally used;
+- `Equipo`: historical people and client references treated as archive unless separately verified as current;
+- `Contacto`: no fake-success form; transport, validation, spam/privacy behavior and failure states must be explicit before the form is presented as operational;
+- cutover: only after all migrated slices have green CI, responsive/accessibility review and a documented rollback path.
 
 ## Deployment boundary
 
