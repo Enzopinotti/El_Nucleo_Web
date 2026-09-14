@@ -251,7 +251,11 @@
     gap: 1.1rem;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
-    background: linear-gradient(145deg, var(--color-surface), rgb(22 33 30 / 52%));
+    background: linear-gradient(
+      145deg,
+      var(--color-surface),
+      rgb(22 33 30 / 52%)
+    );
 
     h3 {
       margin: 0 0 0.6rem;

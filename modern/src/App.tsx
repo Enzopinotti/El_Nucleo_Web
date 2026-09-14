@@ -9,7 +9,11 @@ export function App() {
       </a>
 
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="El Núcleo, volver al inicio">
+        <a
+          className="brand"
+          href="#top"
+          aria-label="El Núcleo, volver al inicio"
+        >
           <span className="brand__name">El Núcleo</span>
           <span className="brand__tag">CINE</span>
         </a>
@@ -24,13 +28,18 @@ export function App() {
       <main id="main-content">
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="hero__content">
-            <p className="eyebrow">Proyecto de aprendizaje 2022 · reconstrucción 2026</p>
+            <p className="eyebrow">
+              Proyecto de aprendizaje 2022 · reconstrucción 2026
+            </p>
             <h1 id="hero-title">El Núcleo</h1>
-            <p className="hero__tagline">CINE · PRODUCCIÓN AUDIOVISUAL · ARCHIVO</p>
+            <p className="hero__tagline">
+              CINE · PRODUCCIÓN AUDIOVISUAL · ARCHIVO
+            </p>
             <p className="hero__lead">
-              La primera versión nació para presentar un colectivo vinculado a la producción
-              audiovisual. Esta reconstrucción conserva esa identidad y su material visual, pero
-              distingue con claridad el archivo histórico de cualquier actividad comercial actual.
+              La primera versión nació para presentar un colectivo vinculado a
+              la producción audiovisual. Esta reconstrucción conserva esa
+              identidad y su material visual, pero distingue con claridad el
+              archivo histórico de cualquier actividad comercial actual.
             </p>
             <div className="hero__actions">
               <a className="button button--primary" href="#archivo">
@@ -44,9 +53,15 @@ export function App() {
 
           <figure className="hero__mark">
             <div className="hero__mark-frame">
-              <img src={historicalLogo.src} alt={historicalLogo.alt} decoding="async" />
+              <img
+                src={historicalLogo.src}
+                alt={historicalLogo.alt}
+                decoding="async"
+              />
             </div>
-            <figcaption>Marca gráfica preservada desde la versión original.</figcaption>
+            <figcaption>
+              Marca gráfica preservada desde la versión original.
+            </figcaption>
           </figure>
         </section>
 
@@ -54,10 +69,16 @@ export function App() {
           <ArchiveGallery services={historicalServices} />
         </div>
 
-        <section className="history-section" id="historia" aria-labelledby="history-title">
+        <section
+          className="history-section"
+          id="historia"
+          aria-labelledby="history-title"
+        >
           <div className="section-heading">
             <p className="section-kicker">Una misma historia, dos momentos</p>
-            <h2 id="history-title">Modernizar sin fingir que el pasado no existió</h2>
+            <h2 id="history-title">
+              Modernizar sin fingir que el pasado no existió
+            </h2>
           </div>
 
           <ol className="history-timeline">
@@ -66,8 +87,8 @@ export function App() {
               <div>
                 <h3>Aprender construyendo</h3>
                 <p>
-                  HTML, SCSS, Bootstrap, cinco páginas y una identidad propia para un proyecto de
-                  Coderhouse orientado al mundo audiovisual.
+                  HTML, SCSS, Bootstrap, cinco páginas y una identidad propia
+                  para un proyecto de Coderhouse orientado al mundo audiovisual.
                 </p>
               </div>
             </li>
@@ -76,8 +97,9 @@ export function App() {
               <div>
                 <h3>Reconstruir con criterio de producto</h3>
                 <p>
-                  React, TypeScript, Vite, pruebas, CI reproducible, accesibilidad y documentación
-                  como código, manteniendo el sitio histórico disponible durante la transición.
+                  React, TypeScript, Vite, pruebas, CI reproducible,
+                  accesibilidad y documentación como código, manteniendo el
+                  sitio histórico disponible durante la transición.
                 </p>
               </div>
             </li>
@@ -91,7 +113,9 @@ export function App() {
         >
           <div className="section-heading">
             <p className="section-kicker">Criterio 2026</p>
-            <h2 id="rebuild-title">La tecnología acompaña la historia, no la reemplaza</h2>
+            <h2 id="rebuild-title">
+              La tecnología acompaña la historia, no la reemplaza
+            </h2>
           </div>
 
           <div className="rebuild-grid">
@@ -99,24 +123,26 @@ export function App() {
               <span aria-hidden="true">01</span>
               <h3>Fuente histórica explícita</h3>
               <p>
-                Los assets promovidos a la nueva Home conservan referencia al archivo y blob de
-                origen. Los originales no se modifican.
+                Los assets promovidos a la nueva Home conservan referencia al
+                archivo y blob de origen. Los originales no se modifican.
               </p>
             </article>
             <article>
               <span aria-hidden="true">02</span>
               <h3>Interacción sin dependencias heredadas</h3>
               <p>
-                La galería reemplaza cuatro carruseles Bootstrap duplicados con una única
-                interacción controlada, sin autoplay y usable con teclado.
+                La galería reemplaza cuatro carruseles Bootstrap duplicados con
+                una única interacción controlada, sin autoplay y usable con
+                teclado.
               </p>
             </article>
             <article>
               <span aria-hidden="true">03</span>
               <h3>Contenido con límites honestos</h3>
               <p>
-                Servicios, equipo y clientes históricos no se presentan automáticamente como
-                actividad vigente. Cada afirmación se revisa antes del cutover.
+                Servicios, equipo y clientes históricos no se presentan
+                automáticamente como actividad vigente. Cada afirmación se
+                revisa antes del cutover.
               </p>
             </article>
           </div>
@@ -128,7 +154,10 @@ export function App() {
           <strong>El Núcleo</strong>
           <span>CINE</span>
         </div>
-        <p>Proyecto histórico de Enzo Pinotti · original 2022 · reconstrucción 2026</p>
+        <p>
+          Proyecto histórico de Enzo Pinotti · original 2022 · reconstrucción
+          2026
+        </p>
       </footer>
     </div>
   );
