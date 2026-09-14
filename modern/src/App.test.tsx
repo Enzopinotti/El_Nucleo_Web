@@ -46,7 +46,11 @@ describe("El Núcleo modern migration", () => {
       within(about).getByText(/no confirma que ese colectivo siga operativo/i),
     ).toBeInTheDocument();
     expect(within(about).getByText("No asumida")).toBeInTheDocument();
-    expect(within(about).getByText(/views\/nosotros\.html/i)).toBeInTheDocument();
+
+    const sourceReferences = within(about).getAllByText(
+      /views\/nosotros\.html/i,
+    );
+    expect(sourceReferences).toHaveLength(3);
   });
 
   it("keeps historical aspirations explicit without claiming they happened", () => {
