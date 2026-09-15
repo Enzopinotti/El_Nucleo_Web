@@ -9,7 +9,7 @@ on:
       - .editorconfig
       - .gitignore
       - .nvmrc
-      - .github/workflows/modern-quality.yml
+      - .github/workflows/**
   push:
     branches:
       - main
@@ -20,7 +20,7 @@ on:
       - .editorconfig
       - .gitignore
       - .nvmrc
-      - .github/workflows/modern-quality.yml
+      - .github/workflows/**
 
 permissions:
   contents: read
