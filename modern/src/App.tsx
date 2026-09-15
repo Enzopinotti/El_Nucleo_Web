@@ -20,22 +20,45 @@ export function App() {
       </a>
 
       <header className="site-header">
-        <a
-          className="brand"
-          href="#top"
-          aria-label="El Núcleo, volver al inicio"
-        >
-          <span className="brand__name">El Núcleo</span>
-          <span className="brand__tag">CINE</span>
-        </a>
+        <div className="site-header__masthead">
+          <a
+            className="brand"
+            href="#top"
+            aria-label="El Núcleo, volver al inicio"
+          >
+            <span className="brand__name">El Núcleo</span>
+            <span className="brand__tag">CINE</span>
+          </a>
+          <span className="site-header__edition" aria-hidden="true">
+            Archivo 2022 · reconstrucción 2026
+          </span>
+        </div>
 
-        <nav aria-label="Navegación principal">
-          <a href="#nosotros">Nosotros</a>
-          <a href="#servicios">Servicios 2022</a>
-          <a href="#backstage">Backstage</a>
-          <a href="#equipo">Equipo 2022</a>
-          <a href="#contacto">Contacto 2022</a>
-          <a href="#historia">Historia</a>
+        <nav className="site-nav" aria-label="Navegación principal">
+          <a href="#nosotros">
+            <span aria-hidden="true">01</span>
+            Nosotros
+          </a>
+          <a href="#servicios">
+            <span aria-hidden="true">02</span>
+            Servicios 2022
+          </a>
+          <a href="#backstage">
+            <span aria-hidden="true">03</span>
+            Backstage
+          </a>
+          <a href="#equipo">
+            <span aria-hidden="true">04</span>
+            Equipo 2022
+          </a>
+          <a href="#contacto">
+            <span aria-hidden="true">05</span>
+            Contacto 2022
+          </a>
+          <a href="#historia">
+            <span aria-hidden="true">06</span>
+            Historia
+          </a>
         </nav>
       </header>
 
@@ -49,6 +72,22 @@ export function App() {
             <p className="hero__tagline">
               CINE · PRODUCCIÓN AUDIOVISUAL · ARCHIVO
             </p>
+
+            <div className="hero__context" aria-label="Contexto temporal del proyecto">
+              <div>
+                <span>Origen</span>
+                <strong>2022</strong>
+              </div>
+              <div>
+                <span>Reconstrucción</span>
+                <strong>2026</strong>
+              </div>
+              <div>
+                <span>Estado</span>
+                <strong>Archivo documentado</strong>
+              </div>
+            </div>
+
             <p className="hero__lead">
               La primera versión nació para presentar un colectivo vinculado a
               la producción audiovisual. Esta reconstrucción conserva esa
@@ -66,6 +105,10 @@ export function App() {
           </div>
 
           <figure className="hero__mark">
+            <div className="hero__mark-meta" aria-hidden="true">
+              <span>Archivo visual</span>
+              <span>ELN / 001</span>
+            </div>
             <div className="hero__mark-frame">
               <img
                 src={historicalLogo.src}

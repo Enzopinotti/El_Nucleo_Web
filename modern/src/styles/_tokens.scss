@@ -59,6 +59,7 @@
   --content-pad: clamp(1.25rem, 3vw, 2rem);
   --content-width: 74rem;
   --header-height: 5rem;
+  --sticky-offset: calc(var(--header-height) + var(--space-6));
 
   --motion-fast: 150ms;
   --motion-medium: 240ms;

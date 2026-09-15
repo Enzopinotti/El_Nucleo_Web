@@ -11,12 +11,15 @@ body {
   min-width: 20rem;
   min-height: 100vh;
   background:
+    linear-gradient(rgb(131 210 181 / 3%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(131 210 181 / 3%) 1px, transparent 1px),
     radial-gradient(
       circle at 82% 0%,
       rgb(131 210 181 / 11%),
       transparent 30rem
     ),
     linear-gradient(180deg, var(--color-bg-soft), var(--color-bg));
+  background-size: 4rem 4rem, 4rem 4rem, auto, auto;
   color: var(--color-text);
 }
 
@@ -51,7 +54,7 @@ img {
 
 .skip-link {
   position: fixed;
-  z-index: 50;
+  z-index: 60;
   top: var(--space-3);
   left: var(--space-3);
   transform: translateY(-220%);
@@ -69,31 +72,72 @@ img {
 
 .site-header {
   position: relative;
-  z-index: 10;
+  z-index: 40;
   width: min(calc(100% - 2rem), var(--content-width));
-  min-height: var(--header-height);
   margin: 0 auto;
-  padding: var(--space-5) 0;
+  padding: var(--space-4) 0 0;
+  display: grid;
+  gap: var(--space-3);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.site-header__masthead {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-6);
-  border-bottom: 1px solid var(--color-line);
+  gap: var(--space-4);
+}
 
-  nav {
+.site-header__edition {
+  display: none;
+  color: var(--color-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-nav {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding: 0 0 var(--space-4);
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+
+  &::-webkit-scrollbar {
     display: none;
-    gap: 1.35rem;
+  }
 
-    a {
-      color: var(--color-muted);
-      font-size: 0.9rem;
-      font-weight: 750;
-      text-decoration: none;
-      transition: color var(--motion-fast) var(--ease-standard);
+  a {
+    min-height: 2.6rem;
+    padding: 0.6rem 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 0 0 auto;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-weight: 750;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      color var(--motion-fast) var(--ease-standard),
+      border-color var(--motion-fast) var(--ease-standard),
+      background var(--motion-fast) var(--ease-standard);
 
-      &:hover {
-        color: var(--color-text);
-      }
+    span {
+      color: var(--color-accent);
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+    }
+
+    &:hover {
+      border-color: var(--color-line);
+      background: var(--color-accent-soft);
+      color: var(--color-text);
     }
   }
 }
@@ -212,8 +256,38 @@ main,
 }
 
 @media (min-width: 48rem) {
-  .site-header nav {
-    display: flex;
+  .site-header {
+    position: sticky;
+    top: 0;
+    min-height: var(--header-height);
+    padding: var(--space-3) 0;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-6);
+    background: rgb(11 16 14 / 88%);
+    box-shadow: 0 1rem 2rem rgb(0 0 0 / 12%);
+    backdrop-filter: blur(1rem);
+  }
+
+  .site-header__masthead {
+    display: grid;
+    gap: 0.18rem;
+  }
+
+  .site-header__edition {
+    display: inline;
+  }
+
+  .site-nav {
+    justify-content: flex-end;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .site-nav a {
+    min-height: 2.45rem;
+    padding-inline: 0.7rem;
+    font-size: 0.76rem;
   }
 
   .site-footer {
@@ -224,6 +298,16 @@ main,
     p {
       text-align: right;
     }
+  }
+}
+
+@media (min-width: 68rem) {
+  .site-nav {
+    gap: var(--space-3);
+  }
+
+  .site-nav a {
+    font-size: 0.82rem;
   }
 }
 

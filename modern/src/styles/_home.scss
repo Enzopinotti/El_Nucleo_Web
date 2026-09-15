@@ -1,9 +1,19 @@
 .hero {
+  position: relative;
   min-height: calc(100vh - var(--header-height));
-  padding: clamp(4rem, 9vw, 8rem) 0 clamp(4.5rem, 9vw, 7rem);
+  padding: clamp(4.5rem, 9vw, 8rem) 0 clamp(5rem, 10vw, 8rem);
   display: grid;
   gap: var(--space-12);
   align-items: center;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 1.5rem 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-line-strong), transparent 72%);
+    pointer-events: none;
+  }
 }
 
 .hero__content {
@@ -27,6 +37,45 @@
   letter-spacing: 0.14em;
 }
 
+.hero__context {
+  max-width: 44rem;
+  margin-top: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-line);
+
+  > div {
+    min-width: 0;
+    padding: var(--space-4);
+    display: grid;
+    gap: var(--space-1);
+    background: rgb(11 16 14 / 88%);
+  }
+
+  > div:last-child {
+    grid-column: 1 / -1;
+  }
+
+  span {
+    color: var(--color-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  strong {
+    color: var(--color-text);
+    font-size: 0.86rem;
+    line-height: 1.3;
+  }
+}
+
 .hero__lead {
   max-width: 45rem;
   margin: 1.75rem 0 0;
@@ -46,52 +95,73 @@
   margin: 0;
   display: grid;
   gap: var(--space-3);
-  justify-items: center;
+}
 
-  figcaption {
-    max-width: 30rem;
-    color: var(--color-muted);
-    font-size: 0.78rem;
-    text-align: center;
-  }
+.hero__mark-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  color: var(--color-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hero__mark figcaption {
+  max-width: 30rem;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
 }
 
 .hero__mark-frame {
   position: relative;
-  width: min(72vw, 25rem);
-  aspect-ratio: 1;
+  width: min(100%, 29rem);
+  aspect-ratio: 4 / 5;
   display: grid;
   place-items: center;
-  border: 1px solid var(--color-line);
-  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-lg);
   background:
-    radial-gradient(circle, rgb(131 210 181 / 18%), transparent 63%),
+    linear-gradient(rgb(131 210 181 / 7%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(131 210 181 / 7%) 1px, transparent 1px),
+    radial-gradient(circle at 50% 42%, rgb(131 210 181 / 22%), transparent 42%),
     var(--color-surface);
+  background-size: 2rem 2rem, 2rem 2rem, auto, auto;
   box-shadow: var(--shadow-media);
 
   &::before,
   &::after {
     content: "";
     position: absolute;
-    border: 1px solid var(--color-line);
-    border-radius: 50%;
+    z-index: 2;
+    width: 2.3rem;
+    height: 2.3rem;
     pointer-events: none;
   }
 
   &::before {
-    inset: 7%;
+    top: var(--space-4);
+    left: var(--space-4);
+    border-top: 1px solid var(--color-accent);
+    border-left: 1px solid var(--color-accent);
   }
 
   &::after {
-    inset: 18%;
-    border-color: rgb(244 247 246 / 9%);
+    right: var(--space-4);
+    bottom: var(--space-4);
+    border-right: 1px solid var(--color-accent);
+    border-bottom: 1px solid var(--color-accent);
   }
 
   img {
     position: relative;
     z-index: 1;
-    width: 58%;
-    height: 58%;
+    width: 60%;
+    height: 60%;
     object-fit: contain;
     filter: drop-shadow(0 1rem 2rem rgb(0 0 0 / 36%));
   }
@@ -308,9 +378,19 @@
   }
 }
 
+@media (min-width: 40rem) {
+  .hero__context {
+    grid-template-columns: 0.7fr 0.9fr 1.4fr;
+  }
+
+  .hero__context > div:last-child {
+    grid-column: auto;
+  }
+}
+
 @media (min-width: 48rem) {
   .hero {
-    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+    grid-template-columns: minmax(0, 1.2fr) minmax(19rem, 0.8fr);
     gap: var(--section-gap);
   }
 
@@ -319,7 +399,7 @@
   }
 
   .hero__mark-frame {
-    width: min(34vw, 25rem);
+    width: min(33vw, 29rem);
   }
 
   .archive-gallery,
@@ -332,7 +412,7 @@
   .archive-gallery__intro,
   .section-heading {
     position: sticky;
-    top: var(--space-8);
+    top: var(--sticky-offset);
   }
 
   .archive-gallery__controls {

@@ -145,7 +145,7 @@
 
   .historical-contact__source {
     position: sticky;
-    top: 6rem;
+    top: var(--sticky-offset);
   }
 
   .historical-contact__fields {
