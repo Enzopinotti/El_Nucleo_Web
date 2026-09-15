@@ -80,7 +80,9 @@ describe("El Núcleo modern migration", () => {
       "Vimeo",
       "Twitter",
     ]) {
-      expect(screen.queryByRole("link", { name: network })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("link", { name: network }),
+      ).not.toBeInTheDocument();
     }
   });
 

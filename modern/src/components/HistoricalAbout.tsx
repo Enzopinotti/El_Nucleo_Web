@@ -58,8 +58,8 @@ export function HistoricalAbout({ statements }: HistoricalAboutProps) {
           <p>
             El objetivo es mostrar qué quería comunicar el proyecto original y
             cómo se documenta hoy esa historia. Cuando una afirmación necesita
-            evidencia actual, permanece fuera de la superficie moderna hasta
-            ser verificada.
+            evidencia actual, permanece fuera de la superficie moderna hasta ser
+            verificada.
           </p>
           <dl>
             <div>
