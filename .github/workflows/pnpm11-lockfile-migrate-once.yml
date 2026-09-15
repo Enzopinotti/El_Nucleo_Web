@@ -1,0 +1,63 @@
+name: pnpm 11 lockfile migration once
+
+on:
+  push:
+    branches:
+      - chore/2026-repository-hardening-audit
+    paths:
+      - .github/workflows/pnpm11-lockfile-migrate-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  migrate-lockfile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out hardening branch
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: chore/2026-repository-hardening-audit
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+        with:
+          version: 11.26.0
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version-file: .nvmrc
+
+      - name: Re-resolve lockfile under pnpm 11 supply-chain policy
+        working-directory: modern
+        run: |
+          pnpm clean --lockfile
+          pnpm install
+
+      - name: Qualify migrated dependency graph
+        working-directory: modern
+        run: pnpm check
+
+      - name: Commit only the migrated lockfile
+        run: |
+          git diff --check
+          git status --short
+          if git diff --quiet -- modern/pnpm-lock.yaml; then
+            echo "Lockfile required no migration changes."
+            exit 0
+          fi
+          unexpected="$(git diff --name-only | grep -v '^modern/pnpm-lock.yaml$' || true)"
+          if [ -n "$unexpected" ]; then
+            echo "Unexpected files changed during lockfile migration:"
+            echo "$unexpected"
+            exit 1
+          fi
+          git config user.name "Enzo Pinotti"
+          git config user.email "enzopinottii@gmail.com"
+          git add modern/pnpm-lock.yaml
+          git commit -m "chore(deps): migrate lockfile under pnpm 11 policy"
+          git push origin HEAD:chore/2026-repository-hardening-audit
