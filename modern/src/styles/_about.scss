@@ -1,4 +1,5 @@
 .about-section {
+  position: relative;
   padding: var(--section-space) 0;
   display: grid;
   gap: var(--section-gap);
@@ -11,23 +12,44 @@
 }
 
 .about-archive-grid {
+  counter-reset: about-card;
   display: grid;
   gap: var(--space-4);
 }
 
 .about-archive-card {
+  counter-increment: about-card;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   padding: var(--content-pad);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-lg);
   background:
     linear-gradient(145deg, var(--color-accent-soft), transparent 58%),
     var(--color-surface);
+  box-shadow: var(--shadow-soft);
+
+  &::after {
+    content: "0" counter(about-card);
+    position: absolute;
+    z-index: -1;
+    right: 0.6rem;
+    bottom: -0.8rem;
+    color: rgb(131 210 181 / 6%);
+    font-family: var(--font-mono);
+    font-size: clamp(4.5rem, 12vw, 8rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.08em;
+  }
 
   h3 {
+    max-width: 20ch;
     margin: var(--space-4) 0 0;
-    font-size: clamp(1.45rem, 4vw, 2rem);
-    line-height: 1.12;
-    letter-spacing: -0.03em;
+    font-size: clamp(1.55rem, 4vw, 2.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
   }
 
   blockquote {
@@ -38,14 +60,15 @@
     p {
       margin: 0;
       color: var(--color-text);
-      font-size: clamp(1.05rem, 2.4vw, 1.25rem);
-      line-height: 1.65;
+      font-size: clamp(1.02rem, 2.2vw, 1.2rem);
+      line-height: 1.68;
     }
 
     footer {
       margin-top: var(--space-4);
-      color: var(--color-muted);
-      font-size: 0.76rem;
+      color: var(--color-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
     }
 
     cite {
@@ -60,13 +83,16 @@
   flex-wrap: wrap;
   gap: var(--space-2) var(--space-4);
   color: var(--color-accent);
-  font-size: 0.7rem;
-  font-weight: 900;
-  letter-spacing: 0.11em;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .about-archive-card__context {
+  position: relative;
+  z-index: 1;
   margin: var(--space-6) 0 0;
   padding-top: var(--space-5);
   border-top: 1px solid var(--color-line);
@@ -75,42 +101,60 @@
 }
 
 .truth-boundary {
-  padding: var(--content-pad);
-  border-top: 1px solid var(--color-line-strong);
-  border-bottom: 1px solid var(--color-line-strong);
-  background: linear-gradient(90deg, var(--color-accent-soft), transparent 78%);
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.5rem, 4vw, 2.6rem);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(90deg, rgb(131 210 181 / 12%), transparent 75%),
+    var(--color-bg-soft);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0.2rem;
+    background: var(--color-accent);
+  }
 
   h3 {
-    max-width: 24ch;
+    max-width: 25ch;
     margin: var(--space-5) 0 0;
-    font-size: clamp(1.65rem, 4vw, 2.35rem);
-    line-height: 1.1;
-    letter-spacing: -0.035em;
+    font-size: clamp(1.75rem, 4vw, 2.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.045em;
   }
 
   > p {
-    max-width: 46rem;
+    max-width: 48rem;
     margin: var(--space-4) 0 0;
     color: var(--color-muted);
-    line-height: 1.7;
+    line-height: 1.72;
   }
 
   dl {
-    margin: 1.75rem 0 0;
+    margin: var(--space-8) 0 0;
     display: grid;
-    gap: 0.8rem;
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-line);
   }
 
   dl > div {
-    padding-top: 0.8rem;
+    min-width: 0;
+    padding: var(--space-4);
     display: grid;
     gap: var(--space-1);
-    border-top: 1px solid var(--color-line);
+    background: rgb(11 16 14 / 90%);
   }
 
   dt {
-    color: var(--color-muted);
-    font-size: 0.7rem;
+    color: var(--color-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
     font-weight: 850;
     letter-spacing: 0.09em;
     text-transform: uppercase;
@@ -118,7 +162,8 @@
 
   dd {
     margin: 0;
-    font-weight: 750;
+    font-weight: 760;
+    line-height: 1.4;
   }
 }
 
