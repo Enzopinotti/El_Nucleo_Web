@@ -100,6 +100,60 @@ It:
 - normalizes the main tablet breakpoint to `48rem` where equivalent behavior was intended;
 - leaves larger layout-specific breakpoints in place when they still represent a real component need.
 
+## Foundation production qualification
+
+The foundation pass was qualified against the production build before integration.
+
+### Automated quality
+
+Permanent repository quality completed successfully with:
+
+- Prettier;
+- ESLint with zero warnings;
+- TypeScript;
+- **19/19 Vitest behavior tests**;
+- Vite production build.
+
+### Browser qualification
+
+A Chrome **152.0.7977.82** production-build qualification ran at:
+
+- 360 × 900 px;
+- 768 × 1024 px;
+- 1440 × 1000 px.
+
+The first smoke incorrectly treated below-the-fold lazy images as failed before entering their viewport. The product was not changed to satisfy that false negative. A corrected qualification traversed the page, activated the existing `loading="lazy"` behavior and then validated the rendered state.
+
+The accepted evidence confirmed:
+
+- exactly one H1;
+- **zero horizontal overflow** at all three qualified widths;
+- all eight promoted images loaded after natural lazy-load traversal;
+- every audited chapter uses the same desktop content axis: `left = 128 px`, `right = 1312 px`, `width = 1184 px` at 1440 px viewport;
+- aligned chapters: Hero, Nosotros, Servicios, Backstage, Equipo, Contacto, Historia and Reconstrucción;
+- Contacto still contains **0 forms** and **0 input/textarea/select/button controls**;
+- Contacto privacy/no-collection boundary remains visible;
+- Equipo historical/current truth boundary remains visible;
+- fresh-page first Tab remains `Saltar al contenido` → `#main-content`;
+- reduced-motion forces document scroll behavior to `auto` and collapses transitions;
+- machine-readable failure list is empty.
+
+### Visual review
+
+Full-page mobile/tablet/desktop captures were reviewed in addition to the machine checks.
+
+The foundation is accepted because:
+
+- the historical green remains the dominant signal color without turning the UI into a neon redesign;
+- Home, Nosotros, Servicios, Backstage, Equipo and Contacto now read as one dark editorial system rather than independently padded migration slices;
+- removing the redundant nested Backstage/Equipo containers improves alignment without changing content or provenance;
+- the cards/surfaces are consistent enough to support further refinement but deliberately do not attempt the final visual personality yet;
+- Contacto reads as archive metadata, not as a disabled operational form;
+- mobile stacking stays readable with no horizontal escape;
+- the remaining weak point is intentional scope: narrow navigation is still hidden rather than having a dedicated mobile navigation pattern, which belongs to the next shell/navigation pass.
+
+Screenshots/raw QA evidence remain ephemeral CI artifacts rather than committed binaries.
+
 ## Historical boundary
 
 Never modernize by editing the historical root just to make the source look newer.
@@ -158,7 +212,7 @@ A material visual block is accepted only after:
 3. browser QA runs against the production build at 360 / 768 / 1440 px;
 4. keyboard/focus/reduced-motion regressions are checked;
 5. historical truth/privacy boundaries remain visible;
-6. promoted images load;
+6. promoted images load through their real loading strategy;
 7. screenshots are reviewed for hierarchy, density and alignment;
 8. temporary qualification tooling is removed before merge.
 
@@ -166,7 +220,7 @@ A material visual block is accepted only after:
 
 The system evolves in recoverable passes:
 
-1. foundation tokens and shared rhythm;
+1. foundation tokens and shared rhythm — **qualified in PR #23**;
 2. global shell/header/navigation;
 3. Home/hero/archive viewer;
 4. Nosotros;
