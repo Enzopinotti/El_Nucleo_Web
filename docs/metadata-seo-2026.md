@@ -6,17 +6,35 @@ The goal is discoverability **without converting historical material into invent
 
 ## Current authority
 
-The runtime metadata authority remains `modern/index.html`.
+The crawler-visible runtime metadata authority remains `modern/index.html`.
 
-The typed content authority introduced under #26 also models the qualified SEO narrative in `localLandingContent.seo`. That model exists so future build/content integration can reuse the same truth boundary; it does **not** currently replace the crawler-visible static HTML authority.
+The typed content authority introduced under #26 models the same qualified SEO narrative in `localLandingContent.seo`. The deployment/cutover lane now binds both authorities to the selected production origin instead of keeping deployment fields unresolved.
 
-The document deliberately describes what the site can prove today:
+The document describes only what the repository can prove:
 
 - El Núcleo is presented as an audiovisual project/archive;
 - the original public project belongs to 2022;
 - the current application is a 2026 reconstruction;
 - historical identity and visual material are preserved;
 - no current production-company operation, client relationship, location/service availability or commercial result is claimed.
+
+## Production authority
+
+The selected modern production origin is:
+
+```text
+https://el-nucleo-producciones.netlify.app/
+```
+
+This value is not inferred from a preview URL. During #5 the endpoint was probed directly and confirmed as an existing Netlify production site connected to this repository. Before cutover it served the historical 2022 document; PR #32 qualifies the modern build that will replace that deployment authority.
+
+GitHub Pages was also probed at:
+
+```text
+https://enzopinotti.github.io/El_Nucleo_Web/
+```
+
+It currently serves the historical 2022 root and is **not** the selected canonical modern origin. It must be treated as a historical/transition endpoint until Pages is deliberately disabled or otherwise resolved after the Netlify cutover is proven.
 
 ## Metadata present now
 
@@ -27,55 +45,81 @@ The modern document includes:
 - concise title and description;
 - application name;
 - dark theme/color-scheme metadata;
+- canonical URL bound to the selected Netlify origin;
 - Open Graph title, description, type, site name and `es_AR` locale;
-- Twitter summary-card title/description;
+- `og:url` bound to the production origin;
+- repository-owned absolute `og:image` using the preserved El Núcleo logo;
+- Open Graph image alt text;
+- Twitter summary-card title/description/image/alt;
 - strict-origin referrer policy.
 
 The metadata does **not** include the obsolete `keywords` field.
 
-## Deliberately deferred fields
+## Social preview
 
-The following remain absent until deployment authority exists:
+The social image is intentionally the already-qualified repository-owned historical logo:
 
-- `<link rel="canonical">`;
-- `og:url`;
-- `og:image` / social preview absolute URL;
-- `sitemap.xml`;
-- deployment-specific `robots.txt` decisions.
+```text
+https://el-nucleo-producciones.netlify.app/media/el-nucleo-logo.png
+```
 
-This is intentional. Those values require a stable public origin and route/cutover decision. A fake domain, repository preview URL or temporary branch URL must not become canonical SEO authority.
+A dedicated 1200×630 social artwork is not manufactured merely to satisfy a checklist. If a future visual asset is introduced, it must retain the same historical/current truth boundary and be qualified as part of the media contract.
 
-When production is selected, the cutover PR must update both this document and the automated document-contract test.
+## Sitemap and robots
 
-## Social preview rule
+Because the modern product is a single public document with in-page anchors, the sitemap contains exactly one URL:
 
-If a social preview is added later:
+```text
+https://el-nucleo-producciones.netlify.app/
+```
 
-1. it must be a repository-owned or deployment-owned asset;
-2. it must use a stable absolute production URL in social metadata;
-3. its copy must follow the same historical/current truth boundary as the page;
-4. it must not imply current clients, staff or operations unless those facts have been verified.
+`modern/public/robots.txt` allows crawling and points to:
+
+```text
+https://el-nucleo-producciones.netlify.app/sitemap.xml
+```
+
+Anchors such as `#nosotros` or `#servicios` are not emitted as fake sitemap routes.
 
 ## Content and SEO relationship
 
-The #26 content-platform slice establishes the structured authority needed to keep SEO and public content semantically aligned:
+The #26 content-platform slice established the structured authority used here:
 
 - `LandingContent` defines the aggregate contract;
-- `localLandingContent.seo` carries title/description/social-copy inputs plus unresolved deployment fields;
-- the SEO domain is `verified-current`, not historical;
-- `canonicalUrl` and `socialImage` remain explicitly `null` until deployment establishes stable values.
+- `localLandingContent.seo` carries title/description/social-copy inputs and production URLs;
+- the SEO domain remains `verified-current`, not historical;
+- `canonicalUrl` and `socialImage` now resolve to the selected production boundary;
+- provenance for the SEO domain includes `docs/deployment-cutover-2026.md`.
 
-For now, `modern/index.html` intentionally remains the runtime/crawler authority because React runtime injection would not improve this static landing's crawler determinism. If a future build pipeline starts generating metadata from the content authority, that change must make one source authoritative rather than maintaining two independently editable narratives.
+`modern/index.html` remains the runtime/crawler authority because static metadata is deterministic for this landing. The tests require the static document and typed content model to agree on the selected production URLs.
 
 ## Test contract
 
-`modern/src/__tests__/document-contract.test.tsx` protects the current runtime phase by checking that:
+`modern/src/__tests__/document-contract.test.tsx` now protects that:
 
 - title/description remain meaningful;
 - Open Graph site name/locale remain present;
 - no `keywords` metadata returns;
-- canonical, `og:url` and `og:image` remain absent while production authority is unresolved.
+- canonical equals the selected Netlify production origin;
+- `og:url` equals the same origin;
+- `og:image` and `twitter:image` use the same qualified absolute production asset.
 
-`modern/src/content/local-content.test.ts` additionally protects the content-platform side by requiring deployment-specific SEO inputs to remain unresolved (`null`) until that authority exists.
+`modern/src/content/local-content.test.ts` additionally requires the typed SEO authority to resolve the exact same canonical/social image values and to include deployment provenance.
 
-Once a real production origin exists, those expectations must be changed in the same reviewed change that introduces the canonical/social URLs.
+This replaces the pre-cutover tests that intentionally required those fields to remain `null`/absent.
+
+## Remaining deployment rule
+
+Deploy previews are qualification surfaces only. They do not become canonical URLs, sitemap authorities or social image origins.
+
+If the production hostname changes later — for example through a custom domain — the same change must update together:
+
+- `modern/index.html`;
+- `localLandingContent.seo`;
+- `robots.txt`;
+- `sitemap.xml`;
+- metadata/content tests;
+- this document;
+- the deployment/cutover contract.
+
+There must remain one explicit production-origin authority across the public document and its tests.
