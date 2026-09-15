@@ -325,8 +325,13 @@ export const localLandingContent = {
           path: "docs/metadata-seo-2026.md",
           year: 2026,
         },
+        {
+          kind: "repository",
+          path: "docs/deployment-cutover-2026.md",
+          year: 2026,
+        },
       ],
-      "La metadata describe un archivo/reconstrucción. Los campos dependientes de una URL productiva permanecen nulos hasta conocer el origen definitivo.",
+      "La metadata describe un archivo/reconstrucción y usa el origen Netlify seleccionado y comprobado para el cutover 2026.",
     ),
     data: {
       title: "El Núcleo | CINE — Archivo y reconstrucción 2026",
@@ -336,8 +341,9 @@ export const localLandingContent = {
       openGraphDescription:
         "Archivo y reconstrucción moderna del proyecto audiovisual El Núcleo, originalmente desarrollado en 2022.",
       locale: "es_AR",
-      canonicalUrl: null,
-      socialImage: null,
+      canonicalUrl: "https://el-nucleo-producciones.netlify.app/",
+      socialImage:
+        "https://el-nucleo-producciones.netlify.app/media/el-nucleo-logo.png",
     },
   },
 } satisfies LandingContent;
