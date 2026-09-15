@@ -21,7 +21,7 @@ Los archivos históricos siguen versionados y no se reescriben destructivamente 
 La aplicación nueva vive en [`modern/`](modern/) hasta el cutover controlado.
 
 - Node.js 24
-- pnpm 9.15.9 + lockfile reproducible
+- pnpm 11.26.0 + lockfile reproducible
 - React 19
 - TypeScript 6
 - Vite 8
@@ -30,7 +30,11 @@ La aplicación nueva vive en [`modern/`](modern/) hasta el cutover controlado.
 - ESLint + Prettier
 - GitHub Actions con permisos mínimos y actions fijadas a SHAs inmutables
 
-La autoridad de runtime se mantiene alineada entre `.nvmrc`, `modern/package.json` y CI.
+La autoridad de runtime/package manager está centralizada:
+
+- `.nvmrc` define Node 24 y CI lo consume directamente;
+- `modern/package.json#packageManager` define pnpm 11.26.0 y CI lo consume directamente;
+- `modern/package.json#engines` impide ejecutar el proyecto con una major de Node diferente.
 
 El contrato local y de CI es el mismo:
 
@@ -49,6 +53,26 @@ pnpm check
 4. TypeScript;
 5. tests;
 6. build de producción.
+
+## Supply-chain y dependencias
+
+La migración a pnpm 11 se hizo como cambio de seguridad, no sólo de versión.
+
+`modern/pnpm-workspace.yaml` codifica de forma explícita:
+
+- `minimumReleaseAge: 1440` — una dependencia nueva debe tener al menos 24 horas de publicada;
+- `minimumReleaseAgeStrict: true` — la regla también protege resoluciones transitivas;
+- `blockExoticSubdeps: true` — subdependencias exóticas quedan bloqueadas;
+- `@parcel/watcher` tiene su build script explícitamente denegado porque entra como dependencia opcional de Sass y el producto califica correctamente sin ejecutar ese postinstall nativo.
+
+Durante la migración, esta política detectó que el lockfile viejo contenía una versión de `brace-expansion` publicada hacía menos de 24 horas. En vez de desactivar la protección, el lockfile fue reconstruido bajo la política nueva y luego validado con el quality contract completo.
+
+También se ejecutó un audit one-shot sobre el graph congelado resultante:
+
+- dependencias de producción: sin findings `moderate` o superiores;
+- árbol completo, incluido tooling: sin findings `high` o superiores.
+
+El audit remoto no queda como gate permanente porque depende de disponibilidad/estado del servicio de advisories; la política reproducible de instalación sí queda versionada.
 
 ## Estado real de la reconstrucción
 
@@ -132,21 +156,34 @@ La matriz versionada está en [`docs/repository-audit-2026.md`](docs/repository-
 
 La regla de la auditoría es **evidencia antes que tooling**. No se agregan Docker, Storybook, coverage thresholds, CMS, analytics, plugins de lint o pipelines de imágenes sólo para que el repositorio parezca más complejo.
 
-## Primer hardening de #29
+## Hardening incorporado en #29
 
-La primera pasada encontró deuda real y acotada:
+La auditoría encontró y corrigió deuda concreta sin tocar el producto histórico:
 
-- `.nvmrc` todavía declaraba Node 22 mientras package/CI/docs requerían Node 24;
-- CI no se disparaba para cambios en README/docs/archivos de autoridad del repositorio;
-- los READMEs y el contrato de modernización seguían narrando #22/#26 como si fueran carriles activos.
-
-El hardening corrige esa deriva sin tocar el producto histórico:
-
-- `.nvmrc` → Node 24;
-- CI lee Node desde `.nvmrc`;
+- `.nvmrc` estaba en Node 22 mientras package/CI/docs requerían Node 24 → unificado en Node 24;
+- CI duplicaba versiones de runtime/package manager → ahora lee `.nvmrc` y `packageManager`;
+- pnpm 9 quedó atrás de las protecciones actuales → migrado a pnpm 11.26.0 con política supply-chain explícita;
+- una versión transitiva demasiado reciente quedó detectada y fue re-resuelta, no whitelisteada;
+- scripts de instalación no aprobados quedan bloqueados por policy;
+- CI no se disparaba para README/docs/archivos de autoridad → ahora sí;
 - `pnpm check` incorpora `docs:check`;
-- el workflow cubre README/docs/.nvmrc/.editorconfig/.gitignore;
-- documentación de estado sincronizada con `main`.
+- documentos Markdown heredados quedaron normalizados por el Prettier real del repo;
+- ESLint ahora convierte en error el uso de una versión de TypeScript no soportada por `typescript-eslint`;
+- TypeScript 6.0.3 se mantiene deliberadamente mientras el parser/linter soporte oficialmente `<6.1`, en vez de perseguir TypeScript 7 sin compatibilidad;
+- los 29 tests fueron revisados por riesgo: truth/provenance, document contract y comportamiento visible; no se agregó un porcentaje de coverage artificial;
+- el audit de dependencias no encontró vulnerabilidades dentro de los umbrales definidos.
+
+## Testing y browser QA
+
+La suite actual contiene **29 tests en 3 archivos**:
+
+- 6 de `localLandingContent` para truth/publication/provenance;
+- 4 del documento público para metadata, landmarks, navegación, media y Contacto;
+- 19 de comportamiento visible para las slices históricas, galería, equipo/clientes, Contacto y skip-link.
+
+No se agrega un coverage threshold nominal porque el valor actual está en proteger contratos de producto, no en maximizar porcentaje de líneas.
+
+Tampoco se incorpora por ahora una suite E2E/Playwright permanente: los invariantes DOM más valiosos ya tienen tests estables y las grandes pasadas visuales fueron calificadas en navegador de producción. El smoke real de la URL pública pertenece al cutover/post-deploy de #5, donde sí valida el entorno que el usuario recibe.
 
 ## Principios de la reconstrucción
 
@@ -218,14 +255,13 @@ CSP y headers de producción se definen en el carril de deploy cuando exista un 
 
 El orden actual es:
 
-1. completar #29 y mergear sólo hardening de alta confianza;
-2. dejar explícito qué se **adopta**, qué se **rechaza por innecesario**, qué se **difiere** y qué es **histórico**;
-3. actualizar #1 y #6 con el resultado definitivo de la auditoría;
-4. entregar a #5 una lista formada únicamente por bloqueos reales de cutover;
-5. elegir host/origen público;
-6. resolver base path, canonical/social preview/sitemap/robots y headers según ese host;
-7. documentar deploy + post-deploy smoke + rollback;
-8. recién entonces decidir la promoción de la aplicación moderna a la raíz.
+1. cerrar #29 después del merge/post-merge del hardening y dejar la matriz final;
+2. actualizar #1 y #6 con el resultado definitivo de la auditoría;
+3. entregar a #5 una lista formada únicamente por bloqueos reales de cutover;
+4. elegir host/origen público;
+5. resolver base path, canonical/social preview/sitemap/robots y headers según ese host;
+6. documentar deploy + post-deploy smoke + rollback;
+7. recién entonces decidir la promoción de la aplicación moderna a la raíz.
 
 ## Deploy y cutover
 
