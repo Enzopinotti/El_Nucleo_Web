@@ -47,10 +47,25 @@ export const localLandingContent = {
     data: {
       name: "El Núcleo",
       tag: "CINE",
+      logo: historicalLogo,
+    },
+  },
+  shell: {
+    truth: reconstructionTruth(
+      [
+        { kind: "repository", path: "README.md", year: 2026 },
+        {
+          kind: "repository",
+          path: "docs/modernization-2026.md",
+          year: 2026,
+        },
+      ],
+      "La edición y el pie describen la reconstrucción actual; no forman parte de la identidad histórica de 2022.",
+    ),
+    data: {
       edition: "Archivo 2022 · reconstrucción 2026",
       footerLine:
         "Proyecto histórico de Enzo Pinotti · original 2022 · reconstrucción 2026",
-      logo: historicalLogo,
     },
   },
   navigation: [
