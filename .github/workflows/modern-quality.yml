@@ -4,12 +4,22 @@ on:
   pull_request:
     paths:
       - modern/**
+      - README.md
+      - docs/**
+      - .editorconfig
+      - .gitignore
+      - .nvmrc
       - .github/workflows/modern-quality.yml
   push:
     branches:
       - main
     paths:
       - modern/**
+      - README.md
+      - docs/**
+      - .editorconfig
+      - .gitignore
+      - .nvmrc
       - .github/workflows/modern-quality.yml
 
 permissions:
@@ -40,7 +50,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: pnpm
           cache-dependency-path: modern/pnpm-lock.yaml
 
