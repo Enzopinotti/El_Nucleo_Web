@@ -202,7 +202,8 @@
   }
 
   .about-archive-card:first-child:nth-last-child(3) blockquote,
-  .about-archive-card:first-child:nth-last-child(3) .about-archive-card__context {
+  .about-archive-card:first-child:nth-last-child(3)
+    .about-archive-card__context {
     grid-column: 2;
   }
 
