@@ -20,31 +20,31 @@ The goal is not to accumulate tooling. The goal is to make the repository truthf
 
 ## Executive status
 
-| Area | Status | Current conclusion |
-| --- | --- | --- |
-| Historical preservation | **pass** | 2022 source remains inspectable and is not destructively rewritten. |
-| Runtime/package-manager authority | **improve → addressed in #29 hardening PR** | `.nvmrc` was stale at Node 22 while package/CI/docs use Node 24; Node 24 becomes the shared authority. |
-| Dependency surface | **pass** | Runtime dependencies remain only React + ReactDOM; no backend/UI/animation dependency creep. |
-| Lockfile/install reproducibility | **pass** | pnpm 9.15.9 + committed lockfile + frozen install in CI. |
-| CI permissions/supply chain | **pass** | Read-only contents, finite timeout, concurrency cancellation and immutable action SHAs. |
-| CI path coverage | **improve → addressed in #29 hardening PR** | README/docs/repository-authority files were able to change without the permanent quality workflow running. |
-| Local/CI contract equivalence | **improve → addressed in #29 hardening PR** | `pnpm check` now includes repository documentation formatting in addition to app checks. |
-| TypeScript baseline | **pass / review** | `strict: true`; `skipLibCheck: true` remains a deliberate review item, not an automatic failure. |
-| ESLint baseline | **pass / review** | Zero-warning lint exists; type-aware/React-specific rules need evidence before adoption. |
-| Tests | **pass / review** | 29 behavior/contract tests are green; coverage percentage is not adopted merely as a badge. |
-| Browser QA | **pass / review** | Material slices were qualified in production Chrome; permanence of a minimal smoke remains under evaluation. |
-| Modern runtime external scripts | **pass** | `modern/index.html` has no third-party script/embed runtime dependency. |
-| Secrets/env usage | **pass** | Repository search found no modern `process.env`/`import.meta.env` secret contract or credential-like runtime configuration. |
-| Contact/privacy boundary | **pass** | No live form, personal-data transport or fake-success state exists. |
-| Media/provenance | **pass** | Promoted historical media is local, provenance-backed and lazy below the hero where appropriate. |
-| Metadata truthfulness | **pass** | Current title/description/OG fields do not fabricate current operations or deployment URLs. |
-| Canonical/origin/social preview | **cutover-blocked** | Requires the real production origin. |
-| sitemap/robots | **cutover-blocked** | Requires final origin/route/host strategy. |
-| Root replacement | **cutover-blocked** | Must remain in #5 after audit completion. |
-| Rulesets | **defer/review** | Repository rulesets API currently returns an empty set. |
-| Branch protection | **unknown from current connector** | The integration cannot read the branch-protection endpoint; absence must not be inferred from that restriction. |
-| Automated dependency updates | **defer/review** | No updater is added until maintenance-noise vs value is evaluated for this small dependency surface. |
-| CONTRIBUTING/SECURITY/LICENSE | **defer/review** | Add only if they improve the real public-repository contract; do not create boilerplate files for appearance. |
+| Area                              | Status                                      | Current conclusion                                                                                                          |
+| --------------------------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Historical preservation           | **pass**                                    | 2022 source remains inspectable and is not destructively rewritten.                                                         |
+| Runtime/package-manager authority | **improve → addressed in #29 hardening PR** | `.nvmrc` was stale at Node 22 while package/CI/docs use Node 24; Node 24 becomes the shared authority.                      |
+| Dependency surface                | **pass**                                    | Runtime dependencies remain only React + ReactDOM; no backend/UI/animation dependency creep.                                |
+| Lockfile/install reproducibility  | **pass**                                    | pnpm 9.15.9 + committed lockfile + frozen install in CI.                                                                    |
+| CI permissions/supply chain       | **pass**                                    | Read-only contents, finite timeout, concurrency cancellation and immutable action SHAs.                                     |
+| CI path coverage                  | **improve → addressed in #29 hardening PR** | README/docs/repository-authority files were able to change without the permanent quality workflow running.                  |
+| Local/CI contract equivalence     | **improve → addressed in #29 hardening PR** | `pnpm check` now includes repository documentation formatting in addition to app checks.                                    |
+| TypeScript baseline               | **pass / review**                           | `strict: true`; `skipLibCheck: true` remains a deliberate review item, not an automatic failure.                            |
+| ESLint baseline                   | **pass / review**                           | Zero-warning lint exists; type-aware/React-specific rules need evidence before adoption.                                    |
+| Tests                             | **pass / review**                           | 29 behavior/contract tests are green; coverage percentage is not adopted merely as a badge.                                 |
+| Browser QA                        | **pass / review**                           | Material slices were qualified in production Chrome; permanence of a minimal smoke remains under evaluation.                |
+| Modern runtime external scripts   | **pass**                                    | `modern/index.html` has no third-party script/embed runtime dependency.                                                     |
+| Secrets/env usage                 | **pass**                                    | Repository search found no modern `process.env`/`import.meta.env` secret contract or credential-like runtime configuration. |
+| Contact/privacy boundary          | **pass**                                    | No live form, personal-data transport or fake-success state exists.                                                         |
+| Media/provenance                  | **pass**                                    | Promoted historical media is local, provenance-backed and lazy below the hero where appropriate.                            |
+| Metadata truthfulness             | **pass**                                    | Current title/description/OG fields do not fabricate current operations or deployment URLs.                                 |
+| Canonical/origin/social preview   | **cutover-blocked**                         | Requires the real production origin.                                                                                        |
+| sitemap/robots                    | **cutover-blocked**                         | Requires final origin/route/host strategy.                                                                                  |
+| Root replacement                  | **cutover-blocked**                         | Must remain in #5 after audit completion.                                                                                   |
+| Rulesets                          | **defer/review**                            | Repository rulesets API currently returns an empty set.                                                                     |
+| Branch protection                 | **unknown from current connector**          | The integration cannot read the branch-protection endpoint; absence must not be inferred from that restriction.             |
+| Automated dependency updates      | **defer/review**                            | No updater is added until maintenance-noise vs value is evaluated for this small dependency surface.                        |
+| CONTRIBUTING/SECURITY/LICENSE     | **defer/review**                            | Add only if they improve the real public-repository contract; do not create boilerplate files for appearance.               |
 
 ## A. Repository authority and documentation
 

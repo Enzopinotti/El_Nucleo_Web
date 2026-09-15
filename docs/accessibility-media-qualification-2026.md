@@ -55,14 +55,14 @@ The final cross-cutting PR must repeat the relevant production-browser checks af
 
 The current semantic token pairs were checked with the WCAG relative-luminance formula. Ratios below are rounded:
 
-| Foreground | Background | Contrast |
-| --- | --- | ---: |
-| `--color-text` `#f4f7f6` | `--color-bg` `#0b100e` | 17.80:1 |
-| `--color-muted` `#a9b7b2` | `--color-bg` `#0b100e` | 9.23:1 |
-| `--color-subtle` `#7f918a` | `--color-bg` `#0b100e` | 5.77:1 |
-| `--color-accent` `#83d2b5` | `--color-bg` `#0b100e` | 10.83:1 |
-| `--color-accent-ink` `#10201a` | `--color-accent` `#83d2b5` | 9.53:1 |
-| `--color-subtle` `#7f918a` | `--color-surface` `#16211e` | 4.97:1 |
+| Foreground                     | Background                  | Contrast |
+| ------------------------------ | --------------------------- | -------: |
+| `--color-text` `#f4f7f6`       | `--color-bg` `#0b100e`      |  17.80:1 |
+| `--color-muted` `#a9b7b2`      | `--color-bg` `#0b100e`      |   9.23:1 |
+| `--color-subtle` `#7f918a`     | `--color-bg` `#0b100e`      |   5.77:1 |
+| `--color-accent` `#83d2b5`     | `--color-bg` `#0b100e`      |  10.83:1 |
+| `--color-accent-ink` `#10201a` | `--color-accent` `#83d2b5`  |   9.53:1 |
+| `--color-subtle` `#7f918a`     | `--color-surface` `#16211e` |   4.97:1 |
 
 These core combinations clear the 4.5:1 WCAG AA threshold for normal text. They do **not** replace rendered-page review: transparency, overlays, imagery and future token changes still require visual/browser qualification.
 

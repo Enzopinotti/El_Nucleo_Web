@@ -13,7 +13,7 @@ Historical Git blob:
 The historical form declared:
 
 ```html
-<form action="" method="get" enctype="text/plain">
+<form action="" method="get" enctype="text/plain"></form>
 ```
 
 That is a critical part of the source contract. The 2022 repository does not contain a verified delivery endpoint that can support a real contact workflow.
@@ -22,13 +22,13 @@ That is a critical part of the source contract. The 2022 repository does not con
 
 `modern/src/content/historical-contact.ts` records the source contract as typed data:
 
-| Source label | Kind | Required in 2022 | Source name | Historical limit |
-| --- | --- | --- | --- | --- |
-| Nombre | text | yes | `userName` | — |
-| Apellido | text | yes | `userSurname` | — |
-| Correo | email | yes | `userMail` | — |
-| ¿Desea suscribirse a nuestro Newslatter? | checkbox | no | `newslatter` | — |
-| Consulta | textarea | yes | `consultas` | 400 chars |
+| Source label                             | Kind     | Required in 2022 | Source name   | Historical limit |
+| ---------------------------------------- | -------- | ---------------- | ------------- | ---------------- |
+| Nombre                                   | text     | yes              | `userName`    | —                |
+| Apellido                                 | text     | yes              | `userSurname` | —                |
+| Correo                                   | email    | yes              | `userMail`    | —                |
+| ¿Desea suscribirse a nuestro Newslatter? | checkbox | no               | `newslatter`  | —                |
+| Consulta                                 | textarea | yes              | `consultas`   | 400 chars        |
 
 The source typo `Newslatter` is preserved as historical wording and explicitly contextualized rather than silently corrected into a claim that a newsletter service exists.
 
