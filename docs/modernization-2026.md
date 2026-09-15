@@ -6,7 +6,7 @@ Modernizar el primer proyecto web histórico sin convertir el repositorio en una
 
 Baseline 2022 preservado: `6b23035cb6fffebbdd8ecd57c6752eae36f09b31`.
 
-La modernización funciona como una migración por slices: cada bloque preserva la fuente histórica, define una autoridad moderna, pasa quality gate y browser QA y recién después se integra a `main`.
+La modernización funciona como una migración por slices recuperables: cada bloque preserva la fuente histórica, define una autoridad moderna, pasa quality gate y QA relevante y recién después se integra a `main`.
 
 ## 2. Producto histórico inventariado
 
@@ -21,15 +21,18 @@ La modernización funciona como una migración por slices: cada bloque preserva 
 ### Contenido original
 
 **Inicio**
+
 - identidad El Núcleo / CINE;
 - cuatro carruseles de categorías audiovisuales;
 - logo e identidad visual propia.
 
 **Nosotros**
+
 - definición del proyecto como colectivo emprendedor audiovisual/publicitario;
 - visión y aspiraciones artísticas/sociales.
 
 **Servicios**
+
 - Videoclips;
 - Publicidad;
 - Cortometrajes;
@@ -37,11 +40,13 @@ La modernización funciona como una migración por slices: cada bloque preserva 
 - galería Backstage.
 
 **Equipo / referencias**
+
 - dos personas identificadas por nombre y fotografía;
 - enlaces personales de 2022;
 - dos referencias bajo `Clientes Habituales`.
 
 **Contacto**
+
 - nombre, apellido, correo, newsletter y consulta;
 - consulta limitada a 400 caracteres;
 - `action=""`, `method="get"`, `enctype="text/plain"`;
@@ -59,7 +64,7 @@ La modernización funciona como una migración por slices: cada bloque preserva 
 - metadata/SEO antigua;
 - ausencia de package contract, tests, lint, typecheck, build y CI reproducible.
 
-La raíz histórica sigue preservada durante la transición; la deuda no se “arregla” modificando el archivo de 2022 sino reemplazando su autoridad en la app moderna.
+La raíz histórica sigue preservada durante la transición; esta deuda no se “arregla” modificando el archivo 2022 sino reemplazando su autoridad en la app moderna.
 
 ## 4. Stack canónico 2026
 
@@ -74,15 +79,22 @@ La raíz histórica sigue preservada durante la transición; la deuda no se “a
 - Vitest + Testing Library;
 - GitHub Actions read-only con actions fijadas a SHAs inmutables.
 
+Autoridad de runtime:
+
+- `.nvmrc` → Node 24;
+- `modern/package.json#engines` → `>=24 <25`;
+- CI → `node-version-file: .nvmrc`.
+
 Contrato de validación:
 
 ```bash
+nvm use
 cd modern
 pnpm install --frozen-lockfile
 pnpm check
 ```
 
-`pnpm check` = format → lint → typecheck → test → production build.
+`pnpm check` = modern format → repository docs format → lint → typecheck → test → production build.
 
 ## 5. Decisiones de arquitectura ya tomadas
 
@@ -92,36 +104,47 @@ La experiencia moderna es editorial y de una sola página con anchors semántico
 
 ### Contenido histórico vs. presente
 
-Cada claim heredado indica su contexto. “Servicios”, “equipo” o “clientes” de 2022 no se transforman automáticamente en inventario comercial, staff o relaciones vigentes en 2026.
+Cada claim heredado conserva contexto. “Servicios”, “equipo” o “clientes” de 2022 no se transforman automáticamente en inventario comercial, staff o relaciones vigentes en 2026.
+
+### Autoridad de contenido
+
+La aplicación ya no depende de decisiones de contenido dispersas en JSX.
+
+```text
+historical sources + reviewed 2026 editorial facts
+                    ↓
+             LandingContent
+                    ↓
+          localLandingContent
+                    ↓
+               React UI
+```
+
+La autoridad distingue verdad (`historical`, `verified-current`, `unverified`, `draft`) de publicación (`public`, `withheld`).
+
+La identidad histórica y el shell editorial 2026 viven en dominios diferentes para no mezclar tiempos bajo una misma etiqueta.
 
 ### Media
 
-Sólo se promueven assets realmente usados por un slice. Cada copia moderna conserva path + blob SHA de origen. Hotlinks remotos no se convierten en dependencias esenciales.
+Sólo se promueven assets realmente usados. Cada copia moderna conserva path + blob SHA de origen. Hotlinks remotos no se convierten en dependencias esenciales.
 
 ### Contacto / datos personales
 
-El formulario histórico no tiene un destino real verificable y usa GET. La aplicación moderna no reproduce ese transporte, no inventa un endpoint y no simula éxito.
+El formulario histórico no tiene un destino verificable y usa GET. La aplicación moderna no reproduce ese transporte, no inventa un endpoint y no simula éxito.
 
-La autoridad moderna conserva el **contrato histórico** de campos como metadata no interactiva. Un futuro formulario operativo requiere un destino real, privacidad, validación, anti-spam y estados de entrega verificables.
+Un futuro formulario operativo requiere destino real, privacidad, validación, anti-spam y estados de entrega verificables.
 
 ### Evolución visual
 
-El sitio moderno no tiene que copiar píxel por píxel la versión 2022. Sí tiene que conservar una relación verificable con ella.
+La identidad histórica es fuente, no una obligación de pixel-copy.
 
-La regla es separar **fuente histórica** de **presentación moderna**:
-
-- `index.html`, `views/`, `scss/`, `css/` y los assets originales permanecen como evidencia histórica;
-- `modern/src/styles/` es la autoridad de presentación 2026;
-- `El Núcleo / CINE`, el verde `#83d2b5` y la identidad audiovisual son anclas históricas, no restricciones de layout;
-- la paleta moderna puede expandirse mediante tokens, sin renombrar el pasado ni borrar su color principal;
-- tipografía, escala, spacing, grids, superficies, navegación, estados y motion pueden evolucionar si mantienen accesibilidad y trazabilidad;
-- no se sobrescriben originales para “optimizarlos”;
-- derivados visuales/media requieren proceso reproducible cuando sean necesarios;
-- no se reintroducen Bootstrap/AOS/Animate.css/CDN sólo por nostalgia visual;
-- `prefers-reduced-motion`, contraste, foco y legibilidad son invariantes;
-- cambios visuales importantes deben pasar QA de producción en anchos representativos.
-
-La autoridad detallada vive en `docs/visual-system-2026.md`.
+- `index.html`, `views/`, `scss/`, `css/` y assets originales permanecen como evidencia;
+- `modern/src/styles/` es la autoridad 2026;
+- `El Núcleo / CINE`, `#83d2b5` y el carácter audiovisual son anclas trazables;
+- tipografía, spacing, grids, superficies, navegación, estados y motion evolucionan con accesibilidad;
+- originales no se sobrescriben;
+- no se reintroducen dependencias heredadas por nostalgia;
+- `prefers-reduced-motion`, contraste, foco, legibilidad y responsive son invariantes.
 
 ### Deploy
 
@@ -145,83 +168,86 @@ La raíz histórica sigue siendo la baseline desplegable hasta el cutover contro
 - CI permanente con permisos mínimos;
 - baseline de accesibilidad y metadata.
 
-### ✅ Fase 3A — Home
+### ✅ Fase 3 — migración de contenido histórico
 
-- identidad preservada;
-- hero;
-- una sola galería accesible para las cuatro categorías;
-- provenance;
-- browser QA y post-merge validation.
+Completados y mergeados:
 
-### ✅ Fase 3B — Nosotros
+- Home;
+- Nosotros;
+- Servicios + Backstage;
+- Equipo / referencias;
+- Contacto.
 
-- narrativa histórica tipada;
-- truth boundary explícito;
-- no conversión de aspiraciones de 2022 en hechos actuales;
-- browser QA y post-merge validation.
+Cada slice mantiene truth/provenance boundaries y fue validado con tests + build + QA relevante.
 
-### ✅ Fase 3C — Servicios + Backstage
+### ✅ Fase 4 — sistema visual y cierre transversal
 
-- una sola autoridad `historicalServices` compartida;
-- Backstage como grilla editorial sin autoplay;
-- cuatro assets promovidos byte-for-byte;
-- 12/12 tests y browser QA 360/768/1440;
-- post-merge validation.
+Completados:
 
-### ✅ Fase 4A — Equipo / referencias
+- tokens y ritmo compartido;
+- shell/header/navegación responsive;
+- composición editorial coherente;
+- foco/reduced-motion/contraste;
+- media local/lazy con provenance;
+- metadata honesta;
+- browser QA integrada 360/768/1440.
 
-- dos personas preservadas como etiquetas/fotos del archivo 2022;
-- sin roles inventados ni vigencia 2026 asumida;
-- referencias `Argentina Cultura` y `Grupo del Sud` tratadas como etiquetas históricas, no endorsements actuales;
-- Instagram personales y hotlink remoto excluidos;
-- 16/16 tests, browser QA 360/768/1440 y post-merge validation.
+Issues cerrados: #10, #11, #12 y #22.
 
-### ✅ Fase 4B — Contacto
+### ✅ Fase 5 — content platform readiness
 
-- autoridad tipada para el contrato exacto de la fuente 2022;
-- no se reproduce `GET` + action vacía;
-- no se recopilan ni transmiten datos personales;
-- campos históricos presentados como archivo no interactivo;
-- newsletter histórica contextualizada sin afirmar servicio actual;
-- no email/endpoint/success state inventado;
-- **19/19 tests**;
-- Prettier / ESLint / TypeScript / Vite build verdes;
-- Chrome 152.0.7977.82 browser QA en 360 / 768 / 1440;
-- cero formularios/controles de Contacto, cero transporte inventado, cero overflow y cero fallos de QA;
-- workflow temporal eliminado antes del merge;
-- PR #21 mergeado y quality post-merge verde en `main`.
+Completada en #26 / PR #28:
 
-### 🟡 Fase 5A — visual system + cross-cutting quality
+- contrato `LandingContent`;
+- `localLandingContent` como autoridad provenance-aware;
+- verdad y publicación explícitas;
+- identidad histórica separada del shell editorial 2026;
+- slots futuros de proyectos/contacto actuales vacíos y withheld;
+- documentación de semántica futura de provider/CMS;
+- sin CMS/admin/provider remoto especulativo;
+- 29/29 tests + quality + browser QA;
+- post-merge quality verde.
 
-Carril activo: #22.
+### 🟡 Fase 6 — repository-wide engineering audit / hardening
 
-Primer pase de foundation:
+Activa en #29.
 
-- ampliar tokens semánticos de color, tipografía, spacing, superficies, radios y motion;
-- corregir drift de nombres de tokens;
-- unificar ritmo vertical/horizontal entre slices;
-- eliminar insets redundantes de Backstage/Equipo;
-- normalizar breakpoints equivalentes;
-- mantener JSX, contenidos y assets sin cambios durante la foundation.
+Objetivos:
 
-Luego:
+- eliminar deriva de runtime/documentación/CI;
+- auditar supply-chain y dependencias;
+- revisar TypeScript/lint sólo por defectos concretos;
+- mapear tests a riesgo real;
+- decidir si conviene un browser smoke permanente mínimo;
+- auditar seguridad/privacy/performance;
+- dejar explícitos pass/improve/defer/historical/cutover-blocked;
+- entregar a #5 únicamente los bloqueos reales de deployment/cutover.
 
-- refinar shell/header/navigation;
-- revisar Home/hero/archive;
-- revisar Nosotros, Servicios/Backstage, Equipo y Contacto por separado;
-- cerrar contraste, focus-visible, reduced motion y responsive integral;
-- auditar media/dimensiones/layout shift;
-- cerrar metadata/SEO exacta y no comercialmente inventada;
-- ejecutar QA visual integral desktop/tablet/mobile.
+Matriz: `docs/repository-audit-2026.md`.
 
-### ⏳ Fase 5B — deploy + cutover
+Primer hardening:
 
-- links y base path;
-- production URL/canonical reales;
-- estrategia GitHub Pages/deploy verificada;
-- rollback;
-- README final 2022 → 2026;
-- reemplazo controlado de la raíz.
+- `.nvmrc` 22 → 24;
+- CI lee `.nvmrc`;
+- `pnpm check` incorpora formato de README/docs;
+- CI se dispara por README/docs/.nvmrc/.editorconfig/.gitignore;
+- estado documental actualizado.
+
+### ⏳ Fase 7 — deploy + cutover
+
+Propiedad: #5.
+
+Pendiente únicamente cuando #29 esté cerrado:
+
+- elegir host/origen;
+- confirmar `/` vs subpath;
+- canonical/`og:url`/`og:image` reales;
+- sitemap/robots si corresponde;
+- headers/CSP según host real;
+- artifact/source authority;
+- post-deploy smoke;
+- rollback al baseline 2022;
+- decisión explícita sobre promover `modern/` a raíz.
 
 ## 7. Invariantes
 
@@ -237,25 +263,43 @@ Luego:
 - third-party actions fijadas a commits inmutables;
 - provenance obligatorio para media promovida;
 - tooling temporal de QA se elimina antes del merge;
-- cada slice debe quedar recuperable y documentado.
+- cada slice debe quedar recuperable y documentado;
+- documentación de estado no puede quedar una fase detrás de la implementación;
+- deployment-specific values no se inventan antes de seleccionar el origen real.
 
-## 8. Definition of Done del cutover
+## 8. Non-adoptions deliberadas
 
-La nueva versión reemplaza la raíz sólo cuando cumple en conjunto:
+Mientras no exista necesidad concreta, esta modernización no agrega por apariencia:
+
+- Docker;
+- monorepo/task runner;
+- Storybook;
+- UI framework;
+- analytics;
+- CMS/admin/auth;
+- coverage threshold nominal;
+- screenshot regression infrastructure;
+- responsive-image pipeline sin medición;
+- canonical/URLs placeholder.
+
+## 9. Definition of Done del cutover
+
+La versión moderna reemplaza la raíz sólo cuando cumple en conjunto:
 
 - instalación desde clone limpio;
+- runtime/package manager coherentes;
 - lockfile consistente;
 - format/lint/typecheck/tests/build verdes;
 - CI verde en `main`;
 - navegación usable por teclado;
 - focus visible y reduced motion;
 - layout sin overflow en anchos representativos;
-- sistema visual 2026 consistente y documentado;
-- identidad histórica trazable sin depender del CSS/JS heredado;
-- media con dimensiones/aspect ratio controlado;
+- identidad histórica trazable;
+- media/provenance controlados;
 - sin secretos ni endpoints privados;
 - claims históricos con contexto verificable;
-- metadata/deploy URL reales;
+- metadata/origin reales;
 - Contacto sin comportamiento ficticio ni fuga por query string;
+- deploy y post-deploy smoke definidos;
 - rollback documentado;
 - README/documentación sincronizados con la implementación final.
