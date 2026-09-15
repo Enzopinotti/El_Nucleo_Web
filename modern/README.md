@@ -2,7 +2,7 @@
 
 This directory contains the 2026 reconstruction of the original 2022 El Núcleo site.
 
-It remains intentionally isolated under `modern/` until the final controlled cutover. The historical root HTML/SCSS/CSS stays intact as source evidence while the modern app owns the new runtime, behavior and presentation system.
+It remains intentionally isolated under `modern/` until the final controlled cutover. The historical root HTML/SCSS/CSS stays intact as source evidence while the modern app owns the new runtime, behavior, presentation and typed content authority.
 
 ## Runtime
 
@@ -29,14 +29,16 @@ Before a PR is considered reviewable:
 pnpm check
 ```
 
-`pnpm check` validates formatting, lint, type safety, behavior tests and the production build.
+`pnpm check` validates formatting, lint, type safety, behavior/contract tests and the production build.
 
 ## Source authority
 
 - `../index.html`, `../views/`, `../scss/`, `../css/`: historical 2022 implementation.
 - `src/`: source authority for the 2026 application.
+- `src/content/landing-content.ts`: presentation-independent aggregate content contract.
+- `src/content/local-content.ts`: current provenance-aware local content authority.
 - `src/content/historical-home.ts`: canonical four-category historical service dataset.
-- `src/content/historical-about.ts`: historical Nosotros statements plus current-truth context.
+- `src/content/historical-about.ts`: historical Nosotros statements and source context.
 - `src/content/historical-backstage.ts`: Backstage archive and exact provenance.
 - `src/content/historical-team.ts`: historical people and client-reference labels from Equipo.
 - `src/content/historical-contact.ts`: exact historical Contacto transport/field contract.
@@ -49,7 +51,7 @@ pnpm check
 
 Repository-level migration evidence lives in `../docs/`.
 
-## Content migration status
+## Historical content status
 
 All historical content slices are **merged and independently revalidated on `main`**.
 
@@ -63,13 +65,11 @@ Nosotros preserves what the 2022 project said about itself while making the hist
 
 ### Servicios + Backstage
 
-Servicios reuses the single `historicalServices` authority from Home. Backstage exposes all four preserved frames as a semantic responsive contact sheet without autoplay or another stateful carousel. The closure state completed 12/12 behavior tests plus browser qualification at 360 / 768 / 1440 px.
+Servicios reuses the single `historicalServices` authority from Home. Backstage exposes all four preserved frames as a semantic responsive contact sheet without autoplay or another stateful carousel.
 
 ### Equipo
 
-Equipo is represented as a historical record rather than a current staff/client directory. It preserves the two source labels/photos, omits unverified personal links and presents `Argentina Cultura` / `Grupo del Sud` only as source-attributed 2022 labels.
-
-The closure state completed **16/16 tests**, permanent quality and Chrome **152.0.7977.82** browser qualification at 360 / 768 / 1440 px, then passed post-merge `main` validation.
+Equipo is represented as a historical record rather than a current staff/client directory. It preserves the two source labels/photos, omits unverified personal links and presents historical client references only with source-era context.
 
 ### Contacto
 
@@ -81,51 +81,62 @@ The 2022 source used:
 
 No verified delivery backend exists in the repository. The modern app therefore preserves the contact **contract** instead of pretending the form is operational.
 
-`HistoricalContact`:
+`HistoricalContact` renders no live form or data-entry controls, invents no current email/API/newsletter destination and documents the historical GET + empty-action behavior without reproducing it.
 
-- exposes a semantic `#contacto` archive chapter;
-- lists the historical fields and required/optional state;
-- preserves the 400-character consultation limit;
-- records the literal `Newslatter` source wording with context;
-- states that 2026 data collection/transmission is not enabled;
-- explains why GET + empty action is not reproduced;
-- renders no `<form>`, textbox, checkbox or submit button;
-- invents no current email, API endpoint, newsletter provider or success state.
+## Visual and cross-cutting qualification
 
-The closure state completed:
+The 2026 presentation direction is an **editorial production archive / contact sheet / control surface**, not generic SaaS.
 
-- **19/19 Vitest tests**;
-- Prettier, ESLint, TypeScript and Vite production build;
-- Chrome **152.0.7977.82** production browser QA at 360 / 768 / 1440 px;
-- one H1;
-- zero Contacto forms or data-entry controls;
-- exact five historical field labels;
-- visible no-collection, GET and empty-action boundaries;
-- zero unverified contact/transport links;
-- zero generic external social links;
-- zero horizontal overflow at all qualified widths;
-- fresh-page first Tab on `Saltar al contenido` → `#main-content`;
-- reduced-motion scroll behavior = `auto`;
-- zero machine-readable browser failures;
-- post-merge `main` quality green.
+The integrated app has already been qualified for:
 
-## Active phase — visual system 2026
+- 360 / 768 / 1440 responsive layouts;
+- no global horizontal overflow;
+- semantic header/nav/main/footer and a single H1;
+- skip-link as the first keyboard stop;
+- visible focus and reduced-motion behavior;
+- local media with useful alt text and lazy loading below the hero;
+- historical Contacto remaining non-interactive;
+- core rendered contrast pairs above 4.5:1;
+- metadata that does not invent canonical/social URLs before a production origin exists.
 
-Issue #22 owns the next phase: turning the already-correct migration slices into one coherent visual system without modifying historical source files.
+Full visual contract: [`../docs/visual-system-2026.md`](../docs/visual-system-2026.md).
 
-The direction is **editorial production archive / contact sheet / control surface**, not generic SaaS.
+## Content platform 2026
 
-Historical anchors remain traceable:
+Issue #26 introduces the next maintainability boundary without adding a speculative CMS.
 
-- `El Núcleo / CINE`;
-- `#83d2b5` as the primary historical accent;
-- audiovisual character;
-- provenance-backed photography;
-- archive/current truth boundaries.
+The current architecture is:
 
-The first foundation pass consolidates semantic color, type, spacing, surface, radius and motion tokens; aligns section rhythm; removes duplicated nested insets; and normalizes equivalent breakpoints. It intentionally does not change JSX, content authority or asset paths.
+```text
+historical sources + reviewed 2026 editorial facts
+                    ↓
+             LandingContent
+                    ↓
+          localLandingContent
+                    ↓
+               React UI
+```
 
-Full contract: [`../docs/visual-system-2026.md`](../docs/visual-system-2026.md).
+`LandingContent` carries truth/publication semantics for claim-bearing domains:
+
+- `historical`;
+- `verified-current`;
+- `unverified`;
+- `draft`;
+- `public` / `withheld`.
+
+The local authority composes the already-qualified historical modules; it does not duplicate or overwrite them.
+
+A review-specific invariant keeps **historical identity** separate from the **2026 editorial shell**:
+
+- `siteIdentity` contains only the historical `El Núcleo / CINE` name/tag/logo and remains `historical`;
+- `shell` owns `Archivo 2022 · reconstrucción 2026` and the modern footer line and remains `verified-current`.
+
+Future current projects and current contact channels already have typed slots but are empty, `unverified` and `withheld` until real evidence exists.
+
+There is deliberately no remote provider interface, CMS dependency or `/admin` yet. A concrete second provider or asynchronous source semantics must exist before adding that abstraction.
+
+Full contract: [`../docs/content-platform-2026.md`](../docs/content-platform-2026.md).
 
 ## Quality contract
 
@@ -134,31 +145,23 @@ Every visual/content slice must continue to satisfy:
 1. `pnpm install --frozen-lockfile` succeeds on Node 24 with pnpm 9.15.9.
 2. `pnpm check` passes Prettier, ESLint, TypeScript, Vitest and the Vite production build.
 3. Historical claims/contracts remain represented through typed source/context data.
-4. Promoted historical media keeps path/blob provenance.
-5. Historical team/client/service/company claims are not promoted as current without verification.
-6. Personal-data collection is not enabled without a real transport/privacy contract.
-7. Permanent GitHub Actions remain read-only and pinned to immutable action SHAs.
-8. Browser QA covers responsive, keyboard, truth/privacy-boundary and reduced-motion behavior changed by a slice.
-9. Temporary formatter/visual qualification workflows are removed before final merge.
+4. Truth status and publication state cannot be inferred merely from record existence.
+5. Promoted historical media keeps path/blob provenance.
+6. Historical team/client/service/company claims are not promoted as current without verification.
+7. Personal-data collection is not enabled without a real transport/privacy contract.
+8. Permanent GitHub Actions remain read-only and pinned to immutable action SHAs.
+9. Browser QA covers responsive, keyboard, truth/privacy-boundary and reduced-motion behavior changed by a slice.
+10. Temporary formatter/visual qualification workflows are removed before final merge.
 
-## Visual evolution contract
-
-The modern app is allowed to look materially better than the 2022 site. It is not allowed to erase the evidence it evolved from.
-
-- original HTML/SCSS/CSS and archival assets remain untouched historical authority;
-- `modern/src/styles/` owns the 2026 presentation system;
-- new spacing, type scales, layout, surfaces, states and motion are introduced through explicit modern tokens/modules;
-- historical image originals are not destructively recompressed or overwritten;
-- image derivatives need a reproducible reason/process and provenance;
-- visual changes cannot reduce semantic quality, keyboard usability, focus visibility, contrast or reduced-motion support;
-- no legacy CDN/dependency is reintroduced only for visual nostalgia;
-- meaningful visual changes receive production browser QA rather than relying on screenshots alone.
+The current content-platform branch passes **29/29 tests** plus format, lint, TypeScript and production build before its final browser qualification.
 
 ## Accessibility baseline
 
 The app includes semantic landmarks, one H1, a skip link, visible focus treatment, useful alt text, mobile-first layout and reduced-motion handling.
 
 Contacto deliberately avoids disabled or fake controls. A future live form must add accessible labels, validation errors and delivery status tied to actual submission outcomes.
+
+A future editor/admin is held to the same standard; admin UI is not exempt from keyboard/focus/error semantics.
 
 ## Media policy
 
@@ -168,12 +171,14 @@ Only media used by an accepted slice is promoted. Originals remain untouched and
 
 ## Next gates
 
-- content slices: all merged + post-merge validated;
-- visual-system foundation: active under #22;
-- global shell + per-slice visual refinement: next inside #22;
-- #10 accessibility, #11 media and #12 metadata: integrated cross-cutting closure;
-- cutover: only after complete responsive/accessibility/browser QA plus deployment/base-path and rollback documentation.
+1. qualify and merge #26 from a clean branch HEAD;
+2. verify `main` post-merge;
+3. close only the cross-cutting issues whose acceptance criteria are genuinely satisfied;
+4. run the promised repository-wide engineering audit;
+5. resolve deployment origin/base path/rollback and only then perform cutover.
 
 ## Deployment boundary
 
-The historical root site remains the deployable baseline. Completion of content migration does not change that boundary. The modern application replaces the root only through an explicit controlled cutover.
+The historical root site remains the deployable baseline. Completion of content migration or content-platform readiness does not change that boundary.
+
+The modern application replaces the root only through an explicit controlled cutover with verified production origin, assets/base path, metadata, rollback and post-deploy checks.
