@@ -5,7 +5,10 @@ import { describe, expect, it } from "vitest";
 
 import { App } from "../App";
 
-const indexHtml = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
+const indexHtml = readFileSync(
+  new URL("../../index.html", import.meta.url),
+  "utf8",
+);
 
 function parseIndex() {
   return new DOMParser().parseFromString(indexHtml, "text/html");
@@ -20,17 +23,25 @@ describe("cross-cutting public document contract", () => {
     expect(document.title).toContain("2026");
 
     const description = document.querySelector('meta[name="description"]');
-    expect(description?.getAttribute("content")).toContain("proyecto audiovisual");
+    expect(description?.getAttribute("content")).toContain(
+      "proyecto audiovisual",
+    );
     expect(description?.getAttribute("content")).toContain("2022");
 
     expect(
-      document.querySelector('meta[property="og:site_name"]')?.getAttribute("content"),
+      document
+        .querySelector('meta[property="og:site_name"]')
+        ?.getAttribute("content"),
     ).toBe("El Núcleo — CINE");
     expect(
-      document.querySelector('meta[property="og:locale"]')?.getAttribute("content"),
+      document
+        .querySelector('meta[property="og:locale"]')
+        ?.getAttribute("content"),
     ).toBe("es_AR");
     expect(
-      document.querySelector('meta[name="twitter:card"]')?.getAttribute("content"),
+      document
+        .querySelector('meta[name="twitter:card"]')
+        ?.getAttribute("content"),
     ).toBe("summary");
 
     expect(document.querySelector('meta[name="keywords"]')).toBeNull();
@@ -54,7 +65,9 @@ describe("cross-cutting public document contract", () => {
       name: "Navegación principal",
     });
 
-    const links = [...navigation.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+    const links = [
+      ...navigation.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'),
+    ];
     expect(links.length).toBeGreaterThan(0);
 
     for (const link of links) {
