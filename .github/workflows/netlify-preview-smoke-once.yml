@@ -13,23 +13,46 @@ permissions:
 jobs:
   smoke-preview:
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 10
 
     steps:
       - name: Check out cutover branch
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
-      - name: Verify deployed document, assets and security headers
+      - name: Wait for the preview to serve the qualified head
         shell: bash
         run: |
           set -euo pipefail
 
           target="https://deploy-preview-32--el-nucleo-producciones.netlify.app"
+          expected='https://el-nucleo-producciones.netlify.app/'
+
+          for attempt in $(seq 1 30); do
+            body="$(curl --fail --silent --show-error --location "$target/" || true)"
+            if printf '%s' "$body" | grep -Fq "rel=\"canonical\"" \
+              && printf '%s' "$body" | grep -Fq "$expected"; then
+              echo "Preview is serving the production-metadata cutover head."
+              exit 0
+            fi
+            echo "Preview not updated yet (attempt $attempt/30)."
+            sleep 4
+          done
+
+          echo "Preview did not reach the qualified cutover head."
+          exit 1
+
+      - name: Verify deployed document, metadata, assets and security headers
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          target="https://deploy-preview-32--el-nucleo-producciones.netlify.app"
+          production="https://el-nucleo-producciones.netlify.app/"
+          social="${production}media/el-nucleo-logo.png"
           work="${RUNNER_TEMP}/netlify-preview-smoke"
           mkdir -p "$work"
 
           curl --fail --silent --show-error --location \
-            --retry 10 --retry-delay 2 --retry-all-errors \
             --dump-header "$work/document.headers" \
             --output "$work/document.html" \
             "$target/"
@@ -40,9 +63,13 @@ jobs:
           grep -Eq 'src="/assets/[^\"]+\.js"' "$work/document.html"
           grep -Eq 'href="/assets/[^\"]+\.css"' "$work/document.html"
 
-          ! grep -Eq '<link[^>]+rel="canonical"' "$work/document.html"
-          ! grep -Eq '<meta[^>]+property="og:url"' "$work/document.html"
-          ! grep -Eq '<meta[^>]+property="og:image"' "$work/document.html"
+          grep -Eq '<link[[:space:][:print:]]*rel="canonical"' "$work/document.html"
+          grep -Fq "href=\"$production\"" "$work/document.html"
+          grep -Fq 'property="og:url"' "$work/document.html"
+          grep -Fq "content=\"$production\"" "$work/document.html"
+          grep -Fq 'property="og:image"' "$work/document.html"
+          grep -Fq "content=\"$social\"" "$work/document.html"
+          grep -Fq 'name="twitter:image"' "$work/document.html"
 
           grep -Eiq '^content-security-policy: .*default-src .self.' "$work/document.headers.normalized"
           grep -Eiq '^content-security-policy: .*form-action .none.' "$work/document.headers.normalized"
@@ -56,10 +83,29 @@ jobs:
 
           curl --fail --silent --show-error --location --output /dev/null "$target$js_asset"
           curl --fail --silent --show-error --location --output /dev/null "$target$css_asset"
+          curl --fail --silent --show-error --location --output /dev/null "$target/media/el-nucleo-logo.png"
 
           curl --fail --silent --show-error --location --head "$target$js_asset" \
             | tr -d '\r' > "$work/asset.headers"
           grep -Eiq '^cache-control: .*max-age=31536000.*immutable' "$work/asset.headers"
+
+      - name: Verify robots and sitemap use the selected production origin
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          target="https://deploy-preview-32--el-nucleo-producciones.netlify.app"
+          production="https://el-nucleo-producciones.netlify.app/"
+
+          robots="$(curl --fail --silent --show-error --location "$target/robots.txt")"
+          printf '%s\n' "$robots" | grep -Fq 'User-agent: *'
+          printf '%s\n' "$robots" | grep -Fq 'Allow: /'
+          printf '%s\n' "$robots" | grep -Fq "Sitemap: ${production}sitemap.xml"
+
+          sitemap="$(curl --fail --silent --show-error --location "$target/sitemap.xml")"
+          printf '%s\n' "$sitemap" | grep -Fq "<loc>$production</loc>"
+          count="$(printf '%s\n' "$sitemap" | grep -o '<loc>' | wc -l | tr -d ' ')"
+          test "$count" = "1"
 
       - name: Verify the application renders under the enforced CSP
         shell: bash
@@ -97,56 +143,4 @@ jobs:
             exit 1
           fi
 
-          echo "Netlify preview smoke passed for $target"
-
-      - name: Discover current public endpoint authority
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          work="${RUNNER_TEMP}/public-endpoint-discovery"
-          mkdir -p "$work"
-
-          inspect() {
-            local label="$1"
-            local url="$2"
-            local body="$work/${label}.html"
-
-            local status
-            status="$(curl --silent --show-error --location \
-              --connect-timeout 15 --max-time 45 \
-              --output "$body" \
-              --write-out '%{http_code}' \
-              --url "$url" || true)"
-
-            local final_url
-            final_url="$(curl --silent --show-error --location \
-              --connect-timeout 15 --max-time 45 \
-              --output /dev/null \
-              --write-out '%{url_effective}' \
-              --url "$url" || true)"
-
-            echo "ENDPOINT[$label] requested=$url status=$status final=$final_url"
-
-            if [ "$status" = "200" ] && [ -s "$body" ]; then
-              local title
-              title="$(grep -oiE '<title>[^<]*</title>' "$body" | head -n 1 || true)"
-              echo "ENDPOINT[$label] $title"
-
-              if grep -Fq 'El Núcleo | CINE — Archivo y reconstrucción 2026' "$body"; then
-                echo "ENDPOINT[$label] authority=modern-2026"
-              elif grep -Fq 'El núcleo | Producciones' "$body"; then
-                echo "ENDPOINT[$label] authority=historical-2022"
-              else
-                echo "ENDPOINT[$label] authority=unknown"
-              fi
-            else
-              echo "ENDPOINT[$label] authority=unavailable"
-            fi
-          }
-
-          inspect netlify-production "https://el-nucleo-producciones.netlify.app/"
-          inspect github-pages "https://enzopinotti.github.io/El_Nucleo_Web/"
-
-          # Discovery is evidence, not a pass/fail gate. Preview qualification above remains strict.
-          exit 0
+          echo "Final Netlify preview smoke passed for $target"
