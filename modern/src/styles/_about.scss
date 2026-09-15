@@ -130,7 +130,7 @@
 
   .about-section__intro {
     position: sticky;
-    top: var(--space-8);
+    top: var(--sticky-offset);
   }
 
   .truth-boundary dl {
