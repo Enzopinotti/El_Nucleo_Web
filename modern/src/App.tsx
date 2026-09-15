@@ -1,9 +1,14 @@
 import { ArchiveGallery } from "./components/ArchiveGallery";
 import { BackstageArchive } from "./components/BackstageArchive";
 import { HistoricalAbout } from "./components/HistoricalAbout";
+import { HistoricalTeam } from "./components/HistoricalTeam";
 import { historicalAboutStatements } from "./content/historical-about";
 import { historicalBackstage } from "./content/historical-backstage";
 import { historicalLogo, historicalServices } from "./content/historical-home";
+import {
+  historicalClientReferences,
+  historicalPeople,
+} from "./content/historical-team";
 
 export function App() {
   return (
@@ -26,6 +31,7 @@ export function App() {
           <a href="#nosotros">Nosotros</a>
           <a href="#servicios">Servicios 2022</a>
           <a href="#backstage">Backstage</a>
+          <a href="#equipo">Equipo 2022</a>
           <a href="#historia">Historia</a>
         </nav>
       </header>
@@ -77,6 +83,11 @@ export function App() {
         </div>
 
         <BackstageArchive frames={historicalBackstage} />
+
+        <HistoricalTeam
+          people={historicalPeople}
+          clientReferences={historicalClientReferences}
+        />
 
         <section
           className="history-section"

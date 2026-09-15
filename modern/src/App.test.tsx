@@ -9,6 +9,10 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import { App } from "./App";
 import { historicalServices } from "./content/historical-home";
+import {
+  historicalClientReferences,
+  historicalPeople,
+} from "./content/historical-team";
 
 afterEach(() => {
   cleanup();
@@ -100,6 +104,10 @@ describe("El Núcleo modern migration", () => {
     expect(screen.getByRole("link", { name: "Backstage" })).toHaveAttribute(
       "href",
       "#backstage",
+    );
+    expect(screen.getByRole("link", { name: "Equipo 2022" })).toHaveAttribute(
+      "href",
+      "#equipo",
     );
   });
 
@@ -201,6 +209,77 @@ describe("El Núcleo modern migration", () => {
         /no confirma equipo, clientes, producciones ni relaciones vigentes en 2026/i,
       ),
     ).toBeInTheDocument();
+  });
+
+  it("keeps a typed two-person historical team authority", () => {
+    expect(historicalPeople.map(({ sourceLabel }) => sourceLabel)).toEqual([
+      "André Wilber Coronel Vargas",
+      "Lautaro Weimer",
+    ]);
+    expect(historicalPeople.every(({ historicalBlob }) => historicalBlob)).toBe(
+      true,
+    );
+  });
+
+  it("presents historical people without claiming current team membership", () => {
+    render(<App />);
+
+    const team = screen.getByRole("region", {
+      name: /personas que la página histórica mostraba/i,
+    });
+
+    expect(team).toHaveAttribute("id", "equipo");
+    expect(
+      within(team).getByRole("heading", {
+        name: "André Wilber Coronel Vargas",
+        level: 3,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(team).getByRole("heading", { name: "Lautaro Weimer", level: 3 }),
+    ).toBeInTheDocument();
+    expect(
+      within(team).getByText(/no confirma pertenencia, colaboración, rol/i),
+    ).toBeInTheDocument();
+    expect(
+      within(team).getAllByText(/vigencia 2026 · no verificada/i),
+    ).toHaveLength(2);
+  });
+
+  it("keeps 2022 client labels as source-attributed references, not current endorsements", () => {
+    expect(
+      historicalClientReferences.map(({ sourceLabel }) => sourceLabel),
+    ).toEqual(["Argentina Cultura", "Grupo del Sud"]);
+
+    render(<App />);
+
+    const team = screen.getByRole("region", {
+      name: /personas que la página histórica mostraba/i,
+    });
+    expect(
+      within(team).getByRole("heading", {
+        name: /clientes habituales.*2022/i,
+        level: 3,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(team).getByText(/no se afirma una relación comercial/i),
+    ).toBeInTheDocument();
+  });
+
+  it("does not carry historical personal Instagram or client links into the modern team archive", () => {
+    render(<App />);
+
+    const externalLinks = screen
+      .queryAllByRole("link")
+      .map((link) => link.getAttribute("href") || "")
+      .filter((href) => /^https?:\/\//i.test(href));
+
+    expect(
+      externalLinks.some((href) =>
+        /instagram\.com|argentina\.gob\.ar|grupodelsud\.com/i.test(href),
+      ),
+    ).toBe(false);
   });
 
   it("keeps a keyboard-oriented skip link to the main content", () => {

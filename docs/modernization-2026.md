@@ -6,9 +6,11 @@ Modernizar el primer proyecto web histórico sin convertir el repositorio en una
 
 Baseline 2022 preservado: `6b23035cb6fffebbdd8ecd57c6752eae36f09b31`.
 
-## 2. Inventario del producto histórico
+La modernización funciona como una migración por slices: cada bloque preserva la fuente histórica, define una autoridad moderna, pasa quality gate y browser QA y recién después se integra a `main`.
 
-### Navegación
+## 2. Producto histórico inventariado
+
+### Navegación original
 
 - Inicio
 - Nosotros
@@ -16,16 +18,16 @@ Baseline 2022 preservado: `6b23035cb6fffebbdd8ecd57c6752eae36f09b31`.
 - Equipo
 - Contacto
 
-### Contenido
+### Contenido original
 
 **Inicio**
 - identidad El Núcleo / CINE;
-- cuatro carruseles con material de servicios;
-- logo e identidad audiovisual.
+- cuatro carruseles de categorías audiovisuales;
+- logo e identidad visual propia.
 
 **Nosotros**
-- definición como colectivo emprendedor audiovisual/publicitario;
-- visión orientada a proyectos artísticos, campañas y colaboraciones.
+- definición del proyecto como colectivo emprendedor audiovisual/publicitario;
+- visión y aspiraciones artísticas/sociales.
 
 **Servicios**
 - Videoclips;
@@ -34,140 +36,172 @@ Baseline 2022 preservado: `6b23035cb6fffebbdd8ecd57c6752eae36f09b31`.
 - Coberturas;
 - galería Backstage.
 
-**Equipo / clientes**
-- integrantes históricos del proyecto;
-- enlaces sociales;
-- clientes/referencias que deben verificarse antes de volver a publicarse en una versión nueva.
+**Equipo / referencias**
+- dos personas identificadas por nombre y fotografía;
+- enlaces personales de 2022;
+- dos referencias bajo el encabezado `Clientes Habituales`.
 
 **Contacto**
-- formulario de nombre, apellido, correo, newsletter y consulta;
-- el formulario histórico tiene `action=""`, por lo que no existe un backend de envío real que deba preservarse como funcionalidad.
+- nombre, apellido, correo, newsletter y consulta;
+- `action=""`: no existía backend real de envío que deba preservarse como funcionalidad.
 
-### Identidad visual
+## 3. Deuda histórica reemplazada o contenida
 
-- color histórico principal: `#83d2b5`;
-- fondo/subtítulos grises;
-- logo existente;
-- tipografías de personalidad fuerte;
-- separadores gráficos;
-- fotografías de servicios, backstage, equipo y clientes.
-
-## 3. Deuda técnica histórica a reemplazar
-
-- Bootstrap, Animate.css, AOS, Google Fonts y Font Awesome cargados directamente por CDN;
-- markup repetido entre cinco documentos HTML;
+- Bootstrap, Animate.css, AOS, Google Fonts y Font Awesome cargados por CDN;
+- markup repetido entre documentos HTML;
 - elementos no estándar como `aside1` / `aside2`;
-- estilos inline y dimensiones fijas en imágenes;
-- navegación y footer duplicados;
-- gran cantidad de media queries manuales concentradas en un parcial SCSS;
-- CSS compilado versionado junto al fuente Sass;
-- formulario sin servicio de envío;
-- SEO antiguo (`meta keywords`) y ausencia de una estrategia social/canonical moderna;
-- sin package contract, tests, lint, typecheck, build reproducible ni CI.
+- estilos inline y dimensiones rígidas;
+- navegación/footer duplicados;
+- media queries históricas concentradas en un parcial grande;
+- CSS compilado versionado junto al Sass fuente;
+- formulario sin transporte;
+- metadata/SEO antigua;
+- ausencia de package contract, tests, lint, typecheck, build y CI reproducible.
 
-## 4. Stack objetivo
+La raíz histórica sigue preservada durante la transición; la deuda no se “arregla” modificando el archivo de 2022 sino reemplazando su autoridad en la app moderna.
 
-### Foundation
+## 4. Stack canónico 2026
 
-- Node.js 22;
-- npm + lockfile;
+- Node.js 24;
+- pnpm 9.15.9 + lockfile;
 - React 19;
-- TypeScript;
-- Vite;
-- Sass;
+- TypeScript 6;
+- Vite 8;
+- Sass moderno con `@use`;
 - ESLint;
 - Prettier;
 - Vitest + Testing Library;
-- GitHub Actions.
+- GitHub Actions read-only con actions fijadas a SHAs inmutables.
 
-### UX / frontend
+Contrato de validación:
 
-- componentes semánticos y reutilizables;
-- CSS/Sass mobile-first;
-- design tokens para color, spacing, typography y motion;
-- `prefers-reduced-motion`;
-- imágenes responsive, lazy loading fuera del hero y dimensiones explícitas;
-- navegación por teclado y focus visible;
-- landmarks y headings válidos;
-- evitar librerías de animación hasta que una interacción concreta las justifique.
+```bash
+cd modern
+pnpm install --frozen-lockfile
+pnpm check
+```
 
-## 5. Decisiones que NO se toman todavía
+`pnpm check` = format → lint → typecheck → test → production build.
 
-### Navegación final
+## 5. Decisiones de arquitectura ya tomadas
 
-El original usa cinco páginas. Antes de introducir React Router se va a decidir si el producto 2026 funciona mejor como:
+### Navegación
 
-1. experiencia editorial de una sola página con secciones y anchors; o
-2. rutas reales para Inicio / Nosotros / Servicios / Equipo / Contacto.
+La experiencia moderna actual es editorial y de una sola página con anchors semánticos. No se agregó React Router sólo para imitar los cinco HTML históricos.
 
-La decisión debe considerar SEO, deploy estático y experiencia móvil. No se agrega un router sólo porque el proyecto viejo tenía varios HTML.
+La decisión puede revisarse únicamente si una necesidad real de rutas/SEO/deep-linking lo justifica.
+
+### Contenido histórico vs. presente
+
+Cada claim heredado debe indicar su contexto. “Servicios”, “equipo” o “clientes” de 2022 no se transforman automáticamente en inventario comercial, staff o relaciones vigentes en 2026.
+
+### Media
+
+Sólo se promueven assets realmente usados por un slice. Cada copia moderna conserva path + blob SHA de origen. Hotlinks remotos no se convierten en dependencias esenciales.
 
 ### Formulario
 
-No se implementa backend en Fase 1. En una fase posterior se podrá elegir un servicio/serverless endpoint concreto. Hasta entonces no se simulará un envío exitoso.
+Contacto no se presenta como operativo hasta elegir un destino real. No habrá fake-success ni backend agregado sólo para exhibir tecnología.
 
 ### Deploy
 
-La versión histórica usa GitHub Pages. La versión nueva no reemplazará el deploy existente hasta tener quality gate y QA visual. Vercel/GitHub Pages u otro destino se decidirá después del scaffold.
+La raíz histórica sigue siendo la baseline desplegable hasta el cutover controlado.
 
-## 6. Fases recuperables
+## 6. Fases y estado real
 
-### Fase 1 — preservation / foundation
+### ✅ Fase 1 — preservation / foundation
 
-- README histórico;
-- este contrato;
-- Node/editor/ignore policy;
-- branch independiente;
-- cero cambio en la web publicada.
+- baseline documentado;
+- contratos de autoridad/rollback;
+- runtime y package manager definidos;
+- historial original preservado.
 
-### Fase 2 — scaffold
+### ✅ Fase 2 — scaffold moderno
 
-- package manifest y lockfile;
-- Vite + React + TypeScript + Sass;
-- app shell mínima;
-- tokens visuales iniciales;
+- `modern/` aislado;
+- React + TypeScript + Vite + Sass;
+- lockfile reproducible;
 - lint / format / typecheck / test / build;
-- CI;
-- primer smoke test.
+- CI permanente con permisos mínimos;
+- baseline de accesibilidad y metadata.
 
-### Fase 3 — Home
+### ✅ Fase 3A — Home
 
-- migrar identidad;
+- identidad preservada;
 - hero;
-- portfolio visual de servicios;
-- responsive y accesibilidad;
-- mantener assets sólo cuando tengan calidad/permiso suficiente.
+- una sola galería accesible para las cuatro categorías;
+- provenance;
+- browser QA y post-merge validation.
 
-### Fase 4 — contenido secundario
+### ✅ Fase 3B — Nosotros
 
-- Nosotros;
-- Servicios/backstage;
-- Equipo/clientes revisados;
-- Contacto.
+- narrativa histórica tipada;
+- truth boundary explícito;
+- no conversión de aspiraciones de 2022 en hechos actuales;
+- browser QA y post-merge validation.
 
-### Fase 5 — cierre
+### ✅ Fase 3C — Servicios + Backstage
 
-- performance;
-- SEO y social metadata;
+- una sola autoridad `historicalServices` compartida;
+- Backstage como grilla editorial sin autoplay;
+- cuatro assets promovidos byte-for-byte;
+- 12/12 tests y browser QA 360/768/1440;
+- post-merge validation.
+
+### 🟡 Fase 4A — Equipo / referencias
+
+- dos personas preservadas como etiquetas/fotos del archivo 2022;
+- sin roles inventados ni vigencia 2026 asumida;
+- referencias `Argentina Cultura` y `Grupo del Sud` tratadas como etiquetas históricas, no endorsements actuales;
+- Instagram personales y hotlink remoto excluidos;
+- quality/browser QA requeridos antes del merge.
+
+### ⏳ Fase 4B — Contacto
+
+- decidir si la versión pública necesita un canal real de contacto;
+- si hay formulario, transporte, validación, privacidad, spam, loading/error/success deben ser reales;
+- si no hay transporte, usar CTA/contacto explícito sin simular submit.
+
+### ⏳ Fase 5 — cierre cross-cutting + cutover
+
+- accesibilidad final;
+- metadata/SEO social/canonical real;
+- performance y media sólo con medición;
 - QA desktop/tablet/mobile;
-- reduced motion;
-- deploy controlado;
-- README final con comparativa 2022 → 2026.
+- enlaces;
+- deploy target y base path;
+- rollback;
+- README final 2022 → 2026;
+- reemplazo controlado de la raíz.
 
-## 7. Definition of Done para la futura versión 2026
+## 7. Invariantes
 
-La modernización no reemplaza `main` sólo por “verse moderna”. Debe cumplir como mínimo:
+- no inventar clientes, trabajos, cargos, métricas ni información comercial;
+- no borrar historia de Git;
+- no mega-PR;
+- no backend/CMS/IA sin necesidad real;
+- generated output nunca es autoridad manual;
+- CI no se relaja para hacer pasar código;
+- third-party actions fijadas a commits inmutables;
+- provenance obligatorio para media promovida;
+- tooling temporal de QA se elimina antes del merge;
+- cada slice debe quedar recuperable y documentado.
+
+## 8. Definition of Done del cutover
+
+La nueva versión reemplaza la raíz sólo cuando cumple en conjunto:
 
 - instalación desde clone limpio;
 - lockfile consistente;
-- lint sin warnings;
-- typecheck verde;
-- tests relevantes verdes;
-- production build verde;
-- CI verde;
-- navegación usable con teclado;
-- layout usable en móvil/desktop;
-- imágenes sin layout shift evitable;
-- sin secretos ni endpoints privados en el repo;
-- contenido verificable;
-- versión histórica rastreable desde documentación e historial.
+- format/lint/typecheck/tests/build verdes;
+- CI verde en `main`;
+- navegación usable por teclado;
+- focus visible y reduced motion;
+- layout sin overflow en anchos representativos;
+- media con dimensiones/aspect ratio controlado;
+- sin secretos ni endpoints privados;
+- claims históricos con contexto verificable;
+- metadata/deploy URL reales;
+- Contacto sin comportamiento ficticio;
+- rollback documentado;
+- README/documentación sincronizados con la implementación final.
