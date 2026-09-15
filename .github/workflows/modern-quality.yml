@@ -6,6 +6,7 @@ on:
       - modern/**
       - README.md
       - docs/**
+      - netlify.toml
       - .editorconfig
       - .gitignore
       - .nvmrc
@@ -17,6 +18,7 @@ on:
       - modern/**
       - README.md
       - docs/**
+      - netlify.toml
       - .editorconfig
       - .gitignore
       - .nvmrc
