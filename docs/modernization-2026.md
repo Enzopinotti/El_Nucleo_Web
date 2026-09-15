@@ -69,7 +69,7 @@ La raíz histórica sigue preservada durante la transición; esta deuda no se �
 ## 4. Stack canónico 2026
 
 - Node.js 24;
-- pnpm 9.15.9 + lockfile;
+- pnpm 11.26.0 + lockfile reproducible;
 - React 19;
 - TypeScript 6;
 - Vite 8;
@@ -79,11 +79,24 @@ La raíz histórica sigue preservada durante la transición; esta deuda no se �
 - Vitest + Testing Library;
 - GitHub Actions read-only con actions fijadas a SHAs inmutables.
 
-Autoridad de runtime:
+### Autoridad de runtime/package manager
 
 - `.nvmrc` → Node 24;
 - `modern/package.json#engines` → `>=24 <25`;
-- CI → `node-version-file: .nvmrc`.
+- `modern/package.json#packageManager` → pnpm 11.26.0;
+- CI lee `.nvmrc` y `packageManager` directamente en lugar de duplicar esas versiones.
+
+### Política de instalación y supply-chain
+
+`modern/pnpm-workspace.yaml` versiona la política de instalación:
+
+- antigüedad mínima de publicación: 24 horas;
+- enforcement estricto también para transitivas;
+- bloqueo de subdependencias exóticas;
+- scripts de build/install no se habilitan por defecto;
+- `@parcel/watcher`, dependencia opcional de Sass, queda explícitamente denegada porque la aplicación compila y prueba correctamente sin su postinstall nativo.
+
+La migración a pnpm 11 detectó una versión transitiva de `brace-expansion` publicada hacía menos de 24 horas. La protección no se relajó: el lockfile se reconstruyó bajo la nueva policy y luego pasó el quality contract.
 
 Contrato de validación:
 
@@ -210,28 +223,26 @@ Completada en #26 / PR #28:
 
 ### 🟡 Fase 6 — repository-wide engineering audit / hardening
 
-Activa en #29.
+Activa en #29 / PR #30.
 
-Objetivos:
-
-- eliminar deriva de runtime/documentación/CI;
-- auditar supply-chain y dependencias;
-- revisar TypeScript/lint sólo por defectos concretos;
-- mapear tests a riesgo real;
-- decidir si conviene un browser smoke permanente mínimo;
-- auditar seguridad/privacy/performance;
-- dejar explícitos pass/improve/defer/historical/cutover-blocked;
-- entregar a #5 únicamente los bloqueos reales de deployment/cutover.
-
-Matriz: `docs/repository-audit-2026.md`.
-
-Primer hardening:
+Hallazgos ya resueltos o calificados:
 
 - `.nvmrc` 22 → 24;
-- CI lee `.nvmrc`;
+- CI consume `.nvmrc`;
+- pnpm 9 → pnpm 11.26.0;
+- CI consume `packageManager`;
+- lockfile re-resuelto bajo política de antigüedad mínima y scripts explícitos;
 - `pnpm check` incorpora formato de README/docs;
-- CI se dispara por README/docs/.nvmrc/.editorconfig/.gitignore;
-- estado documental actualizado.
+- CI se dispara por README/docs/.nvmrc/.editorconfig/.gitignore/workflows;
+- Markdown histórico normalizado con el Prettier real del repo;
+- TypeScript 6.0.3 se mantiene por compatibilidad oficial del parser/linter;
+- ESLint falla ante una versión de TypeScript fuera del rango soportado;
+- los 29 tests fueron auditados contra riesgo real y no justifican coverage nominal;
+- un audit one-shot del graph congelado pasó sin findings `moderate+` en producción ni `high+` en el árbol completo;
+- no se encontraron secretos/env contracts modernos ni scripts externos de runtime;
+- un E2E/screenshot gate permanente se difiere: el smoke real debe validar la URL final en #5, no duplicar tests DOM ya cubiertos.
+
+Matriz completa: `docs/repository-audit-2026.md`.
 
 ### ⏳ Fase 7 — deploy + cutover
 
@@ -245,7 +256,7 @@ Pendiente únicamente cuando #29 esté cerrado:
 - sitemap/robots si corresponde;
 - headers/CSP según host real;
 - artifact/source authority;
-- post-deploy smoke;
+- post-deploy smoke sobre la URL pública;
 - rollback al baseline 2022;
 - decisión explícita sobre promover `modern/` a raíz.
 
@@ -265,7 +276,8 @@ Pendiente únicamente cuando #29 esté cerrado:
 - tooling temporal de QA se elimina antes del merge;
 - cada slice debe quedar recuperable y documentado;
 - documentación de estado no puede quedar una fase detrás de la implementación;
-- deployment-specific values no se inventan antes de seleccionar el origen real.
+- deployment-specific values no se inventan antes de seleccionar el origen real;
+- una dependencia recién publicada o un script de instalación no obtiene confianza automática sólo porque resuelva el semver.
 
 ## 8. Non-adoptions deliberadas
 
@@ -279,6 +291,7 @@ Mientras no exista necesidad concreta, esta modernización no agrega por aparien
 - CMS/admin/auth;
 - coverage threshold nominal;
 - screenshot regression infrastructure;
+- Playwright/E2E permanente antes de existir una URL de producción que valga la pena smoke-testear;
 - responsive-image pipeline sin medición;
 - canonical/URLs placeholder.
 
@@ -286,7 +299,7 @@ Mientras no exista necesidad concreta, esta modernización no agrega por aparien
 
 La versión moderna reemplaza la raíz sólo cuando cumple en conjunto:
 
-- instalación desde clone limpio;
+- instalación desde clone limpio bajo la policy de pnpm;
 - runtime/package manager coherentes;
 - lockfile consistente;
 - format/lint/typecheck/tests/build verdes;
