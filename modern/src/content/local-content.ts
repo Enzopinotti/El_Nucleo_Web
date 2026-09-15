@@ -1,4 +1,7 @@
-import { historicalAboutSource, historicalAboutStatements } from "./historical-about";
+import {
+  historicalAboutSource,
+  historicalAboutStatements,
+} from "./historical-about";
 import { historicalBackstage } from "./historical-backstage";
 import { historicalContactContract } from "./historical-contact";
 import { historicalLogo, historicalServices } from "./historical-home";
@@ -103,8 +106,7 @@ export const localLandingContent = {
         { label: "Reconstrucción", value: "2026" },
         { label: "Estado", value: "Archivo documentado" },
       ],
-      lead:
-        "La primera versión nació para presentar un colectivo vinculado a la producción audiovisual. Esta reconstrucción conserva esa identidad y su material visual, pero distingue con claridad el archivo histórico de cualquier actividad comercial actual.",
+      lead: "La primera versión nació para presentar un colectivo vinculado a la producción audiovisual. Esta reconstrucción conserva esa identidad y su material visual, pero distingue con claridad el archivo histórico de cualquier actividad comercial actual.",
       actions: [
         {
           label: "Explorar el archivo",
