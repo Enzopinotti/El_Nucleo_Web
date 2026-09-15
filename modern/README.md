@@ -2,7 +2,7 @@
 
 This directory contains the 2026 reconstruction of the original 2022 El Núcleo site.
 
-It remains intentionally isolated under `modern/` while migration is in progress. The historical root HTML/SCSS site stays intact until the replacement has reproducible CI plus visual, accessibility and content QA.
+It remains intentionally isolated under `modern/` while migration is in progress. The historical root HTML/SCSS site stays intact until the replacement has reproducible CI plus visual, accessibility, content and cutover QA.
 
 ## Runtime
 
@@ -15,7 +15,7 @@ It remains intentionally isolated under `modern/` while migration is in progress
 - Vitest + Testing Library
 - ESLint + Prettier
 
-TypeScript 6 is an intentional compatibility choice. Upgrading compiler/tooling majors is handled as a compatibility change, not as a version-number race.
+TypeScript 6 is an intentional compatibility choice. Toolchain majors change when compatibility is verified, not to chase version numbers.
 
 ## Local workflow
 
@@ -37,126 +37,124 @@ pnpm check
 
 - `../index.html`, `../views/`, `../scss/`, `../css/`: historical 2022 implementation.
 - `src/`: source authority for the 2026 application.
-- `src/content/historical-home.ts`: single typed authority for the four historical service categories already used by Home and Servicios.
-- `src/content/historical-about.ts`: typed authority for historical Nosotros statements and their current-truth context.
-- `src/content/historical-backstage.ts`: typed authority for the four Backstage frames and their exact historical provenance.
-- `src/content/public-asset.ts`: shared helper for application-owned public media paths.
+- `src/content/historical-home.ts`: canonical four-category historical service dataset.
+- `src/content/historical-about.ts`: historical Nosotros statements plus current-truth context.
+- `src/content/historical-backstage.ts`: Backstage archive and exact provenance.
+- `src/content/historical-team.ts`: historical people and client-reference labels from Equipo.
+- `src/content/public-asset.ts`: shared application-owned public-media path helper.
 - `public/media/`: only historical media intentionally promoted into the modern app.
 - `dist/`: generated production output; never hand-edit.
 - `pnpm-lock.yaml`: reproducible dependency resolution.
-- `../docs/modern-app-architecture.md`: migration/cutover architecture.
-- `../docs/home-migration-2026.md`: Home-specific design and qualification evidence.
-- `../docs/nosotros-migration-2026.md`: historical narrative/truth-boundary decisions and browser qualification for Nosotros.
-- `../docs/servicios-migration-2026.md`: service/archive authority, Backstage design decision and browser qualification.
-- `../docs/asset-provenance.md`: exact origin of promoted historical media.
+
+Repository-level migration evidence lives in `../docs/`.
 
 ## Current migration state
 
-The foundation, **Home** and **Nosotros** are merged and independently revalidated on `main`.
+The foundation, **Home**, **Nosotros** and **Servicios + Backstage** are merged and independently revalidated on `main`.
 
-Home replaced four duplicate Bootstrap carousels with one accessible archive gallery and completed production-build browser qualification at mobile, tablet and desktop widths.
+### Home
 
-Nosotros preserves what the 2022 project said about itself while making the historical/current boundary explicit. The old `Somos un colectivo...` and `Visión` statements remain source material with year/path context; the 2026 surface does not infer that the same organization is still operating, that NGO collaborations or a feature film were completed, or that the old service/team model remains current.
+Home preserves the `El Núcleo / CINE` identity and the historical green, and replaces four duplicate Bootstrap carousels with one controlled archive gallery. It passed behavior tests, permanent CI and production-build browser qualification.
 
-**Servicios** (#16) is implemented and fully qualified on its migration branch. It reuses the existing four-category archive authority rather than inventing another catalog, promotes only the four historical Backstage frames needed by the slice and replaces the historical Bootstrap autoplay carousel with a static responsive contact sheet.
+### Nosotros
 
-Generic Facebook/YouTube/Instagram/Vimeo/Twitter destinations from the old footer remain deliberately omitted because they were not verified El Núcleo accounts.
+Nosotros preserves what the 2022 project said about itself while making the historical/current boundary explicit. Aspirations, NGO references and the historical organization statement are not silently promoted into 2026 facts.
 
-`Equipo` and `Contacto` remain historical until their own migration lanes begin.
+### Servicios + Backstage
+
+Servicios reuses the single `historicalServices` authority from Home rather than creating another catalog. Backstage exposes all four preserved frames as a semantic responsive contact sheet, without autoplay or another stateful carousel.
+
+The slice completed 12/12 behavior tests plus production browser qualification at 360 / 768 / 1440 px before controlled merge.
+
+### Equipo — active lane
+
+Equipo is being migrated as a historical record, not as a current staff/client directory.
+
+The source page associated two local photographs with:
+
+- André Wilber Coronel Vargas;
+- Lautaro Weimer.
+
+The modern UI may preserve those source labels and exact historical photos, but explicitly states that 2026 membership, collaboration, role and relationship status are not verified.
+
+The source also placed `Argentina Cultura` and `Grupo del Sud` under `Clientes Habituales`. The modern app treats those as **source-attributed labels from the 2022 page**, not as current endorsements or commercial relationships.
+
+Personal Instagram links and the old remote Argentina Cultura logo are not promoted as modern dependencies.
 
 ## Quality contract
 
-Every migration slice must continue to satisfy:
+Every slice must continue to satisfy:
 
 1. `pnpm install --frozen-lockfile` succeeds on Node 24 with pnpm 9.15.9.
 2. `pnpm check` passes Prettier, ESLint, TypeScript, Vitest and the Vite production build.
-3. New historical claims are represented through typed source/context data rather than silently rewritten in JSX.
-4. Historical media keeps documented source-path and blob-SHA provenance.
+3. Historical claims are represented through typed source/context data rather than silently rewritten in JSX.
+4. Promoted historical media keeps path/blob provenance.
 5. Historical team/client/service/company claims are not promoted as current without verification.
 6. Permanent GitHub Actions remain read-only and pinned to immutable action SHAs.
-7. Browser QA covers the responsive and keyboard surface changed by the slice.
+7. Browser QA covers responsive, keyboard, truth-boundary and reduced-motion behavior changed by the slice.
+8. Temporary formatter/visual qualification workflows are removed before final merge.
 
-## Completed Home evidence
+## Completed qualification evidence
 
-Home has **5/5 behavior tests green** and passed the permanent pull-request quality workflow plus post-merge `main` validation.
+### Home
 
-Production-build browser evidence at 360 px, 768 px and 1440 px confirmed one H1, no horizontal overflow, the four-state gallery sequence, skip-link-first keyboard focus and reduced-motion behavior.
+- 5/5 behavior tests on its closure state;
+- production browser evidence at 360 / 768 / 1440 px;
+- one H1;
+- no horizontal overflow;
+- skip-link-first keyboard focus;
+- reduced-motion behavior.
 
-## Completed Nosotros evidence
+### Nosotros
 
-Nosotros completed the full repository contract with **9/9 Vitest tests green**, plus Prettier, ESLint, TypeScript and Vite production build before its controlled merge.
-
-Production-build browser qualification with **Chrome 152** covered:
-
-- full-page renders at 360 / 768 / 1440 px;
-- one H1 and correct Nosotros H2/H3 hierarchy;
-- no horizontal overflow at mobile or desktop widths;
+- 9/9 behavior tests on its closure state;
+- Chrome 152 production-build qualification;
+- one H1 and correct heading hierarchy;
+- no horizontal overflow;
 - no unverified historical social links;
-- explicit `No asumida` current-truth status;
-- fresh-page first Tab on the skip link;
-- reduced-motion behavior;
-- visual separation between historical quotations and 2026 editorial context;
-- regression review of Home/archive after adding the new section.
+- explicit current-truth boundary;
+- skip-link-first focus;
+- reduced-motion behavior.
 
-## Completed Servicios evidence
+### Servicios + Backstage
 
-Servicios completes the current repository contract with **12/12 Vitest tests green**, plus Prettier, ESLint, TypeScript and the Vite production build.
-
-Production-build browser qualification with **Chrome 152.0.7977.82** covered:
-
-- full-page renders at 360 / 768 / 1440 px;
-- no horizontal overflow at any qualified width;
-- exactly one H1;
-- service-category truth-boundary copy visible in the production DOM;
-- Backstage H2 present with all **4/4 historical images loaded**;
-- zero Backstage carousel buttons/controls;
-- explicit no-current-team/client/production interpretation;
-- no unverified historical social links;
-- fresh-page first Tab on the skip link;
-- reduced-motion scroll behavior resolving to `auto`;
-- visual review of the service viewer and Backstage contact sheet on mobile and desktop.
-
-The browser evidence is retained only as short-lived CI artifacts. The temporary smoke workflow is removed before final review and does not become permanent automation.
-
-## Servicios content model
-
-```text
-2022 service categories ──→ existing historicalServices authority ──→ one archive gallery
-
-2022 Backstage files ──→ exact Git blobs + provenance ──→ semantic contact sheet
-```
-
-The service categories remain historical source material. `Servicios Ofrecidos` is not silently converted into a current 2026 commercial offer.
-
-The four Backstage photographs are likewise archival evidence; they do not establish a current team, client, production or relationship.
+- 12/12 behavior tests on its closure state;
+- Prettier, ESLint, TypeScript and production build green;
+- Chrome 152.0.7977.82 browser qualification at 360 / 768 / 1440 px;
+- four Backstage images present;
+- zero Backstage controls/autoplay;
+- one H1;
+- no horizontal overflow;
+- no unverified generic social links;
+- fresh-page first Tab on `#main-content` skip link;
+- reduced-motion scroll behavior = `auto`.
 
 ## Accessibility baseline
 
-The app includes semantic landmarks, a skip link, visible focus treatment, native gallery controls, useful alt text, mobile-first layout and reduced-motion handling.
+The app includes semantic landmarks, one H1, a skip link, visible focus treatment, useful alt text, mobile-first layout and reduced-motion handling.
 
-Nosotros adds a named semantic section, H2/H3 hierarchy and source-attributed blockquotes without introducing new custom interaction.
+Historical content sections are explicitly named and use source/context copy to prevent archival material from being mistaken for current business information.
 
-Servicios keeps the existing keyboard-operable category gallery and adds Backstage without new controls, autoplay or custom focus management.
-
-Cross-cutting accessibility issue #10 remains open because later slices — especially Contact — introduce form/error/status requirements not present here.
+Cross-cutting accessibility issue #10 remains open because Contact introduces form/error/status requirements that earlier archive slices do not need.
 
 ## Media policy
 
-Do not copy the entire historical asset directory into `modern/`.
+Do not copy the entire historical asset tree into `modern/`.
 
-Only media used by a migrated slice is promoted. Original assets stay untouched; promoted files keep documented blob-level provenance. Optimization derivatives may be added later only with a reproducible process and visual review.
+Only media used by an accepted slice is promoted. Originals remain untouched and promoted files keep documented blob-level provenance. Optimization derivatives require measured need, a reproducible process and visual review.
 
-## Next migration gates
+For Equipo, the two people photographs are promoted byte-for-byte. Client logos are not required to preserve the source claim, so the remote government hotlink is not reintroduced and the local client logo stays historical unless a later decision justifies promotion.
 
-Migration continues in small reviewable slices rather than one rewrite:
+## Next gates
 
-- `Home`: merged + post-merge validated;
-- `Nosotros`: merged + post-merge validated;
-- `Servicios`: implemented + automated/browser qualified; ready for final merge once the permanent gate passes on the closure commit;
-- `Equipo`: historical people and client references treated as archive unless separately verified as current;
-- `Contacto`: no fake-success form; transport, validation, spam/privacy behavior and failure states must be explicit before the form is presented as operational;
-- cutover: only after all migrated slices have green CI, responsive/accessibility review and a documented rollback path.
+- `Home`: merged + post-merge validated.
+- `Nosotros`: merged + post-merge validated.
+- `Servicios + Backstage`: merged + post-merge validated.
+- `Equipo`: active implementation/qualification lane.
+- `Contacto`: next; no fake-success submission and no invented transport.
+- cross-cutting accessibility / metadata / performance: final pass after content migration.
+- cutover: only after complete responsive/accessibility/browser QA plus rollback documentation.
 
 ## Deployment boundary
 
-The historical root site remains the deployable baseline. Qualification of migrated slices does not change that boundary; the modern application will replace the root only after the remaining content slices, final QA and rollback/deployment plan are complete.
+The historical root site remains the deployable baseline. Qualification of migrated slices does not change that boundary. The modern application replaces the root only through an explicit controlled cutover.

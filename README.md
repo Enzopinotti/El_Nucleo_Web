@@ -1,67 +1,98 @@
 # El Núcleo — modernización 2026
 
-Este repositorio tiene un valor especial: conserva uno de mis primeros proyectos web, realizado en 2022 mientras aprendía HTML, CSS y Sass.
+Este repositorio conserva uno de mis primeros proyectos web públicos, realizado en 2022 mientras aprendía HTML, CSS y Sass. La versión original nació como una entrega de Coderhouse para una productora audiovisual ficticia/experimental llamada **El Núcleo CINE**.
 
-La versión histórica nació como una entrega de Coderhouse para una productora audiovisual ficticia/experimental llamada **El Núcleo CINE**. El objetivo de la modernización no es esconder ese origen, sino mostrar la evolución entre aquella primera implementación y la forma en que hoy estructuro, valido y mantengo una aplicación frontend.
+La modernización de 2026 no intenta borrar ese origen. El objetivo es mostrar una evolución real de ingeniería: preservar el baseline histórico, reconstruir el producto por slices, validar cada cambio con pruebas y CI, y distinguir explícitamente el archivo de 2022 de cualquier afirmación actual.
 
-## Versión histórica
+## Baseline histórico
 
-Baseline preservado en Git:
+El punto de referencia preservado es:
 
 ```text
 6b23035cb6fffebbdd8ecd57c6752eae36f09b31
 ```
 
-La implementación de 2022 incluye:
+La implementación de 2022 incluye HTML multipágina, Sass/CSS, Bootstrap por CDN, Animate.css/AOS, Font Awesome remoto, responsive manual, Home, Nosotros, Servicios, Equipo, Contacto, galerías, fotografías y una identidad audiovisual propia.
 
-- HTML multipágina;
-- CSS + Sass dividido en parciales;
-- Bootstrap 5 por CDN;
-- Animate.css / AOS;
-- Font Awesome remoto;
-- responsive manual;
-- Home, Nosotros, Servicios, Equipo y Contacto;
-- galerías de servicios y backstage;
-- identidad visual propia y assets del proyecto.
+Los archivos históricos siguen versionados y no se reescriben destructivamente durante la migración.
 
-Mientras avance la reconstrucción, esa versión sigue siendo parte de la historia del repositorio y no se reescribe ni se elimina del historial.
+## Stack moderno real
 
-## Objetivo 2026
+La aplicación nueva vive en [`modern/`](modern/) mientras se completa la transición.
 
-La nueva versión se construirá por bloques con:
+- Node.js 24
+- pnpm 9.15.9 + lockfile reproducible
+- React 19
+- TypeScript 6
+- Vite 8
+- Sass con `@use`
+- Vitest + Testing Library
+- ESLint + Prettier
+- GitHub Actions con permisos mínimos y actions fijadas a SHAs inmutables
 
-- Node.js 22 para tooling;
-- React 19;
-- TypeScript;
-- Vite;
-- Sass moderno;
-- arquitectura de componentes;
-- responsive mobile-first;
-- accesibilidad y soporte de `prefers-reduced-motion`;
-- SEO/social metadata actualizados;
-- Vitest + Testing Library para contratos que realmente aporten valor;
-- ESLint + Prettier + typecheck + build;
-- GitHub Actions reproducible.
+El contrato local y de CI es el mismo:
 
-No se agregará backend, CMS ni infraestructura sólo para hacer el stack más grande. Si una necesidad real aparece durante la migración, se evaluará como una decisión separada.
+```bash
+cd modern
+pnpm install --frozen-lockfile
+pnpm check
+```
 
-## Identidad que se conserva
+`pnpm check` ejecuta formato, lint, typecheck, tests y build de producción.
 
-La reconstrucción parte del producto original, no de una plantilla genérica. Se preservarán y reinterpretarán cuando tenga sentido:
+## Estado de migración
 
-- **El Núcleo / CINE** como identidad;
-- el verde histórico `#83d2b5` como referencia visual;
-- el enfoque audiovisual/cinematográfico;
+La reconstrucción ya superó la etapa de foundation. Los siguientes slices están **mergeados y revalidados en `main`**:
+
+- **Home** — identidad, hero y archivo de las cuatro categorías históricas;
+- **Nosotros** — narrativa de 2022 con límites explícitos entre fuente histórica y vigencia actual;
+- **Servicios + Backstage** — una sola autoridad para las categorías y una grilla editorial sin Bootstrap/autoplay.
+
+El slice activo es **Equipo / referencias históricas**. La migración conserva nombres y fotografías como evidencia de lo que mostraba la página de 2022, pero no los transforma en un directorio de equipo 2026 ni en claims actuales de clientes.
+
+Después siguen:
+
+1. Contacto, sin fake-success ni transporte inventado;
+2. cierre cross-cutting de accesibilidad, metadata/SEO y performance;
+3. cutover controlado con rollback documentado.
+
+La planificación principal se sigue en [#1](https://github.com/Enzopinotti/El_Nucleo_Web/issues/1) y el cierre global en [#5](https://github.com/Enzopinotti/El_Nucleo_Web/issues/5).
+
+## Principios de la reconstrucción
+
+- preservar la historia del repositorio;
+- no inventar clientes, trabajos, roles, métricas ni actividad comercial actual;
+- mantener provenance de cada asset histórico promovido;
+- usar una sola fuente de verdad por contenido compartido;
+- evitar dependencias sólo para replicar un efecto visual heredado;
+- no habilitar formularios o integraciones que aparenten funcionar sin un contrato real;
+- trabajar en slices recuperables, con Draft PR, quality gate y browser QA;
+- eliminar tooling temporal de QA antes del merge;
+- no reemplazar la raíz histórica hasta completar el cutover.
+
+## Identidad preservada
+
+La versión moderna conserva como archivo y referencia de diseño:
+
+- **El Núcleo / CINE**;
+- el verde histórico `#83d2b5`;
+- la identidad audiovisual;
 - Videoclips, Publicidad, Cortometrajes y Coberturas;
-- material de backstage;
-- contenido institucional y del equipo que siga siendo válido.
+- material de Backstage;
+- contenido institucional y de personas sólo con contexto histórico explícito.
 
-No se inventarán clientes, producciones, métricas ni información comercial nueva.
+## Documentación
 
-## Estado
+- [`docs/modernization-2026.md`](docs/modernization-2026.md) — contrato y fases reales de la migración;
+- [`docs/modern-app-architecture.md`](docs/modern-app-architecture.md) — autoridad, arquitectura y cutover;
+- [`docs/asset-provenance.md`](docs/asset-provenance.md) — origen exacto de media promovida;
+- [`docs/home-migration-2026.md`](docs/home-migration-2026.md) — Home;
+- [`docs/nosotros-migration-2026.md`](docs/nosotros-migration-2026.md) — Nosotros;
+- [`docs/servicios-migration-2026.md`](docs/servicios-migration-2026.md) — Servicios + Backstage;
+- [`docs/equipo-migration-2026.md`](docs/equipo-migration-2026.md) — Equipo y referencias históricas.
 
-La modernización se sigue en [#1](https://github.com/Enzopinotti/El_Nucleo_Web/issues/1).
+## Deploy y cutover
 
-Actualmente estamos en **Fase 1 — preservación y foundation**. El sitio histórico todavía no fue reemplazado.
+La raíz histórica sigue siendo la baseline desplegable. Que un slice moderno esté completo no implica que la nueva app haya reemplazado todavía el sitio original.
 
-Ver [`docs/modernization-2026.md`](docs/modernization-2026.md) para el plan técnico y el inventario de migración.
+El cutover se hará únicamente cuando contenido, accesibilidad, metadata, responsive, browser QA, build y rollback estén documentados y verdes en conjunto.
