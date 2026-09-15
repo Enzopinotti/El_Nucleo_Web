@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { App } from "../App";
@@ -59,12 +59,13 @@ describe("cross-cutting public document contract", () => {
     expect(container.querySelector("main#main-content")).not.toBeNull();
     expect(container.querySelector("footer")).not.toBeNull();
 
-    const navigation = screen.getByRole("navigation", {
-      name: "Navegación principal",
-    });
+    const navigation = container.querySelector<HTMLElement>(
+      'nav[aria-label="Navegación principal"]',
+    );
+    expect(navigation).not.toBeNull();
 
     const links = [
-      ...navigation.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'),
+      ...navigation!.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'),
     ];
     expect(links.length).toBeGreaterThan(0);
 
@@ -76,14 +77,13 @@ describe("cross-cutting public document contract", () => {
   });
 
   it("keeps promoted media local, described and lazy below the hero", () => {
-    render(<App />);
+    const { container } = render(<App />);
 
-    const images = screen.getAllByRole("img");
+    const images = [...container.querySelectorAll<HTMLImageElement>("img")];
     expect(images.length).toBeGreaterThan(1);
 
-    const heroLogo = screen.getByAltText(
-      "Logotipo histórico de El Núcleo utilizado en el sitio de 2022",
-    );
+    const heroLogo = container.querySelector<HTMLImageElement>(".hero__mark img");
+    expect(heroLogo).not.toBeNull();
     expect(heroLogo).not.toHaveAttribute("loading", "lazy");
 
     for (const image of images) {
