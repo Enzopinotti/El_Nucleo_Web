@@ -46,6 +46,7 @@ jobs:
       - name: Format and validate Nosotros
         working-directory: modern
         run: |
+          # Use the exact formatter resolved by the committed lockfile before running the full contract.
           pnpm format
           pnpm check
 
