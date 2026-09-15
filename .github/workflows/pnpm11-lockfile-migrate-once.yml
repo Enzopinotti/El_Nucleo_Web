@@ -32,7 +32,7 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-      - name: Re-resolve lockfile under pnpm 11 supply-chain policy
+      - name: Re-resolve lockfile under explicit pnpm 11 policy
         working-directory: modern
         run: |
           pnpm clean --lockfile
