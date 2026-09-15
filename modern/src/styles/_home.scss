@@ -11,7 +11,11 @@
     position: absolute;
     inset: 1.5rem 0 auto;
     height: 1px;
-    background: linear-gradient(90deg, var(--color-line-strong), transparent 72%);
+    background: linear-gradient(
+      90deg,
+      var(--color-line-strong),
+      transparent 72%
+    );
     pointer-events: none;
   }
 }
@@ -130,7 +134,11 @@
     linear-gradient(90deg, rgb(131 210 181 / 7%) 1px, transparent 1px),
     radial-gradient(circle at 50% 42%, rgb(131 210 181 / 22%), transparent 42%),
     var(--color-surface);
-  background-size: 2rem 2rem, 2rem 2rem, auto, auto;
+  background-size:
+    2rem 2rem,
+    2rem 2rem,
+    auto,
+    auto;
   box-shadow: var(--shadow-media);
 
   &::before,

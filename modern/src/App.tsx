@@ -73,7 +73,10 @@ export function App() {
               CINE · PRODUCCIÓN AUDIOVISUAL · ARCHIVO
             </p>
 
-            <div className="hero__context" aria-label="Contexto temporal del proyecto">
+            <div
+              className="hero__context"
+              aria-label="Contexto temporal del proyecto"
+            >
               <div>
                 <span>Origen</span>
                 <strong>2022</strong>
