@@ -98,3 +98,55 @@ jobs:
           fi
 
           echo "Netlify preview smoke passed for $target"
+
+      - name: Discover current public endpoint authority
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          work="${RUNNER_TEMP}/public-endpoint-discovery"
+          mkdir -p "$work"
+
+          inspect() {
+            local label="$1"
+            local url="$2"
+            local body="$work/${label}.html"
+
+            local status
+            status="$(curl --silent --show-error --location \
+              --connect-timeout 15 --max-time 45 \
+              --output "$body" \
+              --write-out '%{http_code}' \
+              --url "$url" || true)"
+
+            local final_url
+            final_url="$(curl --silent --show-error --location \
+              --connect-timeout 15 --max-time 45 \
+              --output /dev/null \
+              --write-out '%{url_effective}' \
+              --url "$url" || true)"
+
+            echo "ENDPOINT[$label] requested=$url status=$status final=$final_url"
+
+            if [ "$status" = "200" ] && [ -s "$body" ]; then
+              local title
+              title="$(grep -oiE '<title>[^<]*</title>' "$body" | head -n 1 || true)"
+              echo "ENDPOINT[$label] $title"
+
+              if grep -Fq 'El Núcleo | CINE — Archivo y reconstrucción 2026' "$body"; then
+                echo "ENDPOINT[$label] authority=modern-2026"
+              elif grep -Fq 'El núcleo | Producciones' "$body"; then
+                echo "ENDPOINT[$label] authority=historical-2022"
+              else
+                echo "ENDPOINT[$label] authority=unknown"
+              fi
+            else
+              echo "ENDPOINT[$label] authority=unavailable"
+            fi
+          }
+
+          inspect netlify-production "https://el-nucleo-producciones.netlify.app/"
+          inspect github-pages "https://enzopinotti.github.io/El_Nucleo_Web/"
+
+          # Discovery is evidence, not a pass/fail gate. Preview qualification above remains strict.
+          exit 0
