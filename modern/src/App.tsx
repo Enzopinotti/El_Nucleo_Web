@@ -1,4 +1,6 @@
 import { ArchiveGallery } from "./components/ArchiveGallery";
+import { HistoricalAbout } from "./components/HistoricalAbout";
+import { historicalAboutStatements } from "./content/historical-about";
 import { historicalLogo, historicalServices } from "./content/historical-home";
 
 export function App() {
@@ -19,6 +21,7 @@ export function App() {
         </a>
 
         <nav aria-label="Navegación principal">
+          <a href="#nosotros">Nosotros</a>
           <a href="#archivo">Archivo</a>
           <a href="#historia">Historia</a>
           <a href="#reconstruccion">Reconstrucción</a>
@@ -64,6 +67,8 @@ export function App() {
             </figcaption>
           </figure>
         </section>
+
+        <HistoricalAbout statements={historicalAboutStatements} />
 
         <div id="archivo">
           <ArchiveGallery services={historicalServices} />

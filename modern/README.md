@@ -37,48 +37,89 @@ pnpm check
 
 - `../index.html`, `../views/`, `../scss/`, `../css/`: historical 2022 implementation.
 - `src/`: source authority for the 2026 application.
+- `src/content/historical-home.ts`: typed authority for Home/archive content promoted into the modern surface.
+- `src/content/historical-about.ts`: typed authority for historical Nosotros statements and their current-truth context.
 - `public/media/`: only historical media intentionally promoted into the modern app.
 - `dist/`: generated production output; never hand-edit.
 - `pnpm-lock.yaml`: reproducible dependency resolution.
 - `../docs/modern-app-architecture.md`: migration/cutover architecture.
 - `../docs/home-migration-2026.md`: Home-specific design and qualification evidence.
+- `../docs/nosotros-migration-2026.md`: historical narrative/truth-boundary decisions and browser qualification for Nosotros.
 - `../docs/asset-provenance.md`: exact origin of promoted historical media.
 
 ## Current migration state
 
-The foundation is merged and verified on `main`.
+The foundation and **Home** are merged and independently revalidated on `main`.
 
-The **Home** slice has completed its technical and browser qualification in its dedicated PR lane. It replaces the four duplicate Bootstrap carousels from the historical root page with one accessible, manually controlled archive gallery while preserving the historical logo, service categories and `#83d2b5` accent.
+Home replaced four duplicate Bootstrap carousels with one accessible archive gallery and completed production-build browser qualification at mobile, tablet and desktop widths.
 
-Home copy deliberately distinguishes historical project context from current commercial claims. Team/client/service facts are not promoted as current without review.
+**Nosotros** (#14 / PR #15) is implemented and browser-qualified in its dedicated review lane. It preserves what the 2022 project said about itself while making the historical/current boundary explicit; qualification does not imply automatic merge.
 
-The next content slice after Home is `Nosotros`. `Servicios`, `Equipo` and `Contacto` remain historical until their own migration work begins.
+The old `Somos un colectivo...` and `Visión` statements remain source material with year/path context. The 2026 surface does not infer that the same organization is still operating, that NGO collaborations or a feature film were completed, or that the old service/team model remains current.
 
-## Home validation contract
+Generic Facebook/YouTube/Instagram/Vimeo/Twitter destinations from the old footer are deliberately omitted because they were not verified El Núcleo accounts.
 
-The qualified Home slice satisfies all of the following:
+After the controlled Nosotros merge, the next content lane is **Servicios**. `Equipo` and `Contacto` remain historical until their own migration lanes begin.
+
+## Quality contract
+
+Every migration slice must continue to satisfy:
 
 1. `pnpm install --frozen-lockfile` succeeds on Node 24 with pnpm 9.15.9.
 2. `pnpm check` passes Prettier, ESLint, TypeScript, Vitest and the Vite production build.
-3. Gallery next/previous navigation and wrap behavior are covered by tests.
+3. New historical claims are represented through typed source/context data rather than silently rewritten in JSX.
 4. Historical media keeps documented source-path and blob-SHA provenance.
-5. No historical team/client/service claim is silently promoted to a current claim.
-6. The permanent GitHub Actions workflow remains read-only and pinned to immutable action SHAs.
-7. Production-build browser QA covers mobile, tablet and desktop widths, gallery crops, focus order, reduced motion and horizontal overflow.
+5. Historical team/client/service/company claims are not promoted as current without verification.
+6. Permanent GitHub Actions remain read-only and pinned to immutable action SHAs.
+7. Browser QA covers the responsive and keyboard surface changed by the slice.
 
-The canonical Home checkpoint has **5/5 tests green** and passed its permanent pull-request quality workflow.
+## Completed Home evidence
 
-Browser evidence was generated from the production Vite preview at 360 px, 768 px and 1440 px. Chrome-level checks confirmed one H1, no horizontal overflow in required widths, the expected four-state gallery sequence, skip-link-first keyboard focus and the reduced-motion override.
+Home has **5/5 behavior tests green** and passed the permanent pull-request quality workflow plus post-merge `main` validation.
 
-Temporary formatting/browser evidence workflows are migration tools only; they are removed after use and are not part of the permanent repository automation surface.
+Production-build browser evidence at 360 px, 768 px and 1440 px confirmed one H1, no horizontal overflow, the four-state gallery sequence, skip-link-first keyboard focus and reduced-motion behavior.
+
+## Qualified Nosotros evidence
+
+The Nosotros review lane completed the full repository contract with **9/9 Vitest tests green**, plus Prettier, ESLint, TypeScript and Vite production build.
+
+Production-build browser qualification with **Chrome 152** covered:
+
+- full-page renders at 360 / 768 / 1440 px;
+- one H1 and correct Nosotros H2/H3 hierarchy;
+- no horizontal overflow at mobile or desktop widths;
+- no unverified historical social links;
+- explicit `No asumida` current-truth status;
+- fresh-page first Tab on the skip link;
+- reduced-motion behavior;
+- visual separation between historical quotations and 2026 editorial context;
+- regression review of Home/archive after adding the new section.
+
+The browser artifacts are ephemeral CI evidence. One-shot formatter and visual-smoke workflows are removed after qualification and do not become permanent automation.
+
+## Nosotros content model
+
+The slice uses a deliberately small model instead of a CMS or generic content engine:
+
+```text
+historical source statement
+        ↓
+source year + path + blob
+        ↓
+2026 editorial context
+        ↓
+modern semantic presentation
+```
+
+This lets the repository preserve its real history while avoiding false present-tense claims.
 
 ## Accessibility baseline
 
 The app includes semantic landmarks, a skip link, visible focus treatment, native gallery controls, useful alt text, mobile-first layout and reduced-motion handling.
 
-Browser qualification confirmed the first Tab target exposes the skip link visibly and that focus then proceeds through brand, navigation, hero actions and gallery controls. Reduced-motion emulation resolves document smooth scrolling to `auto`.
+Nosotros adds a named semantic section, H2/H3 hierarchy and source-attributed blockquotes without introducing new custom interaction.
 
-Cross-cutting accessibility issue #10 remains open because later slices — especially Contact — introduce additional form/error/status requirements.
+Cross-cutting accessibility issue #10 remains open because later slices — especially Contact — introduce form/error/status requirements not present here.
 
 ## Media policy
 
@@ -90,12 +131,12 @@ Only media used by a migrated slice is promoted. Original assets stay untouched;
 
 Migration continues in small reviewable slices rather than one rewrite:
 
-- `Nosotros`: preserve the 2022 narrative as archive context, establish current-truth boundaries and build a semantic editorial section;
-- `Servicios`: service/archive structure plus backstage media only where intentionally used;
+- `Nosotros`: implemented and browser-qualified; awaiting controlled review/merge;
+- `Servicios`: next service/archive slice after Nosotros is accepted;
 - `Equipo`: historical people and client references treated as archive unless separately verified as current;
 - `Contacto`: no fake-success form; transport, validation, spam/privacy behavior and failure states must be explicit before the form is presented as operational;
 - cutover: only after all migrated slices have green CI, responsive/accessibility review and a documented rollback path.
 
 ## Deployment boundary
 
-Home qualification does not change the production/root deployment boundary. The historical root site remains the deployable baseline until the modern application has completed the remaining content slices, responsive/accessibility review and an explicit deployment/rollback plan.
+The historical root site remains the deployable baseline. Neither Home nor Nosotros qualification changes that boundary; the modern application will replace the root only after the remaining content slices, final QA and rollback/deployment plan are complete.
