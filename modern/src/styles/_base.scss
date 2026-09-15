@@ -52,11 +52,11 @@ img {
 .skip-link {
   position: fixed;
   z-index: 50;
-  top: 0.75rem;
-  left: 0.75rem;
+  top: var(--space-3);
+  left: var(--space-3);
   transform: translateY(-220%);
-  padding: 0.75rem 1rem;
-  border-radius: 999px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-pill);
   background: var(--color-accent);
   color: var(--color-accent-ink);
   font-weight: 850;
@@ -73,11 +73,11 @@ img {
   width: min(calc(100% - 2rem), var(--content-width));
   min-height: var(--header-height);
   margin: 0 auto;
-  padding: 1.25rem 0;
+  padding: var(--space-5) 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: var(--space-6);
   border-bottom: 1px solid var(--color-line);
 
   nav {
@@ -89,7 +89,7 @@ img {
       font-size: 0.9rem;
       font-weight: 750;
       text-decoration: none;
-      transition: color 150ms ease;
+      transition: color var(--motion-fast) var(--ease-standard);
 
       &:hover {
         color: var(--color-text);
@@ -126,11 +126,11 @@ main,
 
 .eyebrow,
 .section-kicker {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--space-4);
   color: var(--color-accent);
   font-size: 0.76rem;
   font-weight: 900;
-  letter-spacing: 0.13em;
+  letter-spacing: var(--label-tracking);
   text-transform: uppercase;
 }
 
@@ -144,7 +144,7 @@ main,
 
 .section-note {
   max-width: 48rem;
-  margin: 1.25rem 0 0;
+  margin: var(--space-5) 0 0;
   color: var(--color-muted);
   line-height: 1.7;
 }
@@ -156,13 +156,13 @@ main,
   align-items: center;
   justify-content: center;
   border: 1px solid var(--color-line);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-weight: 850;
   text-decoration: none;
   transition:
-    transform 150ms ease,
-    border-color 150ms ease,
-    background 150ms ease;
+    transform var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard),
+    background var(--motion-fast) var(--ease-standard);
 
   &:hover {
     transform: translateY(-2px);
@@ -181,7 +181,7 @@ main,
 }
 
 .site-footer {
-  padding: 2rem 0 3rem;
+  padding: var(--space-8) 0 var(--space-12);
   display: grid;
   gap: 0.8rem;
   border-top: 1px solid var(--color-line);

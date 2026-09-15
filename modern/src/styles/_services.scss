@@ -1,13 +1,12 @@
 .backstage-archive {
-  width: min(var(--content-width), calc(100% - 2rem));
-  margin: 0 auto;
-  padding: 6rem 0;
+  padding: var(--section-space) 0;
+  border-top: 1px solid var(--color-line);
 }
 
 .backstage-archive__intro {
   display: grid;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
 }
 
 .backstage-archive__intro h2 {
@@ -24,7 +23,7 @@
 .backstage-archive__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .backstage-card {
@@ -54,9 +53,9 @@
 .backstage-card figcaption {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 1rem;
+  gap: var(--space-4);
   align-items: start;
-  padding: 1rem 1.1rem 1.2rem;
+  padding: var(--space-4) 1.1rem 1.2rem;
 }
 
 .backstage-card__index {
@@ -65,18 +64,18 @@
   min-height: 2.25rem;
   place-items: center;
   border: 1px solid var(--color-line-strong);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   color: var(--color-accent);
   font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
 }
 
 .backstage-card__label {
-  margin: 0 0 0.35rem;
+  margin: 0 0 var(--space-1);
   color: var(--color-accent);
   font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--label-tracking);
   text-transform: uppercase;
 }
 
@@ -86,7 +85,7 @@
   line-height: 1.6;
 }
 
-@media (min-width: 44rem) {
+@media (min-width: 48rem) {
   .backstage-archive__intro {
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     align-items: end;
