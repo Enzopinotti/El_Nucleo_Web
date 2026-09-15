@@ -2,4 +2,4 @@ minimumReleaseAge: 1440
 minimumReleaseAgeStrict: true
 blockExoticSubdeps: true
 allowBuilds:
-  '@parcel/watcher': false
+  "@parcel/watcher": false
