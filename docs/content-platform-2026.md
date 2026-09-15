@@ -26,9 +26,19 @@ The operating rule is:
 
 `modern/src/content/local-content.ts` is the current local authority. It composes already-qualified historical modules instead of duplicating or mutating their source data.
 
-`App.tsx` now reads page copy, navigation, hero identity, historical collections, timeline, reconstruction principles and footer identity from that registry.
+`App.tsx` now reads navigation, hero/editorial copy, historical collections, timeline, reconstruction principles and footer presentation from that registry.
 
-This is intentionally **not yet** a remote-provider abstraction. A provider interface is only useful once another real source exists or asynchronous loading semantics are required.
+This is intentionally **not yet** a remote-provider abstraction. A provider interface becomes useful when another real source exists or asynchronous loading semantics are required; adding one now would create ceremony without an actual second implementation.
+
+## Historical identity vs 2026 editorial shell
+
+The content review exposed an important boundary that is now encoded in the model:
+
+- `siteIdentity` is `historical` and contains only the preserved `El Núcleo / CINE` name/tag and logo;
+- `shell` is `verified-current` and owns 2026 editorial labels such as `Archivo 2022 · reconstrucción 2026` and the reconstruction footer line;
+- `hero`, `history`, `reconstruction` and `seo` are also explicit 2026 editorial/reconstruction domains rather than being smuggled into the historical identity record.
+
+This prevents a mixed object from being marked `historical` while silently containing present-day editorial claims.
 
 ## Truth status contract
 
@@ -129,9 +139,12 @@ The public UI must remain decoupled from that vendor/implementation choice throu
 The registry is covered by contract tests that verify:
 
 - every public archive domain remains explicitly historical;
+- the 2026 shell remains `verified-current` and cannot drift back into historical identity;
 - current projects/contact channels remain empty and withheld;
 - historical collection counts do not drift silently;
 - deployment-specific SEO fields remain unresolved;
 - identity and contact provenance remains attached.
 
-The normal permanent quality gate remains authoritative for formatting, lint, TypeScript, tests and production build.
+The qualified branch contract currently contains **29/29 tests** across content authority, document-level contracts and application behavior, in addition to Prettier, ESLint, TypeScript and production build.
+
+Browser qualification is performed against the built production app before final merge so this refactor is required to preserve the already-qualified rendered behavior, responsive layout, accessibility/media invariants and Contacto truth/privacy boundary.
