@@ -233,16 +233,20 @@ Related issue: #12.
 
 ## Content-platform boundary
 
-Completing the visual system does not mean content should remain scattered through presentation forever.
+The content-platform lane in #26 now moves page authority out of scattered presentation without reopening the visual system.
 
-The next capability lane is #26:
+The implementation adds:
 
-- typed content authority;
-- explicit historical/current/draft status;
-- provenance-aware local provider;
-- future managed provider/editor boundary only when real content operations justify it.
+- a typed `LandingContent` authority;
+- explicit `historical`, `verified-current`, `unverified` and `draft` truth status;
+- independent `public` / `withheld` publication state;
+- provenance-aware `localLandingContent`;
+- explicit empty/withheld current project and contact-channel domains;
+- a clean future managed-provider/editor boundary without adding a speculative CMS.
 
-That evolution must reuse this visual system rather than introducing a second admin/public design language without need.
+The historical `El Núcleo / CINE` identity remains a historical domain while 2026 shell/editorial copy is a separate `verified-current` domain. That distinction lets the same visual system render both eras without flattening their truth status.
+
+Any future admin/editor must reuse the same accessibility and visual-system standards unless a genuinely different operator need justifies a distinct surface.
 
 ## Validation rule
 
@@ -267,7 +271,8 @@ A material future block is accepted only after:
 6. Equipo — **qualified in PR #25**;
 7. Contacto — **qualified in PR #25**;
 8. integrated accessibility/media/metadata pass — **qualified in PR #27**;
-9. content-platform readiness — **tracked in #26**;
-10. deployment/cutover preparation — **still explicit and separate**.
+9. content-platform readiness — **implemented and qualified in PR #28 / #26**;
+10. repository-wide engineering audit — **next quality lane**;
+11. deployment/cutover preparation — **still explicit and separate**.
 
-The visual-system lane is complete when PR #27 is integrated. Subsequent work extends content capability and deployment maturity rather than reopening a generic redesign.
+The visual-system lane itself is complete since PR #27. PR #28 extends content authority without reopening a generic redesign; future work should add capabilities only where the audit, content operations or deployment requirements justify them.
