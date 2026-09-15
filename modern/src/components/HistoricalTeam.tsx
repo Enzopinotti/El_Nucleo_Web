@@ -43,11 +43,13 @@ export function HistoricalTeam({
               />
             </div>
             <div className="historical-person__body">
-              <p className="historical-person__source">Etiqueta fuente · 2022</p>
+              <p className="historical-person__source">
+                Etiqueta fuente · 2022
+              </p>
               <h3>{person.sourceLabel}</h3>
               <p>
-                La página histórica asociaba esta fotografía a ese nombre. No
-                se infiere un cargo, responsabilidad ni relación actual.
+                La página histórica asociaba esta fotografía a ese nombre. No se
+                infiere un cargo, responsabilidad ni relación actual.
               </p>
               <span className="historical-person__status">
                 Vigencia 2026 · no verificada

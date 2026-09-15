@@ -105,9 +105,10 @@ describe("El Núcleo modern migration", () => {
       "href",
       "#backstage",
     );
-    expect(
-      screen.getByRole("link", { name: "Equipo 2022" }),
-    ).toHaveAttribute("href", "#equipo");
+    expect(screen.getByRole("link", { name: "Equipo 2022" })).toHaveAttribute(
+      "href",
+      "#equipo",
+    );
   });
 
   it("keeps one canonical four-category service dataset", () => {
@@ -246,9 +247,9 @@ describe("El Núcleo modern migration", () => {
   });
 
   it("keeps 2022 client labels as source-attributed references, not current endorsements", () => {
-    expect(historicalClientReferences.map(({ sourceLabel }) => sourceLabel)).toEqual(
-      ["Argentina Cultura", "Grupo del Sud"],
-    );
+    expect(
+      historicalClientReferences.map(({ sourceLabel }) => sourceLabel),
+    ).toEqual(["Argentina Cultura", "Grupo del Sud"]);
 
     render(<App />);
 
@@ -275,7 +276,9 @@ describe("El Núcleo modern migration", () => {
       .filter((href) => /^https?:\/\//i.test(href));
 
     expect(
-      externalLinks.some((href) => /instagram\.com|argentina\.gob\.ar|grupodelsud\.com/i.test(href)),
+      externalLinks.some((href) =>
+        /instagram\.com|argentina\.gob\.ar|grupodelsud\.com/i.test(href),
+      ),
     ).toBe(false);
   });
 
