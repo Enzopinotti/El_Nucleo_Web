@@ -21,43 +21,43 @@ The goal is not to accumulate tooling. The goal is to make the repository truthf
 
 ## Executive status
 
-| Area | Status | Current conclusion |
-| --- | --- | --- |
-| Historical preservation | **pass** | 2022 source remains inspectable and is not destructively rewritten. |
-| Node authority | **improve → addressed in PR #30** | `.nvmrc` was Node 22 while package/CI/docs required Node 24; `.nvmrc` now owns Node 24 and CI reads it. |
-| pnpm authority | **improve → addressed in PR #30** | pnpm moves from 9.15.9 to 11.26.0; `packageManager` becomes the version authority consumed by CI. |
-| Dependency surface | **pass** | Runtime dependencies remain only React + ReactDOM; no backend/UI/animation dependency creep. |
-| Lockfile/install reproducibility | **improve → addressed in PR #30** | Lockfile was rebuilt with pnpm 11 and frozen installation remains the permanent contract. |
-| Release-age supply-chain policy | **improve → addressed in PR #30** | New/transitive releases must be at least 24 hours old under strict enforcement. |
-| Dependency build scripts | **improve → addressed in PR #30** | Install/build scripts require explicit trust; optional `@parcel/watcher` remains denied because the product qualifies without it. |
-| Dependency vulnerability evidence | **pass** | One-shot audit: no production `moderate+` findings and no complete-tree `high+` findings. |
-| CI permissions/actions | **pass** | Read-only permanent workflow, finite timeout, concurrency cancellation and immutable action SHAs. |
-| CI path coverage | **improve → addressed in PR #30** | README/docs/runtime-authority/workflow changes now trigger the permanent quality contract. |
-| Local/CI contract equivalence | **improve → addressed in PR #30** | `pnpm check` includes application + repository documentation formatting, lint, TS, tests and build. |
-| TypeScript baseline | **pass** | `strict: true`; TS 6.0.3 is intentionally retained because the current parser/linter supports `<6.1`. |
-| Unsupported TypeScript drift | **improve → addressed in PR #30** | ESLint now treats an unsupported TypeScript version as an error. |
-| `skipLibCheck` | **defer** | No concrete declaration-risk evidence justifies spending signal on third-party declaration internals. |
-| Type-aware/React-specific lint expansion | **defer** | No concrete missed defect justifies extra plugin/rule complexity now. |
-| Tests | **pass** | 29 risk-oriented behavior/contract tests are green; no percentage target is needed. |
-| Numeric coverage threshold | **defer** | Would reward line coverage more than demonstrated product-risk coverage at current scope. |
-| Production browser evidence | **pass** | Material migration lanes already qualified production builds at 360/768/1440 and key keyboard/media invariants. |
-| Permanent E2E/screenshot suite | **defer to cutover** | Stable DOM contracts are already automated; the highest-value persistent browser smoke is the final public URL after deployment. |
-| Modern runtime external scripts | **pass** | `modern/index.html` has no third-party script/embed runtime dependency. |
-| Secrets/env usage | **pass** | Repository search found no modern secret/env contract or credential-like runtime configuration. |
-| Contact/privacy boundary | **pass** | No live form, personal-data transport or fake-success state exists. |
-| Media/provenance | **pass** | Promoted historical media is local, provenance-backed and lazy below the hero where appropriate. |
-| Media derivative pipeline | **defer** | Current ~768 KiB promoted archive does not justify derivative tooling without deployment measurements. |
-| Metadata truthfulness | **pass** | Current title/description/OG fields do not fabricate current operations or deployment URLs. |
-| Canonical/origin/social preview | **cutover-blocked** | Requires the real production origin. |
-| sitemap/robots | **cutover-blocked** | Requires final origin/route/host strategy. |
-| CSP/security headers | **cutover-blocked** | Must be configured against the selected hosting boundary and real asset/origin policy. |
-| Root replacement | **cutover-blocked** | Must remain in #5 after audit completion. |
-| Rulesets | **review/defer** | Rulesets API returns an empty set; no ruleset is created merely for appearance. |
-| Traditional branch protection | **unknown from current connector** | The integration cannot read that endpoint; absence is not inferred. Verify in repository settings before final cutover. |
-| Automated dependency updater | **defer** | Small dependency surface + strict lock/install policy reduces urgency; add only if update maintenance becomes repetitive. |
-| CONTRIBUTING | **defer** | Single-owner historical portfolio currently has no contributor workflow that needs extra boilerplate. |
-| SECURITY.md | **defer** | No service/backend/user-data attack surface exists today; add a reporting policy when the public product surface warrants one. |
-| LICENSE | **defer** | Do not assign a license retroactively without an explicit decision covering historical code and media rights. |
+| Area                                     | Status                             | Current conclusion                                                                                                                |
+| ---------------------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Historical preservation                  | **pass**                           | 2022 source remains inspectable and is not destructively rewritten.                                                               |
+| Node authority                           | **improve → addressed in PR #30**  | `.nvmrc` was Node 22 while package/CI/docs required Node 24; `.nvmrc` now owns Node 24 and CI reads it.                           |
+| pnpm authority                           | **improve → addressed in PR #30**  | pnpm moves from 9.15.9 to 11.26.0; `packageManager` becomes the version authority consumed by CI.                                 |
+| Dependency surface                       | **pass**                           | Runtime dependencies remain only React + ReactDOM; no backend/UI/animation dependency creep.                                      |
+| Lockfile/install reproducibility         | **improve → addressed in PR #30**  | Lockfile was rebuilt with pnpm 11 and frozen installation remains the permanent contract.                                         |
+| Release-age supply-chain policy          | **improve → addressed in PR #30**  | New/transitive releases must be at least 24 hours old under strict enforcement.                                                   |
+| Dependency build scripts                 | **improve → addressed in PR #30**  | Install/build scripts require explicit trust; optional `@parcel/watcher` remains denied because the product qualifies without it. |
+| Dependency vulnerability evidence        | **pass**                           | One-shot audit: no production `moderate+` findings and no complete-tree `high+` findings.                                         |
+| CI permissions/actions                   | **pass**                           | Read-only permanent workflow, finite timeout, concurrency cancellation and immutable action SHAs.                                 |
+| CI path coverage                         | **improve → addressed in PR #30**  | README/docs/runtime-authority/workflow changes now trigger the permanent quality contract.                                        |
+| Local/CI contract equivalence            | **improve → addressed in PR #30**  | `pnpm check` includes application + repository documentation formatting, lint, TS, tests and build.                               |
+| TypeScript baseline                      | **pass**                           | `strict: true`; TS 6.0.3 is intentionally retained because the current parser/linter supports `<6.1`.                             |
+| Unsupported TypeScript drift             | **improve → addressed in PR #30**  | ESLint now treats an unsupported TypeScript version as an error.                                                                  |
+| `skipLibCheck`                           | **defer**                          | No concrete declaration-risk evidence justifies spending signal on third-party declaration internals.                             |
+| Type-aware/React-specific lint expansion | **defer**                          | No concrete missed defect justifies extra plugin/rule complexity now.                                                             |
+| Tests                                    | **pass**                           | 29 risk-oriented behavior/contract tests are green; no percentage target is needed.                                               |
+| Numeric coverage threshold               | **defer**                          | Would reward line coverage more than demonstrated product-risk coverage at current scope.                                         |
+| Production browser evidence              | **pass**                           | Material migration lanes already qualified production builds at 360/768/1440 and key keyboard/media invariants.                   |
+| Permanent E2E/screenshot suite           | **defer to cutover**               | Stable DOM contracts are already automated; the highest-value persistent browser smoke is the final public URL after deployment.  |
+| Modern runtime external scripts          | **pass**                           | `modern/index.html` has no third-party script/embed runtime dependency.                                                           |
+| Secrets/env usage                        | **pass**                           | Repository search found no modern secret/env contract or credential-like runtime configuration.                                   |
+| Contact/privacy boundary                 | **pass**                           | No live form, personal-data transport or fake-success state exists.                                                               |
+| Media/provenance                         | **pass**                           | Promoted historical media is local, provenance-backed and lazy below the hero where appropriate.                                  |
+| Media derivative pipeline                | **defer**                          | Current ~768 KiB promoted archive does not justify derivative tooling without deployment measurements.                            |
+| Metadata truthfulness                    | **pass**                           | Current title/description/OG fields do not fabricate current operations or deployment URLs.                                       |
+| Canonical/origin/social preview          | **cutover-blocked**                | Requires the real production origin.                                                                                              |
+| sitemap/robots                           | **cutover-blocked**                | Requires final origin/route/host strategy.                                                                                        |
+| CSP/security headers                     | **cutover-blocked**                | Must be configured against the selected hosting boundary and real asset/origin policy.                                            |
+| Root replacement                         | **cutover-blocked**                | Must remain in #5 after audit completion.                                                                                         |
+| Rulesets                                 | **review/defer**                   | Rulesets API returns an empty set; no ruleset is created merely for appearance.                                                   |
+| Traditional branch protection            | **unknown from current connector** | The integration cannot read that endpoint; absence is not inferred. Verify in repository settings before final cutover.           |
+| Automated dependency updater             | **defer**                          | Small dependency surface + strict lock/install policy reduces urgency; add only if update maintenance becomes repetitive.         |
+| CONTRIBUTING                             | **defer**                          | Single-owner historical portfolio currently has no contributor workflow that needs extra boilerplate.                             |
+| SECURITY.md                              | **defer**                          | No service/backend/user-data attack surface exists today; add a reporting policy when the public product surface warrants one.    |
+| LICENSE                                  | **defer**                          | Do not assign a license retroactively without an explicit decision covering historical code and media rights.                     |
 
 ## A. Repository authority and documentation
 
