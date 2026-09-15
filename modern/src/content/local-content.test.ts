@@ -12,6 +12,8 @@ const publicArchiveDomains = [
   localLandingContent.archive.contact,
 ] as const;
 
+const productionOrigin = "https://el-nucleo-producciones.netlify.app/";
+
 describe("localLandingContent", () => {
   it("keeps every published archive domain explicitly historical", () => {
     for (const domain of publicArchiveDomains) {
@@ -56,10 +58,17 @@ describe("localLandingContent", () => {
     expect(localLandingContent.archive.contact.data.fields).toHaveLength(5);
   });
 
-  it("keeps deployment-specific SEO inputs explicitly unresolved", () => {
+  it("binds deployment-specific SEO inputs to the selected production origin", () => {
     expect(localLandingContent.seo.truth.status).toBe("verified-current");
-    expect(localLandingContent.seo.data.canonicalUrl).toBeNull();
-    expect(localLandingContent.seo.data.socialImage).toBeNull();
+    expect(localLandingContent.seo.truth.sources).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "docs/deployment-cutover-2026.md" }),
+      ]),
+    );
+    expect(localLandingContent.seo.data.canonicalUrl).toBe(productionOrigin);
+    expect(localLandingContent.seo.data.socialImage).toBe(
+      `${productionOrigin}media/el-nucleo-logo.png`,
+    );
   });
 
   it("records provenance for the historical identity and contact contract", () => {
