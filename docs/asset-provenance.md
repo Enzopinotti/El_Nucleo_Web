@@ -53,6 +53,21 @@ The historical paths are archival evidence. `modern/public/media/` defines the m
 
 Promoted media comes from exact existing Git blobs. Originals stay untouched and reviewable.
 
+## Current promoted-byte baseline
+
+The current modern asset boundary contains **11 promoted historical files** (brand mark + four service images + four Backstage images + two Equipo photographs).
+
+Because the promoted files intentionally reuse the exact archival Git blobs, their combined static byte size is **786,374 bytes (~768 KiB)**.
+
+That number is an inventory baseline, not a claim that every byte is transferred on first paint:
+
+- the hero brand mark is above the fold;
+- service/archive media is rendered through the active gallery state;
+- Backstage and Equipo images use native lazy loading;
+- CSS media containers reserve layout space through aspect-ratio/layout rules.
+
+At this size, producing derivative formats only to claim “WebP/AVIF support” would add process complexity without measured evidence that the archive needs it. Optimization remains evidence-driven.
+
 ## Optimization policy
 
 The migration initially reuses original bytes. WebP/AVIF/responsive derivatives are added only when measured delivery cost justifies them.
@@ -64,6 +79,14 @@ If derivatives are introduced:
 3. generation parameters/tooling are scripted or documented;
 4. dimensions/aspect ratio and visual quality are reviewed;
 5. generated media is treated as an application derivative, never as a replacement for archival evidence.
+
+A derivative pass becomes justified when real production evidence shows a useful improvement—for example LCP/transfer cost on the chosen deployment, substantially larger future project media, or the richer portfolio content planned under #26.
+
+## Accessibility/media contract
+
+Promoted informative images use descriptive alt text. Essential media is served from the modern application boundary rather than remote hotlinks. Below-the-fold media uses `loading="lazy"` and asynchronous decoding, while the above-fold historical logo remains available immediately.
+
+The cross-cutting behavior is guarded by `modern/src/__tests__/document-contract.test.tsx` and documented in `docs/accessibility-media-qualification-2026.md`.
 
 ## Content-status warning
 
