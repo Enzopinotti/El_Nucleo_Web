@@ -7,14 +7,9 @@ Audit prerequisite: #29 / PR #30
 
 ## Purpose
 
-Define the deployment boundary before changing root authority.
+Define and qualify the production boundary before changing public authority.
 
-This document deliberately separates:
-
-1. facts already proven by the repository;
-2. a deployment candidate being qualified;
-3. production-origin facts that are still unresolved;
-4. destructive cutover actions that remain forbidden until rollback and public smoke are proven.
+The modern source stays isolated under `modern/`; production cutover is a deployment decision, not permission to erase the 2022 root from Git.
 
 ## Proven pre-cutover baseline
 
@@ -36,43 +31,75 @@ Repository-documentation handoff after PR #31:
 905b72478212131c4ef6b6b5b62d0d02c951b22d
 ```
 
-Quality evidence:
+Quality evidence before #5:
 
 - PR #30 final quality #131: success;
 - PR #30 post-merge quality #132: success;
 - PR #31 documentation quality #133: success;
 - PR #31 post-merge quality #134: success.
 
-The modern product is therefore already qualified independently of the hosting decision.
+The product was therefore qualified independently of hosting before the production lane began.
 
-## Current deployment evidence
+## Public endpoint discovery
 
-Known from repository/provider integration:
+A temporary read-only discovery/smoke workflow probed both known public endpoints on 2026-09-15.
 
-- GitHub repository metadata reports Pages as enabled;
-- the repository does not contain a `CNAME`;
-- the repository does not contain a Pages deployment workflow;
-- root `index.html` is still the preserved 2022 implementation;
-- Netlify is connected to the repository and produces successful PR deploy previews under the `el-nucleo-producciones` site slug;
-- before this lane there was no versioned `netlify.toml` deployment contract.
+### Netlify production site
 
-What is **not** yet treated as fact:
+```text
+Requested: https://el-nucleo-producciones.netlify.app/
+HTTP: 200
+Final URL: https://el-nucleo-producciones.netlify.app/
+Title before cutover: El núcleo | Producciones
+Authority before cutover: historical-2022
+```
 
-- the final production hostname;
-- whether a current Netlify production URL is intended to be canonical;
-- whether GitHub Pages has a public URL that should remain supported;
-- whether a custom domain will be introduced;
-- whether `modern/` should ever be physically promoted to repository root.
+### GitHub Pages
 
-No canonical or SEO authority is derived from a preview/site slug.
+```text
+Requested: https://enzopinotti.github.io/El_Nucleo_Web/
+HTTP: 200
+Final URL: https://enzopinotti.github.io/El_Nucleo_Web/
+Title before cutover: El núcleo | Producciones
+Authority before cutover: historical-2022
+```
 
-## Deployment candidate — Netlify
+This removes the earlier ambiguity: both public endpoints existed and both served the preserved historical root before #5.
 
-Netlify is the first candidate to qualify because it is already part of the actual pull-request workflow and supports version-controlled build, headers and caching policy.
+## Selected modern production authority
 
-Selecting Netlify as the candidate does **not** yet select a canonical public origin.
+```text
+Provider: Netlify
+Production origin: https://el-nucleo-producciones.netlify.app/
+Custom domain: none selected for this cutover
+Route/base path: /
+Deploy source: main branch through the connected Netlify site
+Publish artifact: modern/dist
+```
 
-### Why the build base remains repository root
+Netlify is selected because:
+
+- it is already connected to the real repository workflow;
+- deploy previews are available on pull requests;
+- the exact production endpoint exists and was probed directly;
+- file-based build/header configuration can be versioned in the repository;
+- the modern preview was successfully rendered under the proposed security policy before production cutover.
+
+The deploy-preview hostname is **not** canonical authority. Canonical points to the production origin above.
+
+## GitHub Pages after the Netlify cutover
+
+GitHub Pages is not selected as the modern canonical origin.
+
+Because the root historical files are intentionally preserved, Pages currently remains capable of serving the 2022 site. The preferred resolution is to disable/unpublish Pages in GitHub Settings after the Netlify production cutover is verified, rather than mutating the historical root solely to force a redirect.
+
+Until that Settings action is verified:
+
+- Pages is a historical/transition endpoint;
+- it must not appear in canonical, sitemap or social metadata;
+- it must not be described as the current modern product.
+
+## Versioned Netlify build contract
 
 The repository has one Node authority:
 
@@ -80,9 +107,7 @@ The repository has one Node authority:
 /.nvmrc → Node 24
 ```
 
-Netlify resolves `.nvmrc` from the build base. Moving the build base to `modern/` would either lose that authority or require duplicating it.
-
-The file-based deployment contract therefore keeps the default repository-root base and runs the modern build explicitly:
+The Netlify build therefore keeps the repository root as its base and enters the modern package explicitly:
 
 ```toml
 [build]
@@ -90,18 +115,20 @@ The file-based deployment contract therefore keeps the default repository-root b
   publish = "modern/dist"
 ```
 
-This keeps:
+This preserves:
 
 - Node authority at root `.nvmrc`;
 - pnpm authority at `modern/package.json#packageManager`;
 - dependency resolution under `modern/pnpm-lock.yaml` + `modern/pnpm-workspace.yaml`;
+- pnpm 11 release-age/exotic/build-script supply-chain policy;
+- `modern/src` as source authority;
 - only generated `modern/dist` inside the deployment artifact.
 
 `dist/` remains generated output and never becomes manually edited source authority.
 
-## Versioned security-header policy
+## Security-header policy
 
-The candidate Netlify configuration applies the following to the deployed modern site:
+The Netlify configuration applies:
 
 - `Content-Security-Policy`;
 - `Permissions-Policy`;
@@ -109,7 +136,7 @@ The candidate Netlify configuration applies the following to the deployed modern
 - `X-Content-Type-Options`;
 - `X-Frame-Options`.
 
-The CSP is intentionally based on the current runtime evidence:
+The enforced CSP is:
 
 ```text
 default-src 'self';
@@ -125,17 +152,19 @@ connect-src 'self';
 upgrade-insecure-requests
 ```
 
-Current modern source has no required third-party runtime scripts, remote fonts, iframe, live form submission, fetch/WebSocket transport or inline style/script contract that would justify relaxing this policy.
+This is based on actual source/runtime evidence: the modern app has no required third-party runtime scripts, remote fonts, iframe, live form submission, fetch/WebSocket transport or inline style/script contract.
 
-If a future product capability needs an additional origin, that origin must be added as a reviewable product/security decision rather than through a broad wildcard.
+A future product capability that needs another origin must update the policy explicitly rather than using broad wildcards.
 
-### Deliberately not configured yet
+### Deliberate header decisions
 
-- HSTS — defer until the actual production hostname/domain and HTTPS ownership are confirmed;
-- cross-origin isolation headers — no current product requirement;
-- permissive analytics/third-party script origins — no analytics runtime exists;
-- form destination — Contacto remains non-collecting;
-- SPA rewrite — the app currently uses one document + hash anchors, not client-side route URLs.
+Not added merely for completeness:
+
+- custom HSTS: the selected `netlify.app` origin is already HTTPS; a custom-domain HSTS policy should be decided only if a custom hostname is introduced;
+- cross-origin isolation: no present product requirement;
+- third-party analytics origins: no analytics runtime exists;
+- form destination: Contacto remains non-collecting;
+- SPA rewrite: the product is one public document with hash anchors, not client-side route URLs.
 
 ## Caching
 
@@ -145,116 +174,130 @@ Vite-generated fingerprinted files under `/assets/*` receive:
 Cache-Control: public, max-age=31536000, immutable
 ```
 
-Historical/public media under `/media/` is not given the same immutable policy because those filenames are not content-hashed.
+Media under `/media/` is not assigned the same immutable browser policy because those filenames are not content-hashed.
 
-HTML is not forced into a long cache policy so new releases remain observable without stale-document authority.
+HTML remains revalidatable so a new deployment does not leave stale document authority in the browser.
 
-## Preview qualification — required before merge
+## Preview qualification evidence
 
-The cutover-preparation PR must prove all of the following on its Netlify deploy preview:
-
-- Netlify accepts the versioned `netlify.toml`;
-- build uses the modern package rather than historical root HTML;
-- build succeeds under Node 24 and pnpm 11.26.0;
-- frozen install passes the committed supply-chain policy;
-- deploy serves the modern HTML/title/content;
-- JS/CSS assets resolve;
-- security headers are present;
-- CSP does not prevent the application from rendering;
-- `/assets/*` immutable cache header is present;
-- primary modern anchors/content are present;
-- Contacto remains non-interactive;
-- no production canonical/`og:url` is invented in preview.
-
-A temporary preview-only smoke workflow may be used to gather this evidence and must be removed before merge.
-
-## Production-origin selection gate
-
-After preview qualification, production authority still requires an explicit origin.
-
-The chosen origin must be recorded here before metadata changes:
+PR #32 deploy preview:
 
 ```text
-Provider: unresolved
-Production origin: unresolved
-Custom domain: unresolved
-Root/subpath: unresolved
+https://deploy-preview-32--el-nucleo-producciones.netlify.app/
 ```
 
-Only after those fields are real may the repository add:
+The temporary smoke workflow validated over the public network:
 
-- canonical URL;
-- `og:url`;
-- absolute social preview image URL;
-- sitemap URL set;
-- host-specific robots policy;
-- HSTS if appropriate.
+- HTTP success for the preview document;
+- modern 2026 document title rather than historical root HTML;
+- generated JS and CSS asset references;
+- successful retrieval of JS/CSS;
+- CSP header with `default-src 'self'` and `form-action 'none'`;
+- Permissions-Policy;
+- strict-origin referrer header;
+- `nosniff`;
+- frame denial;
+- immutable one-year cache header on hashed `/assets/*` output;
+- Chrome rendered the React application under the enforced CSP;
+- rendered shell contains `Archivo 2022 · reconstrucción 2026`;
+- `main-content`, Nosotros, Servicios, Backstage, Equipo, Contacto and Historia all rendered;
+- no live `<form>` appeared.
 
-A Netlify deploy-preview URL is never canonical authority.
+The same temporary workflow also produced the endpoint-discovery evidence recorded above.
+
+Temporary smoke tooling must be removed before merge. Its evidence remains recorded here and in PR #32.
+
+## Production metadata authority
+
+Now that provider/origin/root path are selected, the cutover slice resolves the fields that were intentionally deferred before #5:
+
+```text
+Canonical: https://el-nucleo-producciones.netlify.app/
+og:url: https://el-nucleo-producciones.netlify.app/
+Social image: https://el-nucleo-producciones.netlify.app/media/el-nucleo-logo.png
+Sitemap: https://el-nucleo-producciones.netlify.app/sitemap.xml
+Robots: https://el-nucleo-producciones.netlify.app/robots.txt
+```
+
+The repository-owned historical logo is used for the current summary-card/social image rather than inventing unrelated artwork.
+
+The single-page sitemap contains only the canonical document URL. Hash anchors are not fake pages.
+
+These values must stay synchronized across:
+
+- `modern/index.html`;
+- `localLandingContent.seo`;
+- document/content tests;
+- `robots.txt`;
+- `sitemap.xml`;
+- SEO/deployment documentation.
+
+If a custom domain is introduced later, all of those authorities change together.
 
 ## Source authority after deployment
 
-Preferred non-destructive model unless production evidence proves otherwise:
+The selected non-destructive model is:
 
 ```text
 2022 root files            → preserved historical source evidence
 modern/src                 → current application source authority
-modern/dist                → generated deploy artifact
+modern/dist                → generated Netlify deploy artifact
 netlify.toml               → versioned Netlify deployment/header authority
 ```
 
-This model allows production cutover without physically deleting or rewriting the historical root.
+The modern product can become the public production site without physically moving source files to repository root.
 
-Physical promotion of the modern source to repository root remains a separate destructive-boundary decision, not a prerequisite for serving the modern product.
+There is therefore no current technical justification for a destructive `modern/` → root source migration.
 
 ## Rollback contract
 
-Rollback must be possible at two levels.
+Rollback exists at two levels.
 
 ### Provider rollback
 
-If Netlify becomes the production provider, retain the ability to restore the previously known-good deploy through Netlify deploy history.
+Netlify keeps deploy history for the connected site. If production verification fails after merge, restore the previously known-good historical deployment from the provider deploy history while repository rollback is prepared.
 
-The exact provider procedure must be verified against the production site before closing #5.
+The actual production smoke after merge must confirm that the connected `main` deployment completed before #5 is considered closed.
 
 ### Repository rollback
 
-For any merged cutover PR:
+For the cutover merge commit:
 
-1. identify the exact cutover merge commit;
-2. revert that commit rather than rewriting Git history;
-3. verify permanent quality on the revert;
-4. redeploy the reverted state;
-5. run the same public smoke used for cutover validation.
+1. identify the exact merge SHA;
+2. revert the merge commit instead of rewriting Git history;
+3. require permanent quality on the revert;
+4. let Netlify redeploy the reverted `main`;
+5. run the production smoke again.
 
-Historical source reference remains permanently available at:
+Historical source remains permanently available at:
 
 ```text
 6b23035cb6fffebbdd8ecd57c6752eae36f09b31
 ```
 
-The pre-cutover modern app remains separately reconstructable from Git history even if provider rollback is unavailable.
+Pre-cutover modern source and all audit evidence remain separately recoverable from Git history.
 
-## Public smoke — final cutover gate
+## Final production smoke — required after merge
 
-Once a real production origin exists, smoke must check the user-facing environment, not only local/preview build output:
+After PR #32 merges and Netlify deploys `main`, verify the actual production origin:
 
-- HTTPS and expected hostname;
-- final redirect/canonical hostname behavior;
-- HTTP success for document, JS, CSS and representative images;
-- expected security headers;
-- no CSP-blocking runtime errors;
+- HTTPS 200 at `https://el-nucleo-producciones.netlify.app/`;
+- modern title/content instead of the historical document;
+- JS/CSS/media success;
+- security headers;
+- CSP-compatible render in Chrome;
+- canonical equals the production origin;
+- `og:url` equals the production origin;
+- social image resolves;
+- `robots.txt` resolves and references the production sitemap;
+- `sitemap.xml` resolves and contains exactly the canonical document URL;
 - one H1 and expected landmarks;
-- primary navigation anchors;
-- no global horizontal overflow on representative mobile/desktop widths;
-- skip link/focus baseline;
-- reduced-motion behavior;
-- current/historical truth labels;
+- primary anchors render;
 - Contacto remains non-collecting;
-- canonical/OG/social metadata match the real origin;
-- no historical root document is accidentally served as production authority.
+- no global horizontal overflow at representative widths;
+- historical/current truth labels remain correct.
 
-This is the appropriate place for durable browser smoke if #5 determines one is worth keeping.
+Only this production smoke can prove that public authority has actually moved from 2022 to 2026.
 
 ## GitHub repository protection gate
 
@@ -263,20 +306,22 @@ Before #5 closes, verify directly in GitHub Settings:
 - branch protection and/or ruleset for `main`;
 - required quality status as appropriate;
 - force-push and branch-deletion policy;
-- intended merge strategy after cutover.
+- intended merge strategy after cutover;
+- GitHub Pages is disabled/unpublished if Netlify remains the sole modern public authority.
 
-Current connector permissions cannot reliably read the traditional branch-protection endpoint, so this must not be inferred from API absence.
+Current connector permissions cannot reliably read the traditional branch-protection endpoint and do not provide a supported Pages mutation action. These settings must not be inferred from API absence.
 
 ## External documentation consulted
 
-Deployment configuration decisions are based on current Netlify documentation for:
+Deployment configuration decisions were checked against current Netlify documentation for:
 
 - monorepo/base/package directory behavior;
 - file-based `netlify.toml` configuration;
 - Node `.nvmrc` resolution;
 - `packageManager`/Corepack pnpm selection;
-- custom security headers;
-- Vite build/publish behavior.
+- custom security headers/CSP;
+- Vite build/publish behavior;
+- static asset caching.
 
 The deployment contract remains repository-owned even if provider defaults later change.
 
@@ -284,13 +329,15 @@ The deployment contract remains repository-owned even if provider defaults later
 
 #5 can close only when:
 
-- candidate preview is qualified;
-- production provider/origin is explicit;
-- production metadata uses that real origin;
-- host security configuration is verified;
-- public smoke passes;
-- rollback is executable;
-- post-cutover source/artifact authority is documented;
-- repository protection is verified;
+- final branch quality is green;
+- Netlify preview with production metadata is qualified;
+- temporary smoke tooling is removed;
+- PR #32 is merged through its qualified head;
+- post-merge repository quality is green;
+- Netlify production deploy serves the modern 2026 app;
+- final production smoke passes;
+- rollback is executable/documented;
+- source/artifact authority is documented;
 - root README and architecture docs describe the actual deployed state;
-- #1 can be closed truthfully.
+- GitHub branch protection/ruleset and Pages state are verified directly;
+- #1 can be closed truthfully as a completed modernization.
