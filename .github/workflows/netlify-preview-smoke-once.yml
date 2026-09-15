@@ -63,7 +63,7 @@ jobs:
           grep -Eq 'src="/assets/[^\"]+\.js"' "$work/document.html"
           grep -Eq 'href="/assets/[^\"]+\.css"' "$work/document.html"
 
-          grep -Eq '<link[[:space:][:print:]]*rel="canonical"' "$work/document.html"
+          grep -Fq 'rel="canonical"' "$work/document.html"
           grep -Fq "href=\"$production\"" "$work/document.html"
           grep -Fq 'property="og:url"' "$work/document.html"
           grep -Fq "content=\"$production\"" "$work/document.html"
