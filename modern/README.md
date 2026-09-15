@@ -7,7 +7,7 @@ It remains intentionally isolated under `modern/` until the final controlled cut
 ## Runtime
 
 - Node.js 24
-- pnpm 9.15.9
+- pnpm 11.26.0
 - React 19
 - Vite 8
 - TypeScript 6
@@ -15,7 +15,12 @@ It remains intentionally isolated under `modern/` until the final controlled cut
 - Vitest + Testing Library
 - ESLint + Prettier
 
-The runtime declaration is synchronized across root `.nvmrc`, this package's `engines` field and CI.
+Runtime/package-manager authority is intentionally single-sourced:
+
+- root `.nvmrc` owns Node 24;
+- `package.json#packageManager` owns pnpm 11.26.0;
+- `package.json#engines` rejects an incompatible Node major;
+- GitHub Actions reads both authorities instead of duplicating version literals.
 
 ## Local workflow
 
@@ -43,6 +48,28 @@ pnpm check
 
 The same command is used by GitHub Actions.
 
+## Dependency and supply-chain policy
+
+`pnpm-workspace.yaml` is the package-install security policy for the modern app.
+
+It currently enforces:
+
+- `minimumReleaseAge: 1440`;
+- `minimumReleaseAgeStrict: true`;
+- `blockExoticSubdeps: true`;
+- explicit denial of the optional `@parcel/watcher` install/build script.
+
+The 24-hour release-age boundary is deliberate. During the pnpm 11 migration it rejected a transitively selected `brace-expansion` release that had been published less than one day earlier. The policy was kept and the lockfile was re-resolved instead of whitelisting the young release.
+
+Sass brings `@parcel/watcher` as an optional dependency. The app's install, tests and Vite production build pass with its install script denied, so the repository does not grant native build-script execution that the product does not require.
+
+The final pnpm 11 graph was also checked with a one-shot dependency audit:
+
+- production graph: no `moderate`-or-higher finding;
+- complete graph: no `high`-or-higher finding.
+
+Registry-backed advisory checks remain evidence rather than a permanent CI dependency. Frozen installation plus the version-age/build-script policy are the durable local/CI contracts.
+
 ## Source authority
 
 - `../index.html`, `../views/`, `../scss/`, `../css/`: historical 2022 implementation.
@@ -58,8 +85,9 @@ The same command is used by GitHub Actions.
 - `src/styles/_tokens.scss`: 2026 visual-system token authority.
 - `src/styles/`: modern presentation modules only.
 - `public/media/`: only historical media intentionally promoted into the modern app.
+- `pnpm-workspace.yaml`: pnpm 11 supply-chain/install policy.
+- `pnpm-lock.yaml`: reproducible dependency resolution under that policy.
 - `dist/`: generated production output; never hand-edit.
-- `pnpm-lock.yaml`: reproducible dependency resolution.
 
 Repository-level evidence and decisions live in `../docs/`.
 
@@ -153,8 +181,8 @@ Full contract: [`../docs/content-platform-2026.md`](../docs/content-platform-202
 
 Every material change must preserve:
 
-1. Node 24 + pnpm 9.15.9 reproducibility;
-2. frozen install;
+1. Node 24 + pnpm 11.26.0 reproducibility;
+2. frozen install under the committed pnpm policy;
 3. `pnpm check` green;
 4. 29 existing behavior/contract tests unless intentionally evolved with the same change;
 5. historical truth/provenance boundaries;
@@ -163,11 +191,11 @@ Every material change must preserve:
 8. no personal-data collection without real transport/privacy semantics;
 9. read-only SHA-pinned permanent GitHub Actions;
 10. browser QA when behavior/presentation changes;
-11. temporary QA tooling removed before merge.
+11. temporary qualification tooling removed before merge.
 
 ## Repository audit — active phase
 
-Issue #29 now owns the pre-cutover engineering audit.
+Issue #29 owns the pre-cutover engineering audit.
 
 The audit matrix is versioned in [`../docs/repository-audit-2026.md`](../docs/repository-audit-2026.md) and classifies findings as:
 
@@ -177,27 +205,38 @@ The audit matrix is versioned in [`../docs/repository-audit-2026.md`](../docs/re
 - `historical`;
 - `cutover-blocked`.
 
-The first hardening pass corrects three concrete forms of drift:
+The hardening pass has already corrected concrete drift:
 
 - `.nvmrc` Node 22 → Node 24;
 - CI now reads Node from `.nvmrc`;
-- root README/docs/repository-authority changes now trigger the permanent quality job and are included in formatting checks.
-
-This avoids adding a second docs-only CI stack while keeping documentation-as-code enforceable.
+- pnpm 9 → pnpm 11.26.0;
+- CI now reads pnpm from `packageManager`;
+- release-age/build-script supply-chain rules are explicit;
+- root README/docs/repository-authority changes trigger permanent quality;
+- repository Markdown is covered by the Prettier contract;
+- unsupported TypeScript versions fail lint instead of producing a soft warning.
 
 ## TypeScript and lint posture
 
-TypeScript remains `strict: true`.
+TypeScript remains `strict: true` on 6.0.3.
 
-`skipLibCheck: true` is under audit but is not treated as a defect by default for this small dependency surface. Type-aware linting or additional React lint plugins are also deferred until they demonstrate a real bug class instead of merely increasing rule count.
+TypeScript 7 exists, but the current `typescript-eslint` toolchain officially supports TypeScript `<6.1`. The repository therefore stays on the latest compatible TypeScript line and configures `onUnsupportedTypeScriptVersion: "error"` so a future incompatible bump cannot enter silently.
+
+`skipLibCheck: true` remains deliberate for the current small dependency surface. Type-aware linting or additional React lint plugins are deferred until they demonstrate a real bug class instead of merely increasing rule count.
 
 ## Testing posture
 
 Current baseline: **29/29 tests across 3 Vitest files**.
 
-No numeric coverage threshold is introduced merely for a badge. Tests are expected to protect behavior, document contracts, content truth/provenance and important interaction state.
+The suite is risk-oriented:
 
-A minimal permanent production-browser smoke is still being evaluated in #29; current production-browser evidence already exists for all material migration lanes.
+- 6 content authority tests for truth/publication/provenance;
+- 4 public-document contracts;
+- 19 visible behavior tests.
+
+No numeric coverage threshold is introduced merely for a badge. Existing tests protect behavior, document contracts, content truth/provenance and important interaction state.
+
+A permanent Playwright/screenshot suite is not introduced in #29. Major presentation changes have already been qualified against the production build, and the most valuable stable DOM invariants live in Vitest/Testing Library. A real URL smoke belongs to #5 after deployment because it should verify the environment users actually receive.
 
 ## Media policy
 
@@ -217,7 +256,9 @@ The modern runtime currently has:
 - no live contact transport;
 - no fake-success state;
 - no modern secret/env contract found by repository audit;
-- strict-origin referrer metadata.
+- strict-origin referrer metadata;
+- a dependency graph re-resolved under pnpm 11 supply-chain rules;
+- clean one-shot advisory evidence at the chosen severity thresholds.
 
 CSP/host headers remain deployment work because they depend on the real production host.
 
