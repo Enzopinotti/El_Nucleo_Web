@@ -44,7 +44,7 @@ pnpm check
 - `pnpm-lock.yaml`: reproducible dependency resolution.
 - `../docs/modern-app-architecture.md`: migration/cutover architecture.
 - `../docs/home-migration-2026.md`: Home-specific design and qualification evidence.
-- `../docs/nosotros-migration-2026.md`: historical narrative/truth-boundary decisions for Nosotros.
+- `../docs/nosotros-migration-2026.md`: historical narrative/truth-boundary decisions and browser qualification for Nosotros.
 - `../docs/asset-provenance.md`: exact origin of promoted historical media.
 
 ## Current migration state
@@ -53,13 +53,13 @@ The foundation and **Home** are merged and independently revalidated on `main`.
 
 Home replaced four duplicate Bootstrap carousels with one accessible archive gallery and completed production-build browser qualification at mobile, tablet and desktop widths.
 
-The active content slice is **Nosotros** (#14). Its purpose is not to restate the old page as current marketing copy: it preserves what the 2022 project said about itself while making the historical/current boundary explicit.
+**Nosotros** (#14 / PR #15) is implemented and browser-qualified in its dedicated review lane. It preserves what the 2022 project said about itself while making the historical/current boundary explicit; qualification does not imply automatic merge.
 
 The old `Somos un colectivo...` and `Visión` statements remain source material with year/path context. The 2026 surface does not infer that the same organization is still operating, that NGO collaborations or a feature film were completed, or that the old service/team model remains current.
 
 Generic Facebook/YouTube/Instagram/Vimeo/Twitter destinations from the old footer are deliberately omitted because they were not verified El Núcleo accounts.
 
-`Servicios`, `Equipo` and `Contacto` remain historical until their own migration lanes begin.
+After the controlled Nosotros merge, the next content lane is **Servicios**. `Equipo` and `Contacto` remain historical until their own migration lanes begin.
 
 ## Quality contract
 
@@ -79,11 +79,27 @@ Home has **5/5 behavior tests green** and passed the permanent pull-request qual
 
 Production-build browser evidence at 360 px, 768 px and 1440 px confirmed one H1, no horizontal overflow, the four-state gallery sequence, skip-link-first keyboard focus and reduced-motion behavior.
 
-Temporary formatting/browser evidence workflows were removed after use; they are not part of the permanent repository automation surface.
+## Qualified Nosotros evidence
+
+The Nosotros review lane completed the full repository contract with **9/9 Vitest tests green**, plus Prettier, ESLint, TypeScript and Vite production build.
+
+Production-build browser qualification with **Chrome 152** covered:
+
+- full-page renders at 360 / 768 / 1440 px;
+- one H1 and correct Nosotros H2/H3 hierarchy;
+- no horizontal overflow at mobile or desktop widths;
+- no unverified historical social links;
+- explicit `No asumida` current-truth status;
+- fresh-page first Tab on the skip link;
+- reduced-motion behavior;
+- visual separation between historical quotations and 2026 editorial context;
+- regression review of Home/archive after adding the new section.
+
+The browser artifacts are ephemeral CI evidence. One-shot formatter and visual-smoke workflows are removed after qualification and do not become permanent automation.
 
 ## Nosotros content model
 
-The current slice introduces a deliberately small model instead of a CMS or generic content engine:
+The slice uses a deliberately small model instead of a CMS or generic content engine:
 
 ```text
 historical source statement
@@ -115,8 +131,8 @@ Only media used by a migrated slice is promoted. Original assets stay untouched;
 
 Migration continues in small reviewable slices rather than one rewrite:
 
-- `Nosotros`: historical narrative + explicit current-truth boundary (active);
-- `Servicios`: service/archive structure plus backstage media only where intentionally used;
+- `Nosotros`: implemented and browser-qualified; awaiting controlled review/merge;
+- `Servicios`: next service/archive slice after Nosotros is accepted;
 - `Equipo`: historical people and client references treated as archive unless separately verified as current;
 - `Contacto`: no fake-success form; transport, validation, spam/privacy behavior and failure states must be explicit before the form is presented as operational;
 - cutover: only after all migrated slices have green CI, responsive/accessibility review and a documented rollback path.

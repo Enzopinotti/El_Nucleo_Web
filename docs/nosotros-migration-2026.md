@@ -73,7 +73,7 @@ modern/src/
 
 ## Accessibility contract
 
-The slice must preserve the Home guarantees and add:
+The slice preserves the Home guarantees and adds:
 
 - a named semantic `section` for Nosotros;
 - correct H2/H3 hierarchy under the existing single H1;
@@ -85,9 +85,9 @@ The slice must preserve the Home guarantees and add:
 
 ## Automated contract
 
-Tests must prove that:
+The final implementation validates that:
 
-- there is still exactly one H1;
+- there is exactly one H1;
 - the historical collective wording is present as archive content;
 - the 2026 context explicitly says current operation is not confirmed;
 - historical NGO/feature-film aspirations are not presented as completed facts;
@@ -95,19 +95,40 @@ Tests must prove that:
 - the navigation points to `#nosotros`;
 - existing Home/gallery behavior continues to pass.
 
-`pnpm check` remains the authority for format, lint, typecheck, tests and production build.
+`pnpm check` remains the authority for format, lint, typecheck, tests and production build. The qualified branch completed **9/9 Vitest tests** after canonical formatting, with ESLint, TypeScript and the Vite production build green.
 
-## QA boundary
+At the browser-qualification checkpoint the production bundle reported approximately 11.58 kB of CSS and 231.15 kB of JavaScript before gzip. These values are evidence for this slice, not permanent performance budgets.
 
-Before merging this slice, the production build should be reviewed at mobile, tablet and desktop widths with focus on:
+## Production browser qualification
 
-- heading hierarchy and line lengths;
-- readability of both historical quotations;
-- distinction between quote and editorial context;
-- the `2026 / Contexto, no revalidación` panel;
-- four-item header navigation at tablet/desktop widths;
-- no regression to Home/archive gallery;
-- no horizontal overflow;
-- skip-link-first keyboard sequence.
+The production Vite preview was qualified with **Google Chrome 152** through Chrome DevTools Protocol. Evidence was generated as ephemeral CI artifacts rather than committed screenshots.
 
-The historical root `views/nosotros.html` remains deployable and unchanged. No root/GitHub Pages cutover is part of this slice.
+Full-page renders were captured with real viewport dimensions:
+
+- mobile: 360 px viewport, document `360 × 6711`;
+- tablet: 768 px viewport, document `768 × 5310`;
+- desktop: 1440 px viewport, document `1440 × 5321`.
+
+The qualification confirmed:
+
+- exactly one H1 remains on the page;
+- `#nosotros` exposes the expected H2 `Lo que El Núcleo decía de sí mismo`;
+- the `No asumida` current-truth marker is rendered;
+- no Facebook, YouTube, Instagram, Vimeo or Twitter links are exposed by the modern surface;
+- there is no horizontal overflow at 360 px or 1440 px;
+- a fresh-page first `Tab` lands on `Saltar al contenido` / `#main-content`;
+- `prefers-reduced-motion: reduce` resolves document scrolling to `auto` and effectively neutralizes transitions;
+- the historical quotations and 2026 context remain visually distinct across mobile, tablet and desktop;
+- Home/archive layout remains visually intact after adding Nosotros.
+
+The first browser harness attempt produced a false negative because it tried to reset keyboard focus with `document.body.focus()`, while `body` is not focusable by default. The harness was corrected to reload the page and test from Chrome's natural initial focus state; the second run passed without changing product code.
+
+## Workflow hygiene
+
+The formatter and browser-qualification workflows are one-shot migration tooling only. They are removed before the slice is considered review-ready.
+
+The permanent repository automation surface remains the read-only `Modern app quality` workflow with third-party actions pinned to immutable commit SHAs.
+
+## Merge boundary
+
+Browser qualification makes the slice **review-ready**, not automatically merged. The historical root `views/nosotros.html` remains deployable and unchanged, and no root/GitHub Pages cutover belongs to this slice.
