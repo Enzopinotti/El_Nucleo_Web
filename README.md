@@ -1,66 +1,104 @@
 # El Núcleo — modernización 2026
 
-Este repositorio conserva uno de mis primeros proyectos web públicos, realizado en 2022 mientras aprendía HTML, CSS y Sass. **El Núcleo CINE** nació en ese contexto como proyecto audiovisual experimental/en desarrollo y como entrega de Coderhouse; no se presenta hoy como una empresa audiovisual operativa ni como una historia comercial más madura de lo que realmente fue.
+Este repositorio conserva uno de mis primeros proyectos web públicos, realizado en 2022 mientras aprendía HTML, CSS y Sass. **El Núcleo CINE** nació como un proyecto audiovisual experimental y una entrega de Coderhouse; la reconstrucción de 2026 no intenta convertir ese origen en una historia comercial más madura de lo que realmente fue.
 
-La reconstrucción de 2026 no intenta borrar ese origen. El objetivo es mostrar una evolución real de ingeniería: preservar el baseline histórico, reconstruir la experiencia por slices recuperables, validar cada cambio con pruebas y CI, separar explícitamente **archivo histórico**, **información verificada**, **contenido todavía no verificado** y **capacidades futuras**, y efectuar el reemplazo de autoridad pública únicamente mediante un cutover explícito y reversible.
+El objetivo de la modernización fue demostrar evolución real de ingeniería sin borrar el pasado: preservar el sitio original, reconstruir la experiencia con herramientas actuales, mantener provenance de contenido y media, separar hechos históricos de información vigente y efectuar el cambio de autoridad pública mediante un cutover explícito, probado y reversible.
 
-## Estado actual
+## Estado final
 
-La reconstrucción funcional, visual, de contenido y de ingeniería ya está completa. La única fase activa es [#5 — Production deploy and controlled root cutover](https://github.com/Enzopinotti/El_Nucleo_Web/issues/5), implementada en el Draft PR #32.
+La modernización 2026 está **completa y desplegada en producción**.
 
-Ya están completados:
+Producción moderna:
 
-- preservación del sitio 2022;
-- foundation moderna;
-- Home, Nosotros, Servicios, Backstage, Equipo y Contacto histórico;
-- sistema visual 2026;
-- accesibilidad, media/provenance y metadata baseline;
-- content platform tipada y provenance-aware;
-- auditoría completa de repositorio;
-- Node/pnpm authority hardening;
-- pnpm 11 supply-chain policy;
-- documentación como código;
-- deployment contract versionado para Netlify;
-- CSP y headers de seguridad calificados en deploy preview;
-- origen moderno de producción seleccionado;
-- canonical, Open Graph, social image, `robots.txt` y sitemap alineados con ese origen;
-- preview final ejecutado en Chrome bajo la CSP real.
+<https://el-nucleo-producciones.netlify.app/>
 
-El **cutover público todavía no se considera cerrado** hasta que PR #32 sea mergeado, Netlify despliegue `main`, el smoke contra la URL productiva confirme que la autoridad cambió de 2022 → 2026 y se verifiquen las opciones de protección/Pages en GitHub Settings.
+Cutover mergeado en `main`:
 
-## Baseline histórico
+```text
+c3342e111ba4d7bbe88f04407c0510bfe0fcd1da
+```
 
-El punto de referencia preservado es:
+Evidencia final:
+
+- PR #32 mergeado desde un HEAD limpio y calificado;
+- Modern app quality #153 verde antes del merge;
+- Modern app quality post-merge #154 verde sobre el commit real de `main`;
+- 30/30 tests;
+- lint, typecheck, formatting y Vite production build verdes;
+- deploy preview de Netlify verde;
+- smoke de producción real verde por HTTP y Chrome;
+- canonical, Open Graph, Twitter image, `robots.txt` y sitemap alineados con el origen productivo;
+- CSP y headers de seguridad verificados en producción;
+- React renderizando correctamente bajo la CSP productiva;
+- Contacto histórico permanece no operativo y no recolecta datos.
+
+La versión moderna **no requiere destruir ni mover la raíz histórica del repositorio**. Netlify publica `modern/dist`, mientras el código 2022 permanece como evidencia de origen.
+
+## Baseline histórico preservado
+
+Referencia histórica estable:
 
 ```text
 6b23035cb6fffebbdd8ecd57c6752eae36f09b31
 ```
 
-La implementación de 2022 incluye HTML multipágina, Sass/CSS, Bootstrap por CDN, Animate.css/AOS, Font Awesome remoto, responsive manual, Home, Nosotros, Servicios, Equipo, Contacto, galerías, fotografías y una identidad audiovisual propia.
+La implementación original incluye:
 
-Los archivos históricos siguen versionados y **no se eliminan ni se reescriben para hacer el cutover**. El hosting moderno puede publicar `modern/dist` sin convertir el root histórico en source authority actual.
+- HTML multipágina;
+- Sass/CSS;
+- Bootstrap por CDN;
+- Animate.css/AOS;
+- Font Awesome remoto;
+- responsive manual;
+- Home, Nosotros, Servicios, Equipo y Contacto;
+- galerías, fotografías e identidad audiovisual propia.
 
-## Stack moderno real
+Los archivos históricos no fueron reescritos para hacer parecer moderno el trabajo de 2022.
 
-La aplicación actual vive en [`modern/`](modern/).
+## Arquitectura final
+
+```text
+2022 root files
+    ↓
+evidencia histórica preservada
+
+modern/src
+    ↓
+source authority 2026
+    ↓
+Vite build
+    ↓
+modern/dist
+    ↓
+Netlify production
+```
+
+Autoridades:
+
+- `index.html`, `views/`, `scss/`, `css/` y assets originales → fuente histórica 2022;
+- `modern/src/` → aplicación actual;
+- `modern/src/content/` → autoridad de contenido estructurado;
+- `modern/public/media/` → media histórica promovida con provenance;
+- `modern/dist/` → artifact generado, nunca fuente manual;
+- `netlify.toml` → build, publish directory, headers y caching de producción;
+- `.nvmrc` → Node 24;
+- `modern/package.json#packageManager` → pnpm 11.26.0;
+- `modern/pnpm-workspace.yaml` → policy de instalación/supply-chain.
+
+## Stack moderno
 
 - Node.js 24
-- pnpm 11.26.0 + lockfile reproducible
+- pnpm 11.26.0
 - React 19
 - TypeScript 6.0.3
 - Vite 8
 - Sass con `@use`
 - Vitest + Testing Library
 - ESLint + Prettier
-- GitHub Actions con permisos mínimos y actions fijadas a SHAs inmutables
-- Netlify como deployment provider seleccionado para la versión moderna
+- GitHub Actions
+- Netlify
 
-La autoridad de runtime/package manager está centralizada:
-
-- `.nvmrc` define Node 24 y CI/Netlify parten de esa autoridad;
-- `modern/package.json#packageManager` define pnpm 11.26.0;
-- `modern/package.json#engines` impide ejecutar el proyecto con una major de Node incompatible;
-- ESLint falla si TypeScript sale del rango soportado por `typescript-eslint`.
+TypeScript 6.0.3 se mantiene deliberadamente porque la línea actual de `typescript-eslint` utilizada por el proyecto soporta TypeScript `<6.1`. ESLint está configurado para fallar si el compilador sale de ese rango sin una revisión explícita.
 
 ## Quality contract
 
@@ -73,70 +111,66 @@ pnpm install --frozen-lockfile
 pnpm check
 ```
 
-`pnpm check` valida:
+`pnpm check` ejecuta:
 
-1. formato de la aplicación moderna;
+1. formato de la aplicación;
 2. formato del README raíz y `docs/**/*.md`;
-3. lint sin warnings;
-4. TypeScript;
-5. tests de comportamiento/contrato;
+3. ESLint con cero warnings;
+4. TypeScript `--noEmit`;
+5. Vitest;
 6. build de producción.
 
-La suite ahora incluye **30 contratos de Vitest en 3 archivos**: 6 de authority/truth/provenance, 5 del documento público/SEO y 19 de comportamiento visible.
+Baseline final:
 
-Los cambios en `modern/**`, `README.md`, `docs/**`, `netlify.toml`, `.nvmrc`, `.editorconfig`, `.gitignore` y `.github/workflows/**` disparan el workflow permanente.
+```text
+3 test files
+30 tests
+30 passed
+```
 
-## Supply-chain y dependencias
+Distribución:
 
-La migración a pnpm 11 fue un cambio de seguridad, no sólo de versión.
+- 6 tests de authority / truth / publication / provenance;
+- 5 contratos del documento público y deployment/SEO;
+- 19 tests de comportamiento visible.
 
-`modern/pnpm-workspace.yaml` codifica:
+No se agregó un coverage threshold nominal sólo para sumar una métrica.
+
+## Supply-chain
+
+La migración a pnpm 11 fue tratada como un cambio de seguridad, no como un bump cosmético.
+
+`modern/pnpm-workspace.yaml` aplica:
 
 - `minimumReleaseAge: 1440`;
 - `minimumReleaseAgeStrict: true`;
 - `blockExoticSubdeps: true`;
-- denegación explícita del build/install script de `@parcel/watcher`, porque entra de forma opcional por Sass y el producto califica sin ejecutar ese postinstall nativo.
+- decisión explícita sobre scripts de instalación/build;
+- `@parcel/watcher` denegado porque el producto califica sin ejecutar ese postinstall nativo opcional.
 
-Durante la migración, esta política detectó una versión transitiva de `brace-expansion` publicada hacía menos de 24 horas. La protección se mantuvo y el lockfile fue reconstruido bajo la policy hasta seleccionar una resolución suficientemente madura.
+Durante la migración, la policy bloqueó una release transitiva demasiado reciente de `brace-expansion`. La protección no se relajó: el lockfile fue re-resuelto bajo la misma policy.
 
-El graph final fue además auditado con evidencia one-shot:
+Además se ejecutó evidencia de advisory audit one-shot sobre el graph congelado:
 
 - producción: sin findings `moderate` o superiores;
 - árbol completo: sin findings `high` o superiores.
 
-El advisory scan remoto no queda como gate permanente; frozen install + política de resolución/build scripts sí quedan versionados y reproducibles.
+## Contenido y verdad histórica
 
-## Contenido histórico migrado
+La aplicación moderna no presenta automáticamente la información de 2022 como vigente en 2026.
 
-- **Home** — identidad, hero y archivo de las cuatro categorías históricas;
-- **Nosotros** — narrativa 2022 con límite explícito entre fuente histórica y vigencia actual;
-- **Servicios + Backstage** — autoridad compartida y composición editorial sin Bootstrap/autoplay;
-- **Equipo + referencias históricas** — nombres/fotos preservados como archivo, sin convertirlos en staff o clientes vigentes;
-- **Contacto** — conserva el contrato histórico sin reproducir `GET` + `action=""`, sin backend inventado ni recolección falsa de datos.
+El modelo diferencia:
 
-## Sistema visual y calidad transversal
+- `historical`;
+- `verified-current`;
+- `unverified`;
+- `draft`;
+- publicación `public` / `withheld`.
 
-El sistema visual 2026 usa una dirección editorial de archivo/producción/control-surface y fue calificado para:
-
-- 360 / 768 / 1440 px;
-- cero overflow global;
-- un H1 y landmarks correctos;
-- skip-link como primer foco;
-- `focus-visible`;
-- `prefers-reduced-motion`;
-- contraste de los pares principales;
-- media local con alt útil y lazy loading debajo del hero;
-- Contacto sin forms/controles operativos;
-- metadata que distingue el archivo histórico de cualquier actividad actual.
-
-Los issues #10, #11, #12 y #22 están cerrados.
-
-## Content platform readiness
-
-Issue #26 / PR #28 están completos.
+Arquitectura de contenido:
 
 ```text
-fuentes históricas 2022 + hechos/editorial 2026 revisados
+fuentes históricas + hechos/editorial 2026 revisados
                          ↓
                  LandingContent
                          ↓
@@ -145,74 +179,50 @@ fuentes históricas 2022 + hechos/editorial 2026 revisados
                     React UI
 ```
 
-El modelo distingue:
+La identidad `El Núcleo / CINE` y su logo se conservan como históricos. El shell editorial que explica la reconstrucción es contenido actual verificado.
 
-- `historical`;
-- `verified-current`;
-- `unverified`;
-- `draft`;
-- publicación `public` / `withheld`.
+Los slots de proyectos actuales y canales actuales de contacto existen, pero permanecen vacíos y withheld porque no se inventaron operaciones, clientes, staff ni medios de contacto vigentes.
 
-La identidad histórica `El Núcleo / CINE` y su logo permanecen `historical`. El shell editorial de la reconstrucción es `verified-current`.
+## Migración completada
 
-Los dominios de proyectos actuales y canales actuales de contacto existen en el contrato, pero permanecen vacíos, `unverified` y `withheld` mientras no exista evidencia real.
+- **Home** — identidad, hero y archivo de las cuatro categorías históricas;
+- **Nosotros** — narrativa original con contexto temporal explícito;
+- **Servicios + Backstage** — datasets compartidos y composición moderna sin Bootstrap/autoplay;
+- **Equipo + referencias** — conservados como archivo 2022, no como staff/clientes actuales;
+- **Contacto** — contrato histórico documentado, sin reproducir el transporte inseguro `GET` + `action=""` y sin backend ficticio.
 
-No se agregó un CMS, `/admin` ni una interfaz remota artificial.
+## Sistema visual y accesibilidad
 
-## Auditoría pre-cutover completada
+La dirección 2026 es un archivo editorial / production contact sheet / control surface, no un template SaaS genérico.
 
-Issue #29 / PR #30 están completos.
+Se calificó para:
 
-Merge de hardening:
+- 360 / 768 / 1440 px;
+- ausencia de overflow global;
+- un H1 y landmarks semánticos;
+- skip link como primer foco;
+- `focus-visible`;
+- `prefers-reduced-motion`;
+- contraste de pares principales;
+- media local con alt útil;
+- lazy loading debajo del hero;
+- Contacto sin controles que aparenten funcionar.
+
+## Deployment final
+
+Proveedor:
 
 ```text
-7b0521b0331c42881d43ef7e894672125e9c1b66
+Netlify
 ```
 
-El quality post-merge #132 pasó sobre el commit real de `main`. La matriz completa está en [`docs/repository-audit-2026.md`](docs/repository-audit-2026.md).
-
-El handoff documental posterior se integró en PR #31 y su quality post-merge #134 también quedó verde.
-
-## Deployment 2026 — estado de #5
-
-### Evidencia pública previa al cutover
-
-El discovery realizado desde CI confirmó que existían dos endpoints públicos y que ambos servían todavía el documento histórico de 2022:
-
-```text
-https://el-nucleo-producciones.netlify.app/
-→ HTTP 200
-→ El núcleo | Producciones
-→ histórico 2022
-
-https://enzopinotti.github.io/El_Nucleo_Web/
-→ HTTP 200
-→ El núcleo | Producciones
-→ histórico 2022
-```
-
-### Autoridad moderna seleccionada
-
-La versión moderna usa como origen productivo:
+Origen productivo:
 
 ```text
 https://el-nucleo-producciones.netlify.app/
 ```
 
-Netlify fue seleccionado porque ya estaba conectado al repositorio, ofrece deploy previews reales y permite versionar build, publish directory, headers y cache en `netlify.toml`.
-
-La arquitectura de deploy elegida es:
-
-```text
-2022 root files → evidencia histórica preservada
-modern/src      → source authority 2026
-modern/dist     → artifact generado de deployment
-netlify.toml    → autoridad de build/headers/cache de Netlify
-```
-
-No hace falta mover físicamente `modern/` a la raíz para publicar la versión actual.
-
-### Build de Netlify
+Build:
 
 ```text
 cd modern && corepack pnpm install --frozen-lockfile && corepack pnpm build
@@ -224,33 +234,26 @@ Publish directory:
 modern/dist
 ```
 
-El build usa Node desde `.nvmrc` y pnpm desde `packageManager`, manteniendo la policy supply-chain del repositorio.
+Antes del cutover, tanto Netlify como GitHub Pages servían el sitio histórico 2022. Después del merge de PR #32, un smoke contra **producción real** confirmó el cambio de autoridad 2022 → 2026.
 
-### Preview calificado
+El smoke productivo verificó:
 
-PR #32 fue validado sobre:
-
-```text
-https://deploy-preview-32--el-nucleo-producciones.netlify.app/
-```
-
-El smoke público comprobó:
-
-- documento moderno 2026;
-- JS/CSS/media accesibles;
-- CSP enforced compatible con React/Vite;
-- Permissions-Policy, Referrer-Policy, `nosniff` y frame denial;
-- cache immutable de assets fingerprinted;
-- canonical/OG/Twitter apuntando al origen productivo seleccionado;
+- HTML moderno;
+- JS/CSS/media;
+- canonical / Open Graph / Twitter metadata;
+- CSP;
+- Permissions-Policy;
+- Referrer-Policy;
+- `X-Content-Type-Options`;
+- frame denial;
+- cache immutable para `/assets/*` fingerprinted;
 - `robots.txt`;
-- sitemap de una única URL canónica;
-- render real en Chrome;
-- todas las secciones principales;
-- Contacto sin formulario vivo.
+- sitemap de una sola URL canónica;
+- render React real en Chrome;
+- secciones principales;
+- ausencia de formulario vivo en Contacto.
 
-## Metadata y SEO productivos
-
-Al existir una autoridad productiva real, dejaron de estar `null`/diferidos:
+## SEO productivo
 
 ```text
 canonical: https://el-nucleo-producciones.netlify.app/
@@ -260,91 +263,88 @@ sitemap:   https://el-nucleo-producciones.netlify.app/sitemap.xml
 robots:    https://el-nucleo-producciones.netlify.app/robots.txt
 ```
 
-El social image reutiliza el logo histórico ya calificado y propiedad del repositorio. No se fabricó una pieza 1200×630 sólo para cumplir un checklist.
-
-Los anchors de la landing no aparecen como rutas falsas en el sitemap.
+El sitemap tiene una sola URL porque la aplicación es un documento con anchors semánticos, no una colección de rutas independientes.
 
 ## Seguridad de producción
 
 `netlify.toml` versiona una CSP restrictiva basada en el runtime real:
 
-- recursos de runtime desde `self`;
+- `default-src 'self'`;
 - `object-src 'none'`;
 - `frame-ancestors 'none'`;
 - `form-action 'none'`;
-- imágenes locales/data;
-- sin orígenes externos para scripts/fonts/connect;
+- scripts/styles/connect desde `self`;
+- imágenes desde `self`/`data:`;
 - `upgrade-insecure-requests`.
 
-También versiona Permissions-Policy, Referrer-Policy, `X-Content-Type-Options` y frame denial.
+También incluye Permissions-Policy, Referrer-Policy, `nosniff` y frame denial.
 
-No se agregó HSTS manual sobre el dominio `netlify.app`; esa política se reevalúa si se introduce un custom domain.
-
-## GitHub Pages durante la transición
-
-GitHub Pages sigue siendo un endpoint histórico mientras esté habilitado. **No es canonical ni autoridad moderna**.
-
-Después de comprobar el cutover real en Netlify, el paso preferido es despublicar/deshabilitar Pages desde GitHub Settings en lugar de modificar el root histórico sólo para forzar una redirección.
-
-Esa acción y la verificación de branch protection/rulesets requieren revisión directa de Settings porque el conector actual no tiene permisos suficientes para afirmar/modificar esos controles.
+No se agregó analytics, CMS, admin, auth, third-party runtime scripts ni un formulario ficticio.
 
 ## Rollback
 
-El cutover mantiene dos niveles de recuperación:
+El cutover mantiene dos rutas de recuperación:
 
-- rollback de deployment desde el historial de Netlify;
-- revert del merge de cutover en Git, seguido de quality + redeploy + smoke.
+1. rollback desde el historial de deploys de Netlify;
+2. revert normal del merge de cutover en Git, seguido por quality, redeploy y smoke.
 
-El baseline histórico permanece disponible en:
+No se requiere force-push ni reescritura de historia.
+
+Baseline histórico permanente:
 
 ```text
 6b23035cb6fffebbdd8ecd57c6752eae36f09b31
 ```
 
-Ver [`docs/deployment-cutover-2026.md`](docs/deployment-cutover-2026.md).
+## GitHub Pages y protección de `main`
 
-## Lo que falta para cerrar #5 y #1
+GitHub Pages fue detectado como endpoint histórico antes del cutover y **no es autoridad SEO ni productiva del sitio moderno**.
 
-1. terminar el quality limpio de PR #32;
-2. retirar el workflow temporal de preview smoke;
-3. mergear PR #32 sólo desde su HEAD calificado;
-4. confirmar quality post-merge en `main`;
-5. esperar/confirmar el deploy productivo de Netlify;
-6. ejecutar el mismo smoke contra `https://el-nucleo-producciones.netlify.app/`;
-7. documentar el SHA final y la evidencia de producción;
-8. verificar/despublicar GitHub Pages desde Settings;
-9. verificar branch protection/ruleset de `main` directamente en Settings;
-10. actualizar nuevamente este README con el estado productivo final y cerrar #5/#1 si no queda deuda real.
+La acción recomendada es despublicar Pages desde GitHub Settings en lugar de alterar el root histórico sólo para redireccionarlo.
 
-## Principios de la reconstrucción
+Sobre gobernanza del repositorio:
+
+- el endpoint de rulesets devuelve actualmente una lista vacía;
+- el endpoint tradicional de branch protection devuelve `403 Resource not accessible by integration` para esta conexión;
+- por lo tanto no se afirma falsamente que exista o no exista protección tradicional de `main`.
+
+Estas dos tareas pertenecen a administración de GitHub Settings, no al runtime productivo ya calificado. Si el repositorio sigue activo, conviene exigir el workflow permanente de quality para `main` desde Settings.
+
+## Hitos principales
+
+- PR #28 — content platform;
+- PR #30 — repository-wide audit/hardening;
+- PR #31 — handoff documental pre-cutover;
+- PR #32 — deployment authority + production cutover;
+- cutover merge: `c3342e111ba4d7bbe88f04407c0510bfe0fcd1da`;
+- quality post-cutover #154: success;
+- production smoke: success.
+
+## Documentación
+
+- [`docs/modernization-2026.md`](docs/modernization-2026.md) — retrospectiva y contratos finales;
+- [`docs/modern-app-architecture.md`](docs/modern-app-architecture.md) — arquitectura de aplicación;
+- [`docs/content-platform-2026.md`](docs/content-platform-2026.md) — truth/publication/provenance;
+- [`docs/visual-system-2026.md`](docs/visual-system-2026.md) — sistema visual;
+- [`docs/repository-audit-2026.md`](docs/repository-audit-2026.md) — auditoría de ingeniería;
+- [`docs/deployment-cutover-2026.md`](docs/deployment-cutover-2026.md) — deployment, smoke y rollback;
+- [`docs/metadata-seo-2026.md`](docs/metadata-seo-2026.md) — metadata y SEO;
+- [`docs/asset-provenance.md`](docs/asset-provenance.md) — trazabilidad de media;
+- [`docs/accessibility-media-qualification-2026.md`](docs/accessibility-media-qualification-2026.md) — QA visual/accesibilidad/media.
+
+## Principios que quedan como estándar
 
 - preservar la historia del repositorio;
-- no inventar clientes, trabajos, roles, métricas ni actividad comercial actual;
-- distinguir estado de verdad de estado de publicación;
-- mantener provenance de cada asset histórico promovido;
-- usar una sola autoridad por contenido compartido;
-- evitar dependencias que no resuelvan un problema real;
-- no habilitar formularios o integraciones que aparenten funcionar sin contrato real;
-- trabajar en slices recuperables, con PR, quality gate y QA relevante;
-- eliminar tooling temporal antes del merge;
-- no reemplazar la raíz histórica cuando el hosting puede publicar el artifact moderno sin destruirla;
-- mantener el README general sincronizado con cada cambio de fase.
+- no inventar claims para hacer más impresionante un portfolio;
+- separar verdad de publicación;
+- mantener provenance;
+- una sola autoridad por dato compartido;
+- generated output no es source authority;
+- no relajar CI/supply-chain para obtener verde;
+- no sumar dependencias sin problema concreto;
+- no recolectar datos sin transporte y privacidad reales;
+- validar deployment público, no sólo builds locales;
+- documentar rollback antes de necesitarlo;
+- mantener README y documentación general sincronizados con el estado real.
 
-## Documentación principal
-
-- [`docs/modernization-2026.md`](docs/modernization-2026.md) — contrato y fases reales;
-- [`docs/modern-app-architecture.md`](docs/modern-app-architecture.md) — autoridad y arquitectura;
-- [`docs/content-platform-2026.md`](docs/content-platform-2026.md) — truth/publication/provenance y frontera CMS;
-- [`docs/visual-system-2026.md`](docs/visual-system-2026.md) — sistema visual;
-- [`docs/repository-audit-2026.md`](docs/repository-audit-2026.md) — auditoría cerrada pre-cutover;
-- [`docs/deployment-cutover-2026.md`](docs/deployment-cutover-2026.md) — deployment, smoke y rollback;
-- [`docs/asset-provenance.md`](docs/asset-provenance.md) — media histórica promovida;
-- [`docs/accessibility-media-qualification-2026.md`](docs/accessibility-media-qualification-2026.md) — browser/accessibility/media evidence;
-- [`docs/metadata-seo-2026.md`](docs/metadata-seo-2026.md) — metadata y autoridad SEO productiva.
-
-## Seguimiento
-
-- roadmap general: [#1](https://github.com/Enzopinotti/El_Nucleo_Web/issues/1);
-- estándares: [#6](https://github.com/Enzopinotti/El_Nucleo_Web/issues/6);
-- auditoría completada: [#29](https://github.com/Enzopinotti/El_Nucleo_Web/issues/29);
-- fase activa de deploy/cutover: [#5](https://github.com/Enzopinotti/El_Nucleo_Web/issues/5).
+La modernización general de El Núcleo queda cerrada con la versión 2026 en producción y el sitio histórico preservado como parte explícita de la historia del proyecto.
