@@ -8,6 +8,7 @@ import { localLandingContent } from "./content/local-content";
 export function App() {
   const content = localLandingContent;
   const identity = content.siteIdentity.data;
+  const shell = content.shell.data;
   const hero = content.hero.data;
 
   return (
@@ -27,7 +28,7 @@ export function App() {
             <span className="brand__tag">{identity.tag}</span>
           </a>
           <span className="site-header__edition" aria-hidden="true">
-            {identity.edition}
+            {shell.edition}
           </span>
         </div>
 
@@ -157,7 +158,7 @@ export function App() {
           <strong>{identity.name}</strong>
           <span>{identity.tag}</span>
         </div>
-        <p>{identity.footerLine}</p>
+        <p>{shell.footerLine}</p>
       </footer>
     </div>
   );
