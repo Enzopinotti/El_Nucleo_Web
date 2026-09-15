@@ -1,9 +1,11 @@
 import { ArchiveGallery } from "./components/ArchiveGallery";
 import { BackstageArchive } from "./components/BackstageArchive";
 import { HistoricalAbout } from "./components/HistoricalAbout";
+import { HistoricalContact } from "./components/HistoricalContact";
 import { HistoricalTeam } from "./components/HistoricalTeam";
 import { historicalAboutStatements } from "./content/historical-about";
 import { historicalBackstage } from "./content/historical-backstage";
+import { historicalContactContract } from "./content/historical-contact";
 import { historicalLogo, historicalServices } from "./content/historical-home";
 import {
   historicalClientReferences,
@@ -32,6 +34,7 @@ export function App() {
           <a href="#servicios">Servicios 2022</a>
           <a href="#backstage">Backstage</a>
           <a href="#equipo">Equipo 2022</a>
+          <a href="#contacto">Contacto 2022</a>
           <a href="#historia">Historia</a>
         </nav>
       </header>
@@ -88,6 +91,8 @@ export function App() {
           people={historicalPeople}
           clientReferences={historicalClientReferences}
         />
+
+        <HistoricalContact contract={historicalContactContract} />
 
         <section
           className="history-section"
@@ -160,9 +165,9 @@ export function App() {
               <span aria-hidden="true">03</span>
               <h3>Contenido con límites honestos</h3>
               <p>
-                Servicios, equipo y clientes históricos no se presentan
-                automáticamente como actividad vigente. Cada afirmación se
-                revisa antes del cutover.
+                Servicios, equipo, clientes y contacto históricos no se
+                presentan automáticamente como actividad vigente. Cada
+                afirmación o flujo se verifica antes del cutover.
               </p>
             </article>
           </div>

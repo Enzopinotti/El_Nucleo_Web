@@ -1,0 +1,159 @@
+.historical-contact {
+  display: grid;
+  gap: 2rem;
+  padding: clamp(4.5rem, 8vw, 8rem) clamp(1.25rem, 5vw, 5rem);
+  border-top: 1px solid rgba(131, 210, 181, 0.24);
+}
+
+.historical-contact__intro {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.historical-contact__intro h2,
+.historical-contact__source h3,
+.historical-contact__field h3 {
+  margin: 0;
+}
+
+.historical-contact__status,
+.historical-contact__source,
+.historical-contact__field,
+.historical-contact__promise {
+  border: 1px solid rgba(131, 210, 181, 0.25);
+  border-radius: 1.25rem;
+  background: rgba(14, 27, 24, 0.72);
+}
+
+.historical-contact__status {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.historical-contact__status > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+}
+
+.historical-contact__status-label,
+.historical-contact__eyebrow {
+  color: var(--color-accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.historical-contact__status strong {
+  color: var(--color-accent);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+.historical-contact__status p,
+.historical-contact__warning,
+.historical-contact__field-note,
+.historical-contact__promise footer {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.historical-contact__contract {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.historical-contact__source,
+.historical-contact__field {
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.historical-contact__source dl,
+.historical-contact__field dl {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.historical-contact__source dl > div,
+.historical-contact__field dl > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(131, 210, 181, 0.12);
+}
+
+.historical-contact__source dt,
+.historical-contact__field dt {
+  color: var(--color-text-muted);
+}
+
+.historical-contact__source dd,
+.historical-contact__field dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+
+.historical-contact code {
+  color: var(--color-accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+  overflow-wrap: anywhere;
+}
+
+.historical-contact__fields {
+  display: grid;
+  gap: 1rem;
+}
+
+.historical-contact__field-note {
+  padding-top: 0.25rem;
+}
+
+.historical-contact__promise {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.historical-contact__promise p {
+  margin: 0;
+  font-size: clamp(1.15rem, 2.5vw, 1.55rem);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+@media (min-width: 768px) {
+  .historical-contact__intro {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: end;
+  }
+
+  .historical-contact__contract {
+    grid-template-columns: minmax(16rem, 0.75fr) minmax(0, 1.25fr);
+    align-items: start;
+  }
+
+  .historical-contact__source {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .historical-contact__fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .historical-contact__field:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
