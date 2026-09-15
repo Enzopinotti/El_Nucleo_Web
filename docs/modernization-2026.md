@@ -114,14 +114,14 @@ La regla es separar **fuente histórica** de **presentación moderna**:
 - `modern/src/styles/` es la autoridad de presentación 2026;
 - `El Núcleo / CINE`, el verde `#83d2b5` y la identidad audiovisual son anclas históricas, no restricciones de layout;
 - la paleta moderna puede expandirse mediante tokens, sin renombrar el pasado ni borrar su color principal;
-- tipografía, escala, spacing, grids, superficies, navegación, estados y motion pueden evolucionar libremente si mantienen accesibilidad y trazabilidad;
+- tipografía, escala, spacing, grids, superficies, navegación, estados y motion pueden evolucionar si mantienen accesibilidad y trazabilidad;
 - no se sobrescriben originales para “optimizarlos”;
 - derivados visuales/media requieren proceso reproducible cuando sean necesarios;
 - no se reintroducen Bootstrap/AOS/Animate.css/CDN sólo por nostalgia visual;
 - `prefers-reduced-motion`, contraste, foco y legibilidad son invariantes;
 - cambios visuales importantes deben pasar QA de producción en anchos representativos.
 
-La meta es una UI claramente más madura en 2026 que siga siendo reconocible como evolución de El Núcleo, no como un producto sin relación con el repositorio histórico.
+La autoridad detallada vive en `docs/visual-system-2026.md`.
 
 ### Deploy
 
@@ -176,7 +176,7 @@ La raíz histórica sigue siendo la baseline desplegable hasta el cutover contro
 - Instagram personales y hotlink remoto excluidos;
 - 16/16 tests, browser QA 360/768/1440 y post-merge validation.
 
-### 🟡 Fase 4B — Contacto / qualified closure lane
+### ✅ Fase 4B — Contacto
 
 - autoridad tipada para el contrato exacto de la fuente 2022;
 - no se reproduce `GET` + action vacía;
@@ -188,16 +188,31 @@ La raíz histórica sigue siendo la baseline desplegable hasta el cutover contro
 - Prettier / ESLint / TypeScript / Vite build verdes;
 - Chrome 152.0.7977.82 browser QA en 360 / 768 / 1440;
 - cero formularios/controles de Contacto, cero transporte inventado, cero overflow y cero fallos de QA;
-- cleanup del workflow temporal + merge controlado + post-merge validation pendientes como último gate.
+- workflow temporal eliminado antes del merge;
+- PR #21 mergeado y quality post-merge verde en `main`.
 
-### ⏳ Fase 5A — visual system + cross-cutting quality
+### 🟡 Fase 5A — visual system + cross-cutting quality
 
-- consolidar tokens y reglas visuales 2026 sin tocar las fuentes 2022;
-- revisar jerarquía tipográfica, spacing, grids, navegación y consistencia entre slices;
-- contraste, focus-visible, reduced motion y responsive integral;
-- auditoría de media/dimensiones/layout shift;
-- metadata/SEO exacta y no comercialmente inventada;
-- QA visual integral desktop/tablet/mobile.
+Carril activo: #22.
+
+Primer pase de foundation:
+
+- ampliar tokens semánticos de color, tipografía, spacing, superficies, radios y motion;
+- corregir drift de nombres de tokens;
+- unificar ritmo vertical/horizontal entre slices;
+- eliminar insets redundantes de Backstage/Equipo;
+- normalizar breakpoints equivalentes;
+- mantener JSX, contenidos y assets sin cambios durante la foundation.
+
+Luego:
+
+- refinar shell/header/navigation;
+- revisar Home/hero/archive;
+- revisar Nosotros, Servicios/Backstage, Equipo y Contacto por separado;
+- cerrar contraste, focus-visible, reduced motion y responsive integral;
+- auditar media/dimensiones/layout shift;
+- cerrar metadata/SEO exacta y no comercialmente inventada;
+- ejecutar QA visual integral desktop/tablet/mobile.
 
 ### ⏳ Fase 5B — deploy + cutover
 
