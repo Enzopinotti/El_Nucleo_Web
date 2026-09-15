@@ -15,8 +15,7 @@ export const historicalContactContract = {
   sourceMethod: "GET",
   sourceAction: "",
   sourceEncoding: "text/plain",
-  sourcePromise:
-    "Nos estaremos comunicando lo mas pronto posible con usted...",
+  sourcePromise: "Nos estaremos comunicando lo mas pronto posible con usted...",
   fields: [
     {
       id: "name",

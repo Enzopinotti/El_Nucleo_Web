@@ -36,8 +36,8 @@ export function HistoricalContact({ contract }: HistoricalContactProps) {
 
         <p id="contacto-boundary" className="section-note">
           La reconstrucción 2026 conserva el contrato visible de la página
-          original, pero no recopila ni transmite datos personales: el código
-          de 2022 no define un destino de entrega verificable.
+          original, pero no recopila ni transmite datos personales: el código de
+          2022 no define un destino de entrega verificable.
         </p>
       </div>
 
@@ -92,7 +92,10 @@ export function HistoricalContact({ contract }: HistoricalContactProps) {
           </p>
         </article>
 
-        <div className="historical-contact__fields" aria-label="Campos históricos">
+        <div
+          className="historical-contact__fields"
+          aria-label="Campos históricos"
+        >
           {contract.fields.map((field) => (
             <article className="historical-contact__field" key={field.id}>
               <div>

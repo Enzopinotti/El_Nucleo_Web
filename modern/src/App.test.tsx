@@ -110,9 +110,10 @@ describe("El Núcleo modern migration", () => {
       "href",
       "#equipo",
     );
-    expect(
-      screen.getByRole("link", { name: "Contacto 2022" }),
-    ).toHaveAttribute("href", "#contacto");
+    expect(screen.getByRole("link", { name: "Contacto 2022" })).toHaveAttribute(
+      "href",
+      "#contacto",
+    );
   });
 
   it("keeps one canonical four-category service dataset", () => {
@@ -343,11 +344,11 @@ describe("El Núcleo modern migration", () => {
       }),
     ).toBeInTheDocument();
     expect(
-      within(contact).getByText(/no se infiere una suscripción activa en 2026/i),
+      within(contact).getByText(
+        /no se infiere una suscripción activa en 2026/i,
+      ),
     ).toBeInTheDocument();
-    expect(
-      within(contact).getByText(/400 caracteres/i),
-    ).toBeInTheDocument();
+    expect(within(contact).getByText(/400 caracteres/i)).toBeInTheDocument();
     expect(
       within(contact).queryByRole("link", { name: /contact/i }),
     ).not.toBeInTheDocument();

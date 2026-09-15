@@ -74,7 +74,7 @@ The closure state completed **16/16 tests**, permanent quality and Chrome **152.
 The 2022 source used:
 
 ```html
-<form action="" method="get" enctype="text/plain">
+<form action="" method="get" enctype="text/plain"></form>
 ```
 
 No verified delivery backend exists in the repository. The modern app therefore preserves the contact **contract** instead of pretending the form is operational.
