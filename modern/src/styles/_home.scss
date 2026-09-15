@@ -281,7 +281,11 @@
   article {
     padding: var(--space-6);
     border-top: 1px solid var(--color-line-strong);
-    background: linear-gradient(180deg, var(--color-accent-soft), transparent 72%);
+    background: linear-gradient(
+      180deg,
+      var(--color-accent-soft),
+      transparent 72%
+    );
 
     > span {
       color: var(--color-accent);
