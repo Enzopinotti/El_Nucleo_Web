@@ -48,8 +48,6 @@ Avoid:
 
 `modern/src/styles/_tokens.scss` owns shared visual primitives.
 
-The first visual-system foundation introduces:
-
 ### Identity and color
 
 - `--color-accent`: exact historical green `#83d2b5`;
@@ -67,92 +65,116 @@ No remote font dependency is required for the system contract.
 
 ### Spacing and layout
 
-- a small reusable spacing scale;
+- reusable spacing scale;
 - `--section-space` for vertical chapter rhythm;
 - `--section-gap` for two-column editorial composition;
 - `--content-pad` for card/surface padding;
-- `--content-width` remains the global content measure.
+- `--content-width` as global content measure;
+- `--sticky-offset` as shared shell/content sticky boundary.
 
-### Surfaces
+### Surfaces and motion
 
 - shared radii from `--radius-xs` through `--radius-lg`;
 - `--radius-pill` for status/control pills;
-- shared soft/media shadows.
-
-### Motion
-
+- shared soft/media shadows;
 - `--motion-fast` / `--motion-medium`;
 - `--ease-standard`;
-- global `prefers-reduced-motion` continues to collapse non-essential transitions/animations.
+- global `prefers-reduced-motion` collapses non-essential transitions/animations and smooth document scrolling.
 
-## First foundation pass
+## Qualified implementation passes
 
-The first #22 implementation pass deliberately does **not** change JSX, copy, content authority or media.
+The system evolved through recoverable PRs rather than a single redesign.
 
-It:
+### PR #23 — visual foundation
 
-- expands shared tokens;
-- provides a compatibility alias for the previously drifting `--color-text-muted` name;
-- migrates Contacto to the canonical `--color-muted` token;
-- aligns Home, Nosotros, Backstage, Equipo and Contacto to a shared section rhythm;
-- removes redundant nested content-width insets from Backstage and Equipo;
-- replaces repeated pill/line/accent literals with shared semantic tokens;
-- normalizes the main tablet breakpoint to `48rem` where equivalent behavior was intended;
-- leaves larger layout-specific breakpoints in place when they still represent a real component need.
+Established shared tokens/rhythm, normalized historical-green usage, removed redundant nested insets and aligned the historical sections under one visual system without changing content authority.
 
-## Foundation production qualification
+### PR #24 — shell, navigation and hero
 
-The foundation pass was qualified against the production build before integration.
+Established:
 
-### Automated quality
+- global header/shell;
+- responsive navigation that remains available at narrow widths;
+- desktop/tablet sticky-header behavior without trapping mobile viewport height;
+- shared sticky offsets below the header;
+- hero/archive composition and primary page hierarchy;
+- production-browser qualification for responsive overflow, focus and media behavior.
 
-Permanent repository quality completed successfully with:
+### PR #25 — historical section compositions
+
+Refined the already-migrated content without changing historical authority:
+
+- Nosotros as editorial archive + explicit truth boundary;
+- Backstage as film/contact-sheet composition with uncropped source media;
+- Equipo as source-backed historical dossiers;
+- Contacto as historical contract ledger with no live form;
+- historical client labels remain references, not endorsements.
+
+The accepted section browser qualification used the real source counts: 2 Nosotros cards, 4 Backstage frames, 2 historical people, 2 client references and 5 Contacto fields. Contacto remained 0 forms / 0 interactive controls.
+
+### PR #27 — integrated accessibility, media and metadata qualification
+
+The integrated pass converts cross-cutting decisions into repository contracts instead of adding another visual layer.
+
+Permanent quality on the clean branch head passed:
 
 - Prettier;
 - ESLint with zero warnings;
 - TypeScript;
-- **19/19 Vitest behavior tests**;
+- **23/23 Vitest tests**;
 - Vite production build.
 
-### Browser qualification
+The new document contract guards:
 
-A Chrome **152.0.7977.82** production-build qualification ran at:
+- honest metadata while production URL authority is unresolved;
+- one H1 and the global landmark structure;
+- all primary navigation fragment targets;
+- local, described media;
+- eager hero mark + lazy below-the-fold media;
+- Contacto remaining non-interactive.
+
+## Integrated production-browser evidence
+
+Accepted run: **34929130233** using Chrome **152.0.7977.82** against the production build.
+
+Qualified viewports:
 
 - 360 × 900 px;
 - 768 × 1024 px;
 - 1440 × 1000 px.
 
-The first smoke incorrectly treated below-the-fold lazy images as failed before entering their viewport. The product was not changed to satisfy that false negative. A corrected qualification traversed the page, activated the existing `loading="lazy"` behavior and then validated the rendered state.
+Machine-readable evidence reports **`failures: []`**.
 
-The accepted evidence confirmed:
+The accepted evidence confirms:
 
-- exactly one H1;
-- **zero horizontal overflow** at all three qualified widths;
-- all eight promoted images loaded after natural lazy-load traversal;
-- every audited chapter uses the same desktop content axis: `left = 128 px`, `right = 1312 px`, `width = 1184 px` at 1440 px viewport;
-- aligned chapters: Hero, Nosotros, Servicios, Backstage, Equipo, Contacto, Historia and Reconstrucción;
-- Contacto still contains **0 forms** and **0 input/textarea/select/button controls**;
-- Contacto privacy/no-collection boundary remains visible;
-- Equipo historical/current truth boundary remains visible;
-- fresh-page first Tab remains `Saltar al contenido` → `#main-content`;
-- reduced-motion forces document scroll behavior to `auto` and collapses transitions;
-- machine-readable failure list is empty.
+- zero document-level horizontal overflow at all three widths;
+- exactly one global H1, `.site-header`, primary navigation, `main#main-content` and `.site-footer`;
+- three valid quote-internal `<footer>` elements remain semantic and are not confused with the global footer;
+- all six primary navigation fragments resolve to real targets;
+- all eight rendered/promoted images load successfully, use local asset paths and meaningful alt text;
+- the hero historical mark is eager while all rendered media below the hero is lazy;
+- Contacto contains 0 forms and 0 `input`/`textarea`/`select`/`button` controls;
+- document language, title, description, Open Graph site name/locale and Twitter summary metadata are present;
+- obsolete `keywords` is absent;
+- canonical, `og:url` and `og:image` remain absent until a real production origin exists;
+- first fresh-page Tab is `Saltar al contenido` → `#main-content`;
+- reduced-motion resolves document scroll behavior to `auto`;
+- core token pairs all exceed the 4.5:1 normal-text contrast threshold.
 
-### Visual review
+### Core contrast evidence
 
-Full-page mobile/tablet/desktop captures were reviewed in addition to the machine checks.
+| Pair | Ratio |
+| --- | ---: |
+| text / background | 17.80:1 |
+| muted / background | 9.23:1 |
+| subtle / background | 5.77:1 |
+| accent / background | 10.83:1 |
+| accent ink / accent | 9.53:1 |
+| subtle / surface | 4.97:1 |
 
-The foundation is accepted because:
+The first integrated browser smoke incorrectly required the document to contain only one `<footer>` total. That was a QA error: the page correctly uses internal `<footer>` elements for historical blockquote attribution. The product was not changed to satisfy the false negative. V2 qualified one **global** `.site-footer` plus three quote footers separately and passed without exceptions.
 
-- the historical green remains the dominant signal color without turning the UI into a neon redesign;
-- Home, Nosotros, Servicios, Backstage, Equipo and Contacto now read as one dark editorial system rather than independently padded migration slices;
-- removing the redundant nested Backstage/Equipo containers improves alignment without changing content or provenance;
-- the cards/surfaces are consistent enough to support further refinement but deliberately do not attempt the final visual personality yet;
-- Contacto reads as archive metadata, not as a disabled operational form;
-- mobile stacking stays readable with no horizontal escape;
-- the remaining weak point is intentional scope: narrow navigation is still hidden rather than having a dedicated mobile navigation pattern, which belongs to the next shell/navigation pass.
-
-Screenshots/raw QA evidence remain ephemeral CI artifacts rather than committed binaries.
+Full-page mobile/tablet/desktop captures were also reviewed; screenshots remain ephemeral CI evidence rather than committed binaries.
 
 ## Historical boundary
 
@@ -165,7 +187,8 @@ Allowed:
 - improved responsive composition;
 - typography/spacing refinement;
 - modern focus and interaction states;
-- reproducible image derivatives when measured and documented.
+- reproducible image derivatives when measured and documented;
+- future content-provider/admin capabilities that preserve historical/current status explicitly.
 
 Not allowed:
 
@@ -173,7 +196,8 @@ Not allowed:
 - silently changing historical claims;
 - replacing historical photos with generated substitutes;
 - removing provenance;
-- reintroducing old CDN dependencies for visual nostalgia.
+- reintroducing old CDN dependencies for visual nostalgia;
+- presenting a historical person/client/service as current without verification.
 
 ## Accessibility invariants
 
@@ -195,39 +219,55 @@ Related issue: #10.
 
 Historical originals remain archival source. Promoted media remains provenance-backed. Any derivative must have a reproducible source/process and measured reason.
 
+The current promoted boundary is 11 historical files totaling 786,374 bytes (~768 KiB); optimization remains evidence-driven rather than format-driven.
+
 Related issue: #11.
 
 ## Metadata boundary
 
-Visual changes do not authorize fabricated SEO/service claims. Titles, descriptions and social metadata must continue describing the actual historical/reconstruction product.
+Visual changes do not authorize fabricated SEO/service claims. Titles, descriptions and social metadata describe the actual historical/reconstruction product.
+
+Canonical URL, absolute social preview metadata, sitemap and robots decisions belong to the future deployment/cutover change once a real production origin exists.
 
 Related issue: #12.
 
-## Validation
+## Content-platform boundary
 
-A material visual block is accepted only after:
+Completing the visual system does not mean content should remain scattered through presentation forever.
+
+The next capability lane is #26:
+
+- typed content authority;
+- explicit historical/current/draft status;
+- provenance-aware local provider;
+- future managed provider/editor boundary only when real content operations justify it.
+
+That evolution must reuse this visual system rather than introducing a second admin/public design language without need.
+
+## Validation rule
+
+A material future block is accepted only after:
 
 1. `pnpm check` passes;
-2. current behavior tests remain green;
-3. browser QA runs against the production build at 360 / 768 / 1440 px;
+2. current behavior/document-contract tests remain green;
+3. browser QA runs against the production build at the relevant widths;
 4. keyboard/focus/reduced-motion regressions are checked;
 5. historical truth/privacy boundaries remain visible;
 6. promoted images load through their real loading strategy;
-7. screenshots are reviewed for hierarchy, density and alignment;
+7. screenshots are reviewed for hierarchy, density and alignment when presentation changes;
 8. temporary qualification tooling is removed before merge.
 
-## Iteration order
-
-The system evolves in recoverable passes:
+## Iteration status
 
 1. foundation tokens and shared rhythm — **qualified in PR #23**;
-2. global shell/header/navigation;
-3. Home/hero/archive viewer;
-4. Nosotros;
-5. Servicios/Backstage;
-6. Equipo;
-7. Contacto;
-8. integrated accessibility/media/metadata pass;
-9. only then cutover preparation.
+2. global shell/header/navigation — **qualified in PR #24**;
+3. Home/hero/archive viewer — **qualified in PR #24**;
+4. Nosotros — **qualified in PR #25**;
+5. Servicios/Backstage — **qualified in PR #25**;
+6. Equipo — **qualified in PR #25**;
+7. Contacto — **qualified in PR #25**;
+8. integrated accessibility/media/metadata pass — **qualified in PR #27**;
+9. content-platform readiness — **tracked in #26**;
+10. deployment/cutover preparation — **still explicit and separate**.
 
-This order makes visual regressions attributable and keeps the historical migration reviewable.
+The visual-system lane is complete when PR #27 is integrated. Subsequent work extends content capability and deployment maturity rather than reopening a generic redesign.
