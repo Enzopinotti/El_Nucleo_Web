@@ -1,14 +1,12 @@
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { App } from "../App";
 
-const indexHtml = readFileSync(
-  new URL("../../index.html", import.meta.url),
-  "utf8",
-);
+const indexHtml = readFileSync(resolve(process.cwd(), "index.html"), "utf8");
 
 function parseIndex() {
   return new DOMParser().parseFromString(indexHtml, "text/html");
