@@ -9,6 +9,11 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   {
     files: ["src/**/*.{ts,tsx}", "vite.config.ts"],
+    languageOptions: {
+      parserOptions: {
+        onUnsupportedTypeScriptVersion: "error",
+      },
+    },
     rules: {
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/no-unused-vars": [

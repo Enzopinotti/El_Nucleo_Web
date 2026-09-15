@@ -35,9 +35,9 @@ No job titles, responsibilities, biographies, dates or present-day contact chann
 
 Only the two local photographs needed by the modern archive are promoted:
 
-| Source | Blob SHA | Modern path |
-| --- | --- | --- |
-| `assets/recursos/fotos-equipo/fotoAndre.jpg` | `ba4b1c118c38c6f4c61e6645cee9f1a65549cbdb` | `modern/public/media/team/andre-2022.jpg` |
+| Source                                       | Blob SHA                                   | Modern path                                 |
+| -------------------------------------------- | ------------------------------------------ | ------------------------------------------- |
+| `assets/recursos/fotos-equipo/fotoAndre.jpg` | `ba4b1c118c38c6f4c61e6645cee9f1a65549cbdb` | `modern/public/media/team/andre-2022.jpg`   |
 | `assets/recursos/fotos-equipo/fotoLauti.jpg` | `58bdaafc1dbc98c62db57f3f4642c1d169f2990c` | `modern/public/media/team/lautaro-2022.jpg` |
 
 The promoted files use the exact historical Git blobs byte-for-byte. Original files remain untouched.

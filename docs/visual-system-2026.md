@@ -163,14 +163,14 @@ The accepted evidence confirms:
 
 ### Core contrast evidence
 
-| Pair | Ratio |
-| --- | ---: |
-| text / background | 17.80:1 |
-| muted / background | 9.23:1 |
-| subtle / background | 5.77:1 |
+| Pair                |   Ratio |
+| ------------------- | ------: |
+| text / background   | 17.80:1 |
+| muted / background  |  9.23:1 |
+| subtle / background |  5.77:1 |
 | accent / background | 10.83:1 |
-| accent ink / accent | 9.53:1 |
-| subtle / surface | 4.97:1 |
+| accent ink / accent |  9.53:1 |
+| subtle / surface    |  4.97:1 |
 
 The first integrated browser smoke incorrectly required the document to contain only one `<footer>` total. That was a QA error: the page correctly uses internal `<footer>` elements for historical blockquote attribution. The product was not changed to satisfy the false negative. V2 qualified one **global** `.site-footer` plus three quote footers separately and passed without exceptions.
 

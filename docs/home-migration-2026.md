@@ -97,11 +97,11 @@ Home was then served from the **production Vite build** and inspected with Googl
 
 Evidence was generated for real responsive viewports rather than oversized fake full-page windows:
 
-| Viewport | Rendered document |
-| --- | ---: |
-| 360 px mobile | 360 × 4231 px |
-| 768 px tablet | 768 × 3226 px |
-| 1440 px desktop | 1440 × 3651 px |
+| Viewport        | Rendered document |
+| --------------- | ----------------: |
+| 360 px mobile   |     360 × 4231 px |
+| 768 px tablet   |     768 × 3226 px |
+| 1440 px desktop |    1440 × 3651 px |
 
 The browser qualification verified:
 
