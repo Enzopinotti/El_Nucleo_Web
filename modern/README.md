@@ -4,13 +4,30 @@ This directory contains the 2026 reconstruction of the original 2022 El Núcleo 
 
 It remains intentionally isolated under `modern/` until the final controlled cutover. Historical root HTML/SCSS/CSS/assets stay intact as source evidence while the modern app owns the current runtime, behavior, presentation and typed content authority.
 
+## Current phase
+
+The application, content migration, visual system, cross-cutting qualification, content-platform boundary and repository-wide audit are complete.
+
+Completed lanes include:
+
+- historical migration;
+- accessibility/media/metadata qualification;
+- visual-system closure;
+- content platform #26 / PR #28;
+- repository audit #29 / PR #30;
+- post-merge quality #132 on `main`.
+
+The only active lane is now **#5 — production deploy and controlled root cutover**.
+
+No generic modernization cleanup remains open. Future changes in this directory should either preserve the accepted contracts or solve a concrete deployment blocker discovered by #5.
+
 ## Runtime
 
 - Node.js 24
 - pnpm 11.26.0
 - React 19
 - Vite 8
-- TypeScript 6
+- TypeScript 6.0.3
 - Sass
 - Vitest + Testing Library
 - ESLint + Prettier
@@ -20,7 +37,8 @@ Runtime/package-manager authority is intentionally single-sourced:
 - root `.nvmrc` owns Node 24;
 - `package.json#packageManager` owns pnpm 11.26.0;
 - `package.json#engines` rejects an incompatible Node major;
-- GitHub Actions reads both authorities instead of duplicating version literals.
+- GitHub Actions reads both authorities instead of duplicating version literals;
+- ESLint rejects a TypeScript version outside the supported `typescript-eslint` range.
 
 ## Local workflow
 
@@ -52,7 +70,7 @@ The same command is used by GitHub Actions.
 
 `pnpm-workspace.yaml` is the package-install security policy for the modern app.
 
-It currently enforces:
+It enforces:
 
 - `minimumReleaseAge: 1440`;
 - `minimumReleaseAgeStrict: true`;
@@ -63,12 +81,12 @@ The 24-hour release-age boundary is deliberate. During the pnpm 11 migration it 
 
 Sass brings `@parcel/watcher` as an optional dependency. The app's install, tests and Vite production build pass with its install script denied, so the repository does not grant native build-script execution that the product does not require.
 
-The final pnpm 11 graph was also checked with a one-shot dependency audit:
+The final pnpm graph was checked with bounded advisory evidence:
 
 - production graph: no `moderate`-or-higher finding;
 - complete graph: no `high`-or-higher finding.
 
-Registry-backed advisory checks remain evidence rather than a permanent CI dependency. Frozen installation plus the version-age/build-script policy are the durable local/CI contracts.
+Registry-backed advisory checks remain evidence rather than a permanent CI dependency. Frozen installation plus the version-age/build-script policy are the durable contracts.
 
 ## Source authority
 
@@ -177,6 +195,30 @@ There is deliberately no remote provider, CMS dependency or `/admin`. A real sec
 
 Full contract: [`../docs/content-platform-2026.md`](../docs/content-platform-2026.md).
 
+## Repository audit — complete
+
+Issue #29 / PR #30 are complete.
+
+The hardening pass resolved or classified:
+
+- stale Node authority;
+- package-manager duplication;
+- pnpm 11 migration and supply-chain policy;
+- lockfile qualification;
+- docs-as-code CI coverage;
+- TypeScript/tooling compatibility;
+- tests by product risk;
+- dependency advisory evidence;
+- security/privacy posture;
+- performance/media posture;
+- browser-QA permanence decision;
+- governance and deliberate non-adoptions;
+- cutover-only blockers.
+
+The final merge is `7b0521b0331c42881d43ef7e894672125e9c1b66`, and post-merge Modern app quality #132 passed on that `main` state.
+
+Audit matrix: [`../docs/repository-audit-2026.md`](../docs/repository-audit-2026.md).
+
 ## Quality contract
 
 Every material change must preserve:
@@ -191,36 +233,14 @@ Every material change must preserve:
 8. no personal-data collection without real transport/privacy semantics;
 9. read-only SHA-pinned permanent GitHub Actions;
 10. browser QA when behavior/presentation changes;
-11. temporary qualification tooling removed before merge.
-
-## Repository audit — active phase
-
-Issue #29 owns the pre-cutover engineering audit.
-
-The audit matrix is versioned in [`../docs/repository-audit-2026.md`](../docs/repository-audit-2026.md) and classifies findings as:
-
-- `pass`;
-- `improve`;
-- `defer`;
-- `historical`;
-- `cutover-blocked`.
-
-The hardening pass has already corrected concrete drift:
-
-- `.nvmrc` Node 22 → Node 24;
-- CI now reads Node from `.nvmrc`;
-- pnpm 9 → pnpm 11.26.0;
-- CI now reads pnpm from `packageManager`;
-- release-age/build-script supply-chain rules are explicit;
-- root README/docs/repository-authority changes trigger permanent quality;
-- repository Markdown is covered by the Prettier contract;
-- unsupported TypeScript versions fail lint instead of producing a soft warning.
+11. temporary qualification tooling removed before merge;
+12. repository-level README/docs synchronized when the project phase changes.
 
 ## TypeScript and lint posture
 
 TypeScript remains `strict: true` on 6.0.3.
 
-TypeScript 7 exists, but the current `typescript-eslint` toolchain officially supports TypeScript `<6.1`. The repository therefore stays on the latest compatible TypeScript line and configures `onUnsupportedTypeScriptVersion: "error"` so a future incompatible bump cannot enter silently.
+TypeScript 7 exists, but the current `typescript-eslint` toolchain officially supports TypeScript `<6.1`. The repository therefore stays on the compatible TypeScript line and configures `onUnsupportedTypeScriptVersion: "error"` so a future incompatible bump cannot enter silently.
 
 `skipLibCheck: true` remains deliberate for the current small dependency surface. Type-aware linting or additional React lint plugins are deferred until they demonstrate a real bug class instead of merely increasing rule count.
 
@@ -234,9 +254,9 @@ The suite is risk-oriented:
 - 4 public-document contracts;
 - 19 visible behavior tests.
 
-No numeric coverage threshold is introduced merely for a badge. Existing tests protect behavior, document contracts, content truth/provenance and important interaction state.
+No numeric coverage threshold is introduced merely for a badge.
 
-A permanent Playwright/screenshot suite is not introduced in #29. Major presentation changes have already been qualified against the production build, and the most valuable stable DOM invariants live in Vitest/Testing Library. A real URL smoke belongs to #5 after deployment because it should verify the environment users actually receive.
+A permanent Playwright/screenshot suite is not introduced before deploy. Major presentation changes already have production-build browser evidence, and stable DOM invariants live in Vitest/Testing Library. The highest-value browser automation is now the real-URL post-deploy smoke required by #5.
 
 ## Media policy
 
@@ -262,18 +282,20 @@ The modern runtime currently has:
 
 CSP/host headers remain deployment work because they depend on the real production host.
 
-## Deployment boundary
+## Deployment boundary — active #5
 
-The historical root remains the deployable baseline.
+The historical root remains the deployable baseline until cutover.
 
-The modern application replaces it only through #5 after #29 leaves a cutover-only blocker list and the project has:
+The modern application replaces or supersedes that authority only through #5 after the project has:
 
 - a chosen production host/origin;
 - verified base path/assets;
 - real canonical/social metadata;
 - sitemap/robots decisions where appropriate;
 - host-specific security/deploy configuration;
-- post-deploy smoke;
-- documented rollback to the preserved 2022 baseline.
+- post-deploy smoke against the real URL;
+- documented rollback to the preserved 2022 baseline;
+- explicit source/artifact authority after deployment;
+- direct GitHub branch-protection/ruleset verification.
 
-No placeholder origin is acceptable.
+No placeholder origin or silent root replacement is acceptable.

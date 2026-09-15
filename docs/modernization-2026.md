@@ -4,9 +4,15 @@
 
 Modernizar el primer proyecto web histórico sin convertir el repositorio en una reescritura que borre su contexto de aprendizaje.
 
-Baseline 2022 preservado: `6b23035cb6fffebbdd8ecd57c6752eae36f09b31`.
+Baseline 2022 preservado:
+
+```text
+6b23035cb6fffebbdd8ecd57c6752eae36f09b31
+```
 
 La modernización funciona como una migración por slices recuperables: cada bloque preserva la fuente histórica, define una autoridad moderna, pasa quality gate y QA relevante y recién después se integra a `main`.
+
+Después de PR #30, toda la migración y auditoría pre-cutover está completa. La única fase activa es ahora el deployment y cutover controlado de #5.
 
 ## 2. Producto histórico inventariado
 
@@ -64,14 +70,14 @@ La modernización funciona como una migración por slices recuperables: cada blo
 - metadata/SEO antigua;
 - ausencia de package contract, tests, lint, typecheck, build y CI reproducible.
 
-La raíz histórica sigue preservada durante la transición; esta deuda no se “arregla” modificando el archivo 2022 sino reemplazando su autoridad en la app moderna.
+La raíz histórica sigue preservada durante la transición. Esta deuda no se “arregla” modificando el archivo 2022 sino reemplazando su autoridad mediante la app moderna y, finalmente, un cutover explícito.
 
 ## 4. Stack canónico 2026
 
 - Node.js 24;
 - pnpm 11.26.0 + lockfile reproducible;
 - React 19;
-- TypeScript 6;
+- TypeScript 6.0.3;
 - Vite 8;
 - Sass moderno con `@use`;
 - ESLint;
@@ -84,7 +90,8 @@ La raíz histórica sigue preservada durante la transición; esta deuda no se �
 - `.nvmrc` → Node 24;
 - `modern/package.json#engines` → `>=24 <25`;
 - `modern/package.json#packageManager` → pnpm 11.26.0;
-- CI lee `.nvmrc` y `packageManager` directamente en lugar de duplicar esas versiones.
+- CI lee `.nvmrc` y `packageManager` directamente en lugar de duplicar esas versiones;
+- ESLint falla ante una versión de TypeScript fuera del rango soportado por `typescript-eslint`.
 
 ### Política de instalación y supply-chain
 
@@ -93,7 +100,7 @@ La raíz histórica sigue preservada durante la transición; esta deuda no se �
 - antigüedad mínima de publicación: 24 horas;
 - enforcement estricto también para transitivas;
 - bloqueo de subdependencias exóticas;
-- scripts de build/install no se habilitan por defecto;
+- scripts de build/install no se habilitan por confianza implícita;
 - `@parcel/watcher`, dependencia opcional de Sass, queda explícitamente denegada porque la aplicación compila y prueba correctamente sin su postinstall nativo.
 
 La migración a pnpm 11 detectó una versión transitiva de `brace-expansion` publicada hacía menos de 24 horas. La protección no se relajó: el lockfile se reconstruyó bajo la nueva policy y luego pasó el quality contract.
@@ -221,11 +228,11 @@ Completada en #26 / PR #28:
 - 29/29 tests + quality + browser QA;
 - post-merge quality verde.
 
-### 🟡 Fase 6 — repository-wide engineering audit / hardening
+### ✅ Fase 6 — repository-wide engineering audit / hardening
 
-Activa en #29 / PR #30.
+Completada en #29 / PR #30.
 
-Hallazgos ya resueltos o calificados:
+Hallazgos resueltos o calificados:
 
 - `.nvmrc` 22 → 24;
 - CI consume `.nvmrc`;
@@ -238,27 +245,41 @@ Hallazgos ya resueltos o calificados:
 - TypeScript 6.0.3 se mantiene por compatibilidad oficial del parser/linter;
 - ESLint falla ante una versión de TypeScript fuera del rango soportado;
 - los 29 tests fueron auditados contra riesgo real y no justifican coverage nominal;
-- un audit one-shot del graph congelado pasó sin findings `moderate+` en producción ni `high+` en el árbol completo;
+- audit one-shot del graph congelado sin findings `moderate+` en producción ni `high+` en el árbol completo;
 - no se encontraron secretos/env contracts modernos ni scripts externos de runtime;
-- un E2E/screenshot gate permanente se difiere: el smoke real debe validar la URL final en #5, no duplicar tests DOM ya cubiertos.
+- E2E/screenshot permanente diferido porque el smoke de mayor valor debe validar la URL real de producción;
+- governance, LICENSE, SECURITY, CONTRIBUTING y dependency-update bots fueron evaluados y no fabricados por apariencia.
+
+Merge de hardening:
+
+```text
+7b0521b0331c42881d43ef7e894672125e9c1b66
+```
+
+Post-merge Modern app quality #132: **success**.
 
 Matriz completa: `docs/repository-audit-2026.md`.
 
-### ⏳ Fase 7 — deploy + cutover
+### 🟡 Fase 7 — production deploy + controlled cutover
 
 Propiedad: #5.
 
-Pendiente únicamente cuando #29 esté cerrado:
+Esta es la única fase activa.
 
-- elegir host/origen;
-- confirmar `/` vs subpath;
-- canonical/`og:url`/`og:image` reales;
-- sitemap/robots si corresponde;
-- headers/CSP según host real;
-- artifact/source authority;
-- post-deploy smoke sobre la URL pública;
-- rollback al baseline 2022;
-- decisión explícita sobre promover `modern/` a raíz.
+Debe resolver:
+
+1. host/origen público real;
+2. `/` vs subpath/base path;
+3. canonical/`og:url`/`og:image` reales;
+4. sitemap/robots según el deployment final;
+5. CSP/security headers según el host elegido;
+6. artifact/source authority;
+7. post-deploy smoke sobre la URL pública;
+8. rollback al baseline 2022;
+9. decisión explícita sobre mantener `modern/` como source location o promoverlo a raíz;
+10. branch protection/ruleset de `main` verificado directamente en GitHub Settings.
+
+No queda una fase genérica de modernización entre #29 y #5.
 
 ## 7. Invariantes
 
@@ -277,7 +298,8 @@ Pendiente únicamente cuando #29 esté cerrado:
 - cada slice debe quedar recuperable y documentado;
 - documentación de estado no puede quedar una fase detrás de la implementación;
 - deployment-specific values no se inventan antes de seleccionar el origen real;
-- una dependencia recién publicada o un script de instalación no obtiene confianza automática sólo porque resuelva el semver.
+- una dependencia recién publicada o un script de instalación no obtiene confianza automática sólo porque resuelva el semver;
+- el README general se actualiza siempre que cambia la fase activa.
 
 ## 8. Non-adoptions deliberadas
 
@@ -297,7 +319,7 @@ Mientras no exista necesidad concreta, esta modernización no agrega por aparien
 
 ## 9. Definition of Done del cutover
 
-La versión moderna reemplaza la raíz sólo cuando cumple en conjunto:
+La versión moderna reemplaza o supersede la autoridad histórica sólo cuando cumple en conjunto:
 
 - instalación desde clone limpio bajo la policy de pnpm;
 - runtime/package manager coherentes;
@@ -313,6 +335,10 @@ La versión moderna reemplaza la raíz sólo cuando cumple en conjunto:
 - claims históricos con contexto verificable;
 - metadata/origin reales;
 - Contacto sin comportamiento ficticio ni fuga por query string;
-- deploy y post-deploy smoke definidos;
-- rollback documentado;
-- README/documentación sincronizados con la implementación final.
+- host-specific CSP/security policy definida;
+- deploy y post-deploy smoke verdes;
+- rollback documentado y ejecutable;
+- source/artifact authority explícita;
+- branch protection/ruleset verificado;
+- README/documentación sincronizados con la implementación final;
+- #1 puede cerrarse de forma honesta como modernización completada.

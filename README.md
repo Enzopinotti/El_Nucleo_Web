@@ -2,7 +2,30 @@
 
 Este repositorio conserva uno de mis primeros proyectos web públicos, realizado en 2022 mientras aprendía HTML, CSS y Sass. **El Núcleo CINE** nació en ese contexto como proyecto audiovisual experimental/en desarrollo y como entrega de Coderhouse; no se presenta hoy como una empresa audiovisual operativa ni como una historia comercial más madura de lo que realmente fue.
 
-La reconstrucción de 2026 no intenta borrar ese origen. El objetivo es mostrar una evolución real de ingeniería: preservar el baseline histórico, reconstruir la experiencia por slices recuperables, validar cada cambio con pruebas y CI, separar explícitamente **archivo histórico**, **información verificada**, **contenido todavía no verificado** y **capacidades futuras**, y llegar al cutover únicamente cuando el repositorio completo esté calificado.
+La reconstrucción de 2026 no intenta borrar ese origen. El objetivo es mostrar una evolución real de ingeniería: preservar el baseline histórico, reconstruir la experiencia por slices recuperables, validar cada cambio con pruebas y CI, separar explícitamente **archivo histórico**, **información verificada**, **contenido todavía no verificado** y **capacidades futuras**, y efectuar el reemplazo de autoridad únicamente mediante un cutover explícito y reversible.
+
+## Estado actual
+
+La reconstrucción funcional, visual, de contenido y de ingeniería ya está integrada en `main`.
+
+Completado:
+
+- preservación del sitio 2022;
+- foundation moderna;
+- Home, Nosotros, Servicios, Backstage, Equipo y Contacto histórico;
+- sistema visual 2026;
+- accesibilidad, media/provenance y metadata baseline;
+- content platform tipada y provenance-aware;
+- auditoría completa de repositorio;
+- Node/pnpm authority hardening;
+- pnpm 11 supply-chain policy;
+- documentación como código;
+- 29/29 tests + production build;
+- quality final de PR #30 y quality post-merge #132 verdes.
+
+La **única fase activa** es ahora [#5 — Production deploy and controlled root cutover](https://github.com/Enzopinotti/El_Nucleo_Web/issues/5).
+
+No queda una migración genérica pendiente. Lo que resta depende del deployment real: host/origen, base path, metadata absoluta, headers/CSP, smoke público, rollback y autoridad de la raíz después del cutover.
 
 ## Baseline histórico
 
@@ -23,7 +46,7 @@ La aplicación nueva vive en [`modern/`](modern/) hasta el cutover controlado.
 - Node.js 24
 - pnpm 11.26.0 + lockfile reproducible
 - React 19
-- TypeScript 6
+- TypeScript 6.0.3
 - Vite 8
 - Sass con `@use`
 - Vitest + Testing Library
@@ -34,7 +57,10 @@ La autoridad de runtime/package manager está centralizada:
 
 - `.nvmrc` define Node 24 y CI lo consume directamente;
 - `modern/package.json#packageManager` define pnpm 11.26.0 y CI lo consume directamente;
-- `modern/package.json#engines` impide ejecutar el proyecto con una major de Node diferente.
+- `modern/package.json#engines` impide ejecutar el proyecto con una major de Node incompatible;
+- ESLint falla si TypeScript sale del rango soportado por `typescript-eslint`.
+
+## Quality contract
 
 El contrato local y de CI es el mismo:
 
@@ -51,34 +77,32 @@ pnpm check
 2. formato del README raíz y `docs/**/*.md`;
 3. lint sin warnings;
 4. TypeScript;
-5. tests;
+5. 29 tests de comportamiento/contrato;
 6. build de producción.
+
+Los cambios en `modern/**`, `README.md`, `docs/**`, `.nvmrc`, `.editorconfig`, `.gitignore` y `.github/workflows/**` disparan el workflow permanente.
 
 ## Supply-chain y dependencias
 
-La migración a pnpm 11 se hizo como cambio de seguridad, no sólo de versión.
+La migración a pnpm 11 fue un cambio de seguridad, no sólo de versión.
 
-`modern/pnpm-workspace.yaml` codifica de forma explícita:
+`modern/pnpm-workspace.yaml` codifica:
 
-- `minimumReleaseAge: 1440` — una dependencia nueva debe tener al menos 24 horas de publicada;
-- `minimumReleaseAgeStrict: true` — la regla también protege resoluciones transitivas;
-- `blockExoticSubdeps: true` — subdependencias exóticas quedan bloqueadas;
-- `@parcel/watcher` tiene su build script explícitamente denegado porque entra como dependencia opcional de Sass y el producto califica correctamente sin ejecutar ese postinstall nativo.
+- `minimumReleaseAge: 1440`;
+- `minimumReleaseAgeStrict: true`;
+- `blockExoticSubdeps: true`;
+- denegación explícita del build/install script de `@parcel/watcher`, porque entra de forma opcional por Sass y el producto califica sin ejecutar ese postinstall nativo.
 
-Durante la migración, esta política detectó que el lockfile viejo contenía una versión de `brace-expansion` publicada hacía menos de 24 horas. En vez de desactivar la protección, el lockfile fue reconstruido bajo la política nueva y luego validado con el quality contract completo.
+Durante la migración, esta política detectó una versión transitiva de `brace-expansion` publicada hacía menos de 24 horas. La protección se mantuvo y el lockfile fue reconstruido bajo la política hasta seleccionar una resolución suficientemente madura.
 
-También se ejecutó un audit one-shot sobre el graph congelado resultante:
+El graph final fue además auditado con evidencia one-shot:
 
-- dependencias de producción: sin findings `moderate` o superiores;
-- árbol completo, incluido tooling: sin findings `high` o superiores.
+- producción: sin findings `moderate` o superiores;
+- árbol completo: sin findings `high` o superiores.
 
-El audit remoto no queda como gate permanente porque depende de disponibilidad/estado del servicio de advisories; la política reproducible de instalación sí queda versionada.
+El advisory scan remoto no queda como gate permanente; frozen install + política de resolución/build scripts sí quedan versionados y reproducibles.
 
-## Estado real de la reconstrucción
-
-La reconstrucción visual, de contenido y de autoridad de datos ya está integrada en `main`.
-
-### ✅ Contenido histórico migrado
+## Contenido histórico migrado
 
 - **Home** — identidad, hero y archivo de las cuatro categorías históricas;
 - **Nosotros** — narrativa 2022 con límite explícito entre fuente histórica y vigencia actual;
@@ -86,9 +110,9 @@ La reconstrucción visual, de contenido y de autoridad de datos ya está integra
 - **Equipo + referencias históricas** — nombres/fotos preservados como archivo, sin convertirlos en staff o clientes vigentes;
 - **Contacto** — conserva el contrato histórico sin reproducir `GET` + `action=""`, sin backend inventado ni recolección falsa de datos.
 
-### ✅ Sistema visual y calidad transversal
+## Sistema visual y calidad transversal
 
-El sistema visual 2026 usa una dirección editorial de archivo/producción/control-surface y ya fue calificado para:
+El sistema visual 2026 usa una dirección editorial de archivo/producción/control-surface y fue calificado para:
 
 - 360 / 768 / 1440 px;
 - cero overflow global;
@@ -101,11 +125,13 @@ El sistema visual 2026 usa una dirección editorial de archivo/producción/contr
 - Contacto sin forms/controles operativos;
 - metadata honesta sin URLs de producción inventadas.
 
-Los issues transversales #10, #11, #12 y #22 están cerrados porque sus criterios quedaron cubiertos por implementación, tests, documentación y browser QA.
+Los issues #10, #11, #12 y #22 están cerrados.
 
-### ✅ Content platform readiness — #26 / PR #28
+## Content platform readiness
 
-La aplicación ya tiene una autoridad tipada y provenance-aware:
+Issue #26 / PR #28 están completos.
+
+Arquitectura actual:
 
 ```text
 fuentes históricas 2022 + hechos/editorial 2026 revisados
@@ -125,19 +151,23 @@ El modelo distingue:
 - `draft`;
 - publicación `public` / `withheld`.
 
-La identidad histórica `El Núcleo / CINE` y su logo permanecen `historical`. El shell editorial de la reconstrucción —por ejemplo `Archivo 2022 · reconstrucción 2026`— es `verified-current`. Ambos tiempos no se mezclan bajo una misma etiqueta de verdad.
+La identidad histórica `El Núcleo / CINE` y su logo permanecen `historical`. El shell editorial de la reconstrucción es `verified-current`.
 
 Los dominios de proyectos actuales y canales actuales de contacto existen en el contrato, pero permanecen vacíos, `unverified` y `withheld` mientras no exista evidencia real.
 
-No se agregó un CMS, `/admin` ni una interfaz remota artificial: el frontend ya está preparado para una futura segunda fuente sin pagar hoy la complejidad de una operación que todavía no existe.
+No se agregó un CMS, `/admin` ni una interfaz remota artificial. El frontend está preparado para una segunda fuente futura sin pagar hoy complejidad que todavía no existe.
 
-PR #28 fue mergeado en `main` y el quality post-merge quedó verde con **29/29 tests**.
+## Auditoría pre-cutover completada
 
-### 🟡 Fase activa — #29 Repository-wide engineering audit
+Issue #29 / PR #30 están completos.
 
-La fase actual ya no es una migración visual. Es una auditoría integral y pre-cutover contra los estándares definidos en #6.
+Merge de hardening:
 
-El audit cubre:
+```text
+7b0521b0331c42881d43ef7e894672125e9c1b66
+```
+
+La auditoría cerró o clasificó explícitamente:
 
 - autoridad de repositorio y documentación;
 - runtime/package manager;
@@ -147,63 +177,37 @@ El audit cubre:
 - tests y browser QA;
 - seguridad/privacy;
 - performance/media;
-- regresiones de accesibilidad;
+- accesibilidad;
 - SEO/deployment;
 - release/cutover/rollback;
-- developer experience.
+- developer experience;
+- governance del repositorio.
 
-La matriz versionada está en [`docs/repository-audit-2026.md`](docs/repository-audit-2026.md).
+La matriz completa está en [`docs/repository-audit-2026.md`](docs/repository-audit-2026.md).
 
-La regla de la auditoría es **evidencia antes que tooling**. No se agregan Docker, Storybook, coverage thresholds, CMS, analytics, plugins de lint o pipelines de imágenes sólo para que el repositorio parezca más complejo.
-
-## Hardening incorporado en #29
-
-La auditoría encontró y corrigió deuda concreta sin tocar el producto histórico:
-
-- `.nvmrc` estaba en Node 22 mientras package/CI/docs requerían Node 24 → unificado en Node 24;
-- CI duplicaba versiones de runtime/package manager → ahora lee `.nvmrc` y `packageManager`;
-- pnpm 9 quedó atrás de las protecciones actuales → migrado a pnpm 11.26.0 con política supply-chain explícita;
-- una versión transitiva demasiado reciente quedó detectada y fue re-resuelta, no whitelisteada;
-- scripts de instalación no aprobados quedan bloqueados por policy;
-- CI no se disparaba para README/docs/archivos de autoridad → ahora sí;
-- `pnpm check` incorpora `docs:check`;
-- documentos Markdown heredados quedaron normalizados por el Prettier real del repo;
-- ESLint ahora convierte en error el uso de una versión de TypeScript no soportada por `typescript-eslint`;
-- TypeScript 6.0.3 se mantiene deliberadamente mientras el parser/linter soporte oficialmente `<6.1`, en vez de perseguir TypeScript 7 sin compatibilidad;
-- los 29 tests fueron revisados por riesgo: truth/provenance, document contract y comportamiento visible; no se agregó un porcentaje de coverage artificial;
-- el audit de dependencias no encontró vulnerabilidades dentro de los umbrales definidos.
+El quality post-merge #132 pasó sobre el commit real de `main`, por lo que #29 está cerrado sin deuda transversal pendiente.
 
 ## Testing y browser QA
 
-La suite actual contiene **29 tests en 3 archivos**:
+La suite contiene **29 tests en 3 archivos**:
 
-- 6 de `localLandingContent` para truth/publication/provenance;
-- 4 del documento público para metadata, landmarks, navegación, media y Contacto;
-- 19 de comportamiento visible para las slices históricas, galería, equipo/clientes, Contacto y skip-link.
+- 6 tests de authority/truth/publication/provenance;
+- 4 contratos del documento público;
+- 19 tests de comportamiento visible.
 
-No se agrega un coverage threshold nominal porque el valor actual está en proteger contratos de producto, no en maximizar porcentaje de líneas.
+No se agrega coverage nominal para inflar métricas. Los tests protegen contratos y riesgos reales.
 
-Tampoco se incorpora por ahora una suite E2E/Playwright permanente: los invariantes DOM más valiosos ya tienen tests estables y las grandes pasadas visuales fueron calificadas en navegador de producción. El smoke real de la URL pública pertenece al cutover/post-deploy de #5, donde sí valida el entorno que el usuario recibe.
-
-## Principios de la reconstrucción
-
-- preservar la historia del repositorio;
-- no inventar clientes, trabajos, roles, métricas ni actividad comercial actual;
-- distinguir estado de verdad de estado de publicación;
-- mantener provenance de cada asset histórico promovido;
-- usar una sola autoridad por contenido compartido;
-- evitar dependencias que no resuelvan un problema real;
-- no habilitar formularios o integraciones que aparenten funcionar sin contrato real;
-- no enviar datos personales por query string ni simular éxito sin entrega;
-- trabajar en slices recuperables, con PR, quality gate y QA relevante;
-- eliminar tooling temporal antes del merge;
-- no elegir backend/CMS/auth por novedad;
-- no reemplazar la raíz histórica durante una auditoría genérica;
-- separar deuda de ingeniería de decisiones de despliegue/cutover.
+Tampoco se mantiene una suite Playwright/screenshot permanente antes del deploy. Las grandes pasadas visuales ya fueron calificadas contra production build. El browser smoke de mayor valor debe ejecutarse sobre la **URL pública real**, dentro de #5.
 
 ## Media y provenance
 
-Los assets promovidos viven dentro de la frontera moderna y mantienen trazabilidad hasta sus blobs históricos. El baseline actual es de **11 archivos / 786.374 bytes (~768 KiB)**.
+Los assets promovidos viven dentro de la frontera moderna y mantienen trazabilidad hasta sus blobs históricos.
+
+Baseline actual:
+
+```text
+11 archivos / 786.374 bytes (~768 KiB)
+```
 
 No se genera WebP/AVIF o una pipeline responsive sólo para sumar tecnología. Los derivados se justifican con medición real de transferencia/LCP o con medios futuros materialmente más pesados.
 
@@ -237,7 +241,42 @@ La aplicación moderna no introduce:
 
 Los patrones inseguros o anticuados que existan en el HTML/CDN/formulario de 2022 son evidencia histórica y no se reescriben sólo para hacer parecer moderno el archivo.
 
-CSP y headers de producción se definen en el carril de deploy cuando exista un host concreto.
+CSP y headers de producción pertenecen al carril #5 porque deben configurarse según el host real.
+
+## Fase activa — deployment y cutover
+
+El histórico root sigue siendo la baseline desplegable. Que `modern/` esté funcional, calificada y mantenible no significa que deba reemplazarse silenciosamente.
+
+#5 debe resolver, en este orden:
+
+1. host y origen público;
+2. `/` vs subpath/base path;
+3. canonical / `og:url` / `og:image` reales;
+4. sitemap/robots según el deployment final;
+5. CSP/security headers según el host;
+6. artifact/source authority del deploy;
+7. smoke contra la URL pública;
+8. rollback al baseline 2022;
+9. decisión explícita sobre mantener `modern/` como source location o promoverlo a raíz;
+10. verificación directa de branch protection/ruleset en GitHub Settings.
+
+La modernización general #1 se cierra únicamente cuando ese estado productivo esté probado y documentado.
+
+## Principios de la reconstrucción
+
+- preservar la historia del repositorio;
+- no inventar clientes, trabajos, roles, métricas ni actividad comercial actual;
+- distinguir estado de verdad de estado de publicación;
+- mantener provenance de cada asset histórico promovido;
+- usar una sola autoridad por contenido compartido;
+- evitar dependencias que no resuelvan un problema real;
+- no habilitar formularios o integraciones que aparenten funcionar sin contrato real;
+- no enviar datos personales por query string ni simular éxito sin entrega;
+- trabajar en slices recuperables, con PR, quality gate y QA relevante;
+- eliminar tooling temporal antes del merge;
+- no elegir backend/CMS/auth por novedad;
+- no reemplazar la raíz histórica fuera del carril de cutover;
+- mantener el README general sincronizado con cada cambio de fase.
 
 ## Documentación principal
 
@@ -245,28 +284,14 @@ CSP y headers de producción se definen en el carril de deploy cuando exista un 
 - [`docs/modern-app-architecture.md`](docs/modern-app-architecture.md) — autoridad y arquitectura;
 - [`docs/content-platform-2026.md`](docs/content-platform-2026.md) — truth/publication/provenance y frontera CMS;
 - [`docs/visual-system-2026.md`](docs/visual-system-2026.md) — sistema visual;
-- [`docs/repository-audit-2026.md`](docs/repository-audit-2026.md) — auditoría pre-cutover;
+- [`docs/repository-audit-2026.md`](docs/repository-audit-2026.md) — auditoría cerrada pre-cutover;
 - [`docs/asset-provenance.md`](docs/asset-provenance.md) — media histórica promovida;
 - [`docs/accessibility-media-qualification-2026.md`](docs/accessibility-media-qualification-2026.md) — browser/accessibility/media evidence;
-- [`docs/metadata-seo-2026.md`](docs/metadata-seo-2026.md) — metadata y dependencias de deployment;
-- documentos de migración por slice para Home, Nosotros, Servicios, Equipo y Contacto.
+- [`docs/metadata-seo-2026.md`](docs/metadata-seo-2026.md) — metadata y dependencias de deployment.
 
-## Lo que sigue
+## Seguimiento
 
-El orden actual es:
-
-1. cerrar #29 después del merge/post-merge del hardening y dejar la matriz final;
-2. actualizar #1 y #6 con el resultado definitivo de la auditoría;
-3. entregar a #5 una lista formada únicamente por bloqueos reales de cutover;
-4. elegir host/origen público;
-5. resolver base path, canonical/social preview/sitemap/robots y headers según ese host;
-6. documentar deploy + post-deploy smoke + rollback;
-7. recién entonces decidir la promoción de la aplicación moderna a la raíz.
-
-## Deploy y cutover
-
-La raíz histórica sigue siendo la baseline desplegable. Que `modern/` esté funcional, calificada y mantenible no significa que deba reemplazarse silenciosamente.
-
-El cutover es un cambio explícito y potencialmente destructivo de autoridad. Se ejecutará únicamente cuando host/origin, base path, metadata, build/deploy, post-deploy smoke y rollback estén definidos y verdes en conjunto.
-
-La planificación general vive en [#1](https://github.com/Enzopinotti/El_Nucleo_Web/issues/1), los estándares en [#6](https://github.com/Enzopinotti/El_Nucleo_Web/issues/6), la auditoría en [#29](https://github.com/Enzopinotti/El_Nucleo_Web/issues/29) y el cutover en [#5](https://github.com/Enzopinotti/El_Nucleo_Web/issues/5).
+- roadmap general: [#1](https://github.com/Enzopinotti/El_Nucleo_Web/issues/1);
+- estándares: [#6](https://github.com/Enzopinotti/El_Nucleo_Web/issues/6);
+- auditoría completada: [#29](https://github.com/Enzopinotti/El_Nucleo_Web/issues/29);
+- fase activa de deploy/cutover: [#5](https://github.com/Enzopinotti/El_Nucleo_Web/issues/5).
