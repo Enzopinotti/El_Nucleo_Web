@@ -82,7 +82,8 @@ describe("cross-cutting public document contract", () => {
     const images = [...container.querySelectorAll<HTMLImageElement>("img")];
     expect(images.length).toBeGreaterThan(1);
 
-    const heroLogo = container.querySelector<HTMLImageElement>(".hero__mark img");
+    const heroLogo =
+      container.querySelector<HTMLImageElement>(".hero__mark img");
     expect(heroLogo).not.toBeNull();
     expect(heroLogo).not.toHaveAttribute("loading", "lazy");
 
