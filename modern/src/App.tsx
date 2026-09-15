@@ -1,6 +1,8 @@
 import { ArchiveGallery } from "./components/ArchiveGallery";
+import { BackstageArchive } from "./components/BackstageArchive";
 import { HistoricalAbout } from "./components/HistoricalAbout";
 import { historicalAboutStatements } from "./content/historical-about";
+import { historicalBackstage } from "./content/historical-backstage";
 import { historicalLogo, historicalServices } from "./content/historical-home";
 
 export function App() {
@@ -22,9 +24,9 @@ export function App() {
 
         <nav aria-label="Navegación principal">
           <a href="#nosotros">Nosotros</a>
-          <a href="#archivo">Archivo</a>
+          <a href="#servicios">Servicios 2022</a>
+          <a href="#backstage">Backstage</a>
           <a href="#historia">Historia</a>
-          <a href="#reconstruccion">Reconstrucción</a>
         </nav>
       </header>
 
@@ -73,6 +75,8 @@ export function App() {
         <div id="archivo">
           <ArchiveGallery services={historicalServices} />
         </div>
+
+        <BackstageArchive frames={historicalBackstage} />
 
         <section
           className="history-section"
@@ -128,7 +132,7 @@ export function App() {
               <span aria-hidden="true">01</span>
               <h3>Fuente histórica explícita</h3>
               <p>
-                Los assets promovidos a la nueva Home conservan referencia al
+                Los assets promovidos a la aplicación conservan referencia al
                 archivo y blob de origen. Los originales no se modifican.
               </p>
             </article>
@@ -136,9 +140,9 @@ export function App() {
               <span aria-hidden="true">02</span>
               <h3>Interacción sin dependencias heredadas</h3>
               <p>
-                La galería reemplaza cuatro carruseles Bootstrap duplicados con
-                una única interacción controlada, sin autoplay y usable con
-                teclado.
+                La galería de categorías mantiene una única interacción
+                controlada, mientras Backstage usa una grilla editorial sin
+                autoplay ni estado adicional.
               </p>
             </article>
             <article>

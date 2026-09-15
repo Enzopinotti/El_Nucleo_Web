@@ -24,17 +24,20 @@ export function ArchiveGallery({ services }: ArchiveGalleryProps) {
   return (
     <section
       className="archive-gallery"
+      id="servicios"
       aria-labelledby="archive-title"
       aria-describedby="archive-note"
     >
       <div className="archive-gallery__intro">
-        <p className="section-kicker">Archivo visual · 2022</p>
+        <p className="section-kicker">Servicios · archivo visual 2022</p>
         <h2 id="archive-title">
           Cuatro categorías que definían la primera versión
         </h2>
         <p id="archive-note" className="section-note">
-          Este material se conserva como archivo del proyecto original. No
-          representa por sí solo un catálogo comercial vigente en 2026.
+          Videoclips, Publicidad, Cortometrajes y Coberturas son categorías que
+          el proyecto presentaba en 2022. Este material se conserva como
+          archivo y no representa por sí solo un catálogo comercial vigente en
+          2026.
         </p>
       </div>
 

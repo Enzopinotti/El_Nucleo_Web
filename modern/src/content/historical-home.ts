@@ -1,3 +1,5 @@
+import { publicAsset } from "./public-asset";
+
 export type HistoricalService = {
   id: string;
   title: string;
@@ -5,10 +7,6 @@ export type HistoricalService = {
   alt: string;
   historicalSource: string;
 };
-
-function publicAsset(path: string): string {
-  return `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
-}
 
 export const historicalLogo = {
   src: publicAsset("media/el-nucleo-logo.png"),
