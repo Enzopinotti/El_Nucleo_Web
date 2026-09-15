@@ -49,11 +49,28 @@ La foundation y cuatro slices de contenido están **mergeados y revalidados en `
 - **Servicios + Backstage** — una sola autoridad para las categorías y una grilla editorial sin Bootstrap/autoplay;
 - **Equipo + referencias históricas** — nombres/fotos preservados como archivo, sin convertirlos en staff o clientes vigentes. Cerró con 16/16 tests y browser QA real en 360 / 768 / 1440 px.
 
-El slice activo es **Contacto**. El HTML de 2022 tenía `action=""` y `method="get"`, por lo que no existe un backend de entrega que deba fingirse como funcionalidad moderna. La reconstrucción conserva qué datos pedía la fuente —Nombre, Apellido, Correo, newsletter y Consulta— pero no renderiza un formulario operativo ni recopila/transmite datos personales hasta que exista un canal real con privacidad, anti-spam y estados de entrega verificables.
+**Contacto** completó implementación y calificación en su carril. La fuente 2022 usaba `action=""` + `method="get"`, por lo que la reconstrucción no finge un backend: conserva Nombre, Apellido, Correo, el checkbox histórico de newsletter y Consulta como contrato de archivo, sin recopilar ni transmitir datos personales.
+
+El estado calificado de Contacto incluye:
+
+- **19/19 tests**;
+- Prettier, ESLint, TypeScript y build Vite verdes;
+- Chrome **152.0.7977.82** en 360 / 768 / 1440 px;
+- un solo H1;
+- cero `<form>` y cero controles interactivos dentro de Contacto;
+- las cinco etiquetas históricas exactas;
+- cero links de transporte/contacto inventados;
+- cero links sociales genéricos heredados;
+- cero overflow horizontal;
+- skip-link como primer foco;
+- reduced motion preservado;
+- cero fallos en la evidencia automatizada.
+
+El merge controlado y la revalidación post-merge son el último gate de este slice.
 
 Después siguen:
 
-1. cierre cross-cutting de accesibilidad, metadata/SEO y performance;
+1. cierre cross-cutting de accesibilidad, identidad visual, metadata/SEO y performance;
 2. verificación de deploy/base path, links y rollback;
 3. cutover controlado de la raíz histórica a la app moderna.
 
@@ -71,6 +88,31 @@ La planificación principal se sigue en [#1](https://github.com/Enzopinotti/El_N
 - trabajar en slices recuperables, con Draft PR, quality gate y browser QA;
 - eliminar tooling temporal de QA antes del merge;
 - no reemplazar la raíz histórica hasta completar el cutover.
+
+## Evolución visual sin borrar 2022
+
+La identidad histórica es **fuente**, no una cárcel visual y tampoco material descartable.
+
+Se preservan como evidencia:
+
+- la raíz HTML/SCSS/CSS de 2022;
+- los assets históricos originales;
+- la marca `El Núcleo / CINE`;
+- el verde histórico `#83d2b5`;
+- las fotografías y categorías con provenance documentado;
+- el contexto de proyecto de aprendizaje.
+
+La capa 2026 puede evolucionar composición, escala tipográfica, espaciado, grid, navegación, estados, motion, responsive y accesibilidad. Esa evolución ocurre exclusivamente en `modern/` y debe cumplir estas reglas:
+
+- los originales nunca se sobrescriben para “mejorarlos”;
+- los colores históricos pueden convertirse en tokens y expandirse con una paleta moderna, manteniendo trazabilidad;
+- derivados de imágenes sólo se crean con proceso reproducible y necesidad medida;
+- ningún efecto visual justifica reintroducir dependencias pesadas o CDN heredados;
+- motion debe degradar correctamente con `prefers-reduced-motion`;
+- contraste, foco, legibilidad y responsive tienen prioridad sobre fidelidad decorativa;
+- cambios visuales importantes requieren browser QA y comparación con el contrato histórico, no pixel-copy del sitio 2022.
+
+El objetivo es que se vea claramente **más maduro en 2026** y, al mismo tiempo, siga siendo reconocible como la evolución del proyecto original.
 
 ## Identidad preservada
 
@@ -99,4 +141,4 @@ La versión moderna conserva como archivo y referencia de diseño:
 
 La raíz histórica sigue siendo la baseline desplegable. Que un slice moderno esté completo no implica que la nueva app haya reemplazado todavía el sitio original.
 
-El cutover se hará únicamente cuando contenido, accesibilidad, metadata, responsive, browser QA, build, deployment path y rollback estén documentados y verdes en conjunto.
+El cutover se hará únicamente cuando contenido, accesibilidad, identidad visual, metadata, responsive, browser QA, build, deployment path y rollback estén documentados y verdes en conjunto.

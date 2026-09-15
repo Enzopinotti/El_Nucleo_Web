@@ -103,6 +103,39 @@ The suite verifies:
 - newsletter wording preserved with a no-current-subscription boundary;
 - all prior Home / Nosotros / Servicios / Backstage / Equipo contracts remain green.
 
+The qualified implementation completed **19/19 Vitest tests** plus Prettier, ESLint, TypeScript and the Vite production build.
+
+## Production browser qualification
+
+A bounded one-shot browser qualification ran against the production build using **Google Chrome 152.0.7977.82** at:
+
+- 360 × 900 px;
+- 768 × 1024 px;
+- 1440 × 1000 px.
+
+Machine-readable evidence confirmed:
+
+- page title: `El Núcleo | CINE — Archivo y reconstrucción 2026`;
+- exactly one H1;
+- Contacto heading: `Lo que el formulario histórico pedía`;
+- **0 forms** inside `#contacto`;
+- **0 interactive Contacto controls** (`input`, `textarea`, `select`, `button`);
+- exact five historical labels in source order;
+- no-collection boundary visible;
+- `Recolección de datos 2026 · No habilitada` state visible;
+- GET historical boundary visible;
+- empty-action historical boundary visible;
+- zero unverified contact/transport links;
+- zero generic external social links;
+- zero horizontal overflow at 360 / 768 / 1440 px;
+- fresh-page first Tab = `Saltar al contenido` → `#main-content`;
+- reduced-motion scroll behavior = `auto`;
+- **0 browser-QA failures**.
+
+Visual review confirmed that the historical fields remain readable as archive cards on mobile/tablet/desktop without visually mimicking an operational submission form.
+
+Screenshots and raw evidence remain ephemeral CI artifacts rather than committed binaries.
+
 ## Closure gate
 
 Before controlled merge:
@@ -118,7 +151,13 @@ Before controlled merge:
 9. temporary QA tooling removed;
 10. post-merge `main` validation green.
 
-Browser evidence is documented only after it actually runs.
+Items 1–8 are qualified. The final branch cleanup, controlled merge and post-merge validation remain the integration gate.
+
+## Visual-boundary note
+
+Future visual evolution may restyle the Contacto archive presentation, but it must not turn the historical metadata back into fake controls or obscure the no-collection state.
+
+The 2022 field names/method/action remain source evidence. The 2026 layer may improve spacing, cards, typography, responsive composition and visual hierarchy while preserving that distinction.
 
 ## Non-goals
 

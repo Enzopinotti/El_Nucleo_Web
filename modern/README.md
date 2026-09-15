@@ -69,7 +69,7 @@ Equipo is represented as a historical record rather than a current staff/client 
 
 The closure state completed **16/16 tests**, permanent quality and Chrome **152.0.7977.82** browser qualification at 360 / 768 / 1440 px, then passed post-merge `main` validation.
 
-### Contacto — active lane
+### Contacto — qualified closure lane
 
 The 2022 source used:
 
@@ -90,7 +90,24 @@ No verified delivery backend exists in the repository. The modern app therefore 
 - renders no `<form>`, textbox, checkbox or submit button;
 - invents no current email, API endpoint, newsletter provider or success state.
 
-A live contact workflow remains a separate product decision and must define real delivery, privacy, abuse controls and success/failure semantics before accepting data.
+The qualified state completed:
+
+- **19/19 Vitest tests**;
+- Prettier, ESLint, TypeScript and Vite production build;
+- Chrome **152.0.7977.82** production browser QA at 360 / 768 / 1440 px;
+- one H1;
+- zero Contacto forms;
+- zero Contacto inputs, textarea, select or button controls;
+- exact five historical field labels;
+- visible no-collection, GET and empty-action boundaries;
+- zero unverified contact/transport links;
+- zero generic external social links;
+- zero horizontal overflow at all qualified widths;
+- fresh-page first Tab on `Saltar al contenido` → `#main-content`;
+- reduced-motion scroll behavior = `auto`;
+- zero machine-readable browser failures.
+
+The browser workflow is temporary qualification tooling and must be removed before controlled merge. Post-merge `main` validation is the last integration check.
 
 ## Quality contract
 
@@ -105,6 +122,24 @@ Every slice must continue to satisfy:
 7. Permanent GitHub Actions remain read-only and pinned to immutable action SHAs.
 8. Browser QA covers responsive, keyboard, truth/privacy-boundary and reduced-motion behavior changed by the slice.
 9. Temporary formatter/visual qualification workflows are removed before final merge.
+
+## Visual evolution contract
+
+The modern app is allowed to look materially better than the 2022 site. It is not allowed to erase the evidence it evolved from.
+
+Historical source and modern presentation are separate layers:
+
+- original HTML/SCSS/CSS and archival assets remain untouched historical authority;
+- `modern/src/styles/` owns the 2026 presentation system;
+- the historical green `#83d2b5`, brand name and audiovisual character remain traceable design anchors;
+- new spacing, type scales, layout, surfaces, states and motion are introduced through explicit modern tokens/modules;
+- historical image originals are not destructively recompressed or overwritten;
+- image derivatives need a reproducible reason/process and provenance;
+- visual changes cannot reduce semantic quality, keyboard usability, focus visibility, contrast or reduced-motion support;
+- no legacy CDN/dependency is reintroduced only for visual nostalgia;
+- meaningful visual changes receive production browser QA rather than relying on screenshots alone.
+
+This lets the 2026 version become more refined, responsive and distinctive while still reading as an evolution of **El Núcleo CINE**, not an unrelated redesign.
 
 ## Accessibility baseline
 
@@ -126,8 +161,8 @@ Only media used by an accepted slice is promoted. Originals remain untouched and
 - `Nosotros`: merged + post-merge validated.
 - `Servicios + Backstage`: merged + post-merge validated.
 - `Equipo`: merged + post-merge validated.
-- `Contacto`: active implementation/qualification lane.
-- cross-cutting accessibility / metadata / performance: final pass after Contacto.
+- `Contacto`: implementation + automated/browser qualification complete; final cleanup/integration gate pending.
+- cross-cutting visual system / accessibility / metadata / performance: next after Contacto integration.
 - cutover: only after complete responsive/accessibility/browser QA plus deployment/base-path and rollback documentation.
 
 ## Deployment boundary

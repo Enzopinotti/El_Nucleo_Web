@@ -104,6 +104,25 @@ El formulario histórico no tiene un destino real verificable y usa GET. La apli
 
 La autoridad moderna conserva el **contrato histórico** de campos como metadata no interactiva. Un futuro formulario operativo requiere un destino real, privacidad, validación, anti-spam y estados de entrega verificables.
 
+### Evolución visual
+
+El sitio moderno no tiene que copiar píxel por píxel la versión 2022. Sí tiene que conservar una relación verificable con ella.
+
+La regla es separar **fuente histórica** de **presentación moderna**:
+
+- `index.html`, `views/`, `scss/`, `css/` y los assets originales permanecen como evidencia histórica;
+- `modern/src/styles/` es la autoridad de presentación 2026;
+- `El Núcleo / CINE`, el verde `#83d2b5` y la identidad audiovisual son anclas históricas, no restricciones de layout;
+- la paleta moderna puede expandirse mediante tokens, sin renombrar el pasado ni borrar su color principal;
+- tipografía, escala, spacing, grids, superficies, navegación, estados y motion pueden evolucionar libremente si mantienen accesibilidad y trazabilidad;
+- no se sobrescriben originales para “optimizarlos”;
+- derivados visuales/media requieren proceso reproducible cuando sean necesarios;
+- no se reintroducen Bootstrap/AOS/Animate.css/CDN sólo por nostalgia visual;
+- `prefers-reduced-motion`, contraste, foco y legibilidad son invariantes;
+- cambios visuales importantes deben pasar QA de producción en anchos representativos.
+
+La meta es una UI claramente más madura en 2026 que siga siendo reconocible como evolución de El Núcleo, no como un producto sin relación con el repositorio histórico.
+
 ### Deploy
 
 La raíz histórica sigue siendo la baseline desplegable hasta el cutover controlado.
@@ -157,7 +176,7 @@ La raíz histórica sigue siendo la baseline desplegable hasta el cutover contro
 - Instagram personales y hotlink remoto excluidos;
 - 16/16 tests, browser QA 360/768/1440 y post-merge validation.
 
-### 🟡 Fase 4B — Contacto
+### 🟡 Fase 4B — Contacto / qualified closure lane
 
 - autoridad tipada para el contrato exacto de la fuente 2022;
 - no se reproduce `GET` + action vacía;
@@ -165,16 +184,26 @@ La raíz histórica sigue siendo la baseline desplegable hasta el cutover contro
 - campos históricos presentados como archivo no interactivo;
 - newsletter histórica contextualizada sin afirmar servicio actual;
 - no email/endpoint/success state inventado;
-- quality + browser QA requeridos antes de merge.
+- **19/19 tests**;
+- Prettier / ESLint / TypeScript / Vite build verdes;
+- Chrome 152.0.7977.82 browser QA en 360 / 768 / 1440;
+- cero formularios/controles de Contacto, cero transporte inventado, cero overflow y cero fallos de QA;
+- cleanup del workflow temporal + merge controlado + post-merge validation pendientes como último gate.
 
-### ⏳ Fase 5 — cierre cross-cutting + cutover
+### ⏳ Fase 5A — visual system + cross-cutting quality
 
-- accesibilidad final;
-- metadata/SEO social/canonical real;
-- performance y media sólo con medición;
-- QA desktop/tablet/mobile integral;
-- links;
-- deploy target y base path;
+- consolidar tokens y reglas visuales 2026 sin tocar las fuentes 2022;
+- revisar jerarquía tipográfica, spacing, grids, navegación y consistencia entre slices;
+- contraste, focus-visible, reduced motion y responsive integral;
+- auditoría de media/dimensiones/layout shift;
+- metadata/SEO exacta y no comercialmente inventada;
+- QA visual integral desktop/tablet/mobile.
+
+### ⏳ Fase 5B — deploy + cutover
+
+- links y base path;
+- production URL/canonical reales;
+- estrategia GitHub Pages/deploy verificada;
 - rollback;
 - README final 2022 → 2026;
 - reemplazo controlado de la raíz.
@@ -187,6 +216,7 @@ La raíz histórica sigue siendo la baseline desplegable hasta el cutover contro
 - no backend/CMS/IA sin necesidad real;
 - no recopilar datos personales sin transporte y privacidad definidos;
 - no fake-success;
+- no sobrescribir assets/SCSS/HTML históricos para hacer parecer moderna la fuente 2022;
 - generated output nunca es autoridad manual;
 - CI no se relaja para hacer pasar código;
 - third-party actions fijadas a commits inmutables;
@@ -205,6 +235,8 @@ La nueva versión reemplaza la raíz sólo cuando cumple en conjunto:
 - navegación usable por teclado;
 - focus visible y reduced motion;
 - layout sin overflow en anchos representativos;
+- sistema visual 2026 consistente y documentado;
+- identidad histórica trazable sin depender del CSS/JS heredado;
 - media con dimensiones/aspect ratio controlado;
 - sin secretos ni endpoints privados;
 - claims históricos con contexto verificable;
