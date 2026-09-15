@@ -8,6 +8,7 @@ import {
 import { afterEach, describe, expect, it } from "vitest";
 
 import { App } from "./App";
+import { historicalContactContract } from "./content/historical-contact";
 import { historicalServices } from "./content/historical-home";
 import {
   historicalClientReferences,
@@ -108,6 +109,10 @@ describe("El Núcleo modern migration", () => {
     expect(screen.getByRole("link", { name: "Equipo 2022" })).toHaveAttribute(
       "href",
       "#equipo",
+    );
+    expect(screen.getByRole("link", { name: "Contacto 2022" })).toHaveAttribute(
+      "href",
+      "#contacto",
     );
   });
 
@@ -280,6 +285,73 @@ describe("El Núcleo modern migration", () => {
         /instagram\.com|argentina\.gob\.ar|grupodelsud\.com/i.test(href),
       ),
     ).toBe(false);
+  });
+
+  it("models the exact historical contact transport and field contract", () => {
+    expect(historicalContactContract.sourcePath).toBe("views/contacto.html");
+    expect(historicalContactContract.sourceBlob).toBe(
+      "e8a550ad30c708a0893ad31b3b289b15bcf8e118",
+    );
+    expect(historicalContactContract.sourceMethod).toBe("GET");
+    expect(historicalContactContract.sourceAction).toBe("");
+    expect(
+      historicalContactContract.fields.map(({ sourceLabel }) => sourceLabel),
+    ).toEqual([
+      "Nombre",
+      "Apellido",
+      "Correo",
+      "¿Desea suscribirse a nuestro Newslatter?",
+      "Consulta",
+    ]);
+    expect(
+      historicalContactContract.fields.find(({ id }) => id === "message")
+        ?.maxLength,
+    ).toBe(400);
+  });
+
+  it("presents Contacto as non-collecting archive metadata instead of a fake live form", () => {
+    render(<App />);
+
+    const contact = screen.getByRole("region", {
+      name: /lo que el formulario histórico pedía/i,
+    });
+
+    expect(contact).toHaveAttribute("id", "contacto");
+    expect(
+      within(contact).getByText(/no recopila ni transmite datos personales/i),
+    ).toBeInTheDocument();
+    expect(
+      within(contact).getByText(/recolección de datos 2026/i),
+    ).toBeInTheDocument();
+    expect(within(contact).getByText("No habilitada")).toBeInTheDocument();
+    expect(within(contact).queryByRole("textbox")).not.toBeInTheDocument();
+    expect(within(contact).queryByRole("checkbox")).not.toBeInTheDocument();
+    expect(within(contact).queryByRole("button")).not.toBeInTheDocument();
+    expect(contact.querySelector("form")).not.toBeInTheDocument();
+  });
+
+  it("preserves newsletter/source wording without implying a current subscription service", () => {
+    render(<App />);
+
+    const contact = screen.getByRole("region", {
+      name: /lo que el formulario histórico pedía/i,
+    });
+
+    expect(
+      within(contact).getByRole("heading", {
+        name: /desea suscribirse a nuestro Newslatter/i,
+        level: 3,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(contact).getByText(
+        /no se infiere una suscripción activa en 2026/i,
+      ),
+    ).toBeInTheDocument();
+    expect(within(contact).getByText(/400 caracteres/i)).toBeInTheDocument();
+    expect(
+      within(contact).queryByRole("link", { name: /contact/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("keeps a keyboard-oriented skip link to the main content", () => {

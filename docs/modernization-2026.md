@@ -39,11 +39,13 @@ La modernización funciona como una migración por slices: cada bloque preserva 
 **Equipo / referencias**
 - dos personas identificadas por nombre y fotografía;
 - enlaces personales de 2022;
-- dos referencias bajo el encabezado `Clientes Habituales`.
+- dos referencias bajo `Clientes Habituales`.
 
 **Contacto**
 - nombre, apellido, correo, newsletter y consulta;
-- `action=""`: no existía backend real de envío que deba preservarse como funcionalidad.
+- consulta limitada a 400 caracteres;
+- `action=""`, `method="get"`, `enctype="text/plain"`;
+- promesa visual de contacto posterior sin backend verificable en el repositorio.
 
 ## 3. Deuda histórica reemplazada o contenida
 
@@ -52,9 +54,8 @@ La modernización funciona como una migración por slices: cada bloque preserva 
 - elementos no estándar como `aside1` / `aside2`;
 - estilos inline y dimensiones rígidas;
 - navegación/footer duplicados;
-- media queries históricas concentradas en un parcial grande;
 - CSS compilado versionado junto al Sass fuente;
-- formulario sin transporte;
+- formulario sin transporte verificable y con GET para datos personales;
 - metadata/SEO antigua;
 - ausencia de package contract, tests, lint, typecheck, build y CI reproducible.
 
@@ -87,21 +88,40 @@ pnpm check
 
 ### Navegación
 
-La experiencia moderna actual es editorial y de una sola página con anchors semánticos. No se agregó React Router sólo para imitar los cinco HTML históricos.
-
-La decisión puede revisarse únicamente si una necesidad real de rutas/SEO/deep-linking lo justifica.
+La experiencia moderna es editorial y de una sola página con anchors semánticos. No se agregó React Router sólo para imitar los cinco HTML históricos.
 
 ### Contenido histórico vs. presente
 
-Cada claim heredado debe indicar su contexto. “Servicios”, “equipo” o “clientes” de 2022 no se transforman automáticamente en inventario comercial, staff o relaciones vigentes en 2026.
+Cada claim heredado indica su contexto. “Servicios”, “equipo” o “clientes” de 2022 no se transforman automáticamente en inventario comercial, staff o relaciones vigentes en 2026.
 
 ### Media
 
 Sólo se promueven assets realmente usados por un slice. Cada copia moderna conserva path + blob SHA de origen. Hotlinks remotos no se convierten en dependencias esenciales.
 
-### Formulario
+### Contacto / datos personales
 
-Contacto no se presenta como operativo hasta elegir un destino real. No habrá fake-success ni backend agregado sólo para exhibir tecnología.
+El formulario histórico no tiene un destino real verificable y usa GET. La aplicación moderna no reproduce ese transporte, no inventa un endpoint y no simula éxito.
+
+La autoridad moderna conserva el **contrato histórico** de campos como metadata no interactiva. Un futuro formulario operativo requiere un destino real, privacidad, validación, anti-spam y estados de entrega verificables.
+
+### Evolución visual
+
+El sitio moderno no tiene que copiar píxel por píxel la versión 2022. Sí tiene que conservar una relación verificable con ella.
+
+La regla es separar **fuente histórica** de **presentación moderna**:
+
+- `index.html`, `views/`, `scss/`, `css/` y los assets originales permanecen como evidencia histórica;
+- `modern/src/styles/` es la autoridad de presentación 2026;
+- `El Núcleo / CINE`, el verde `#83d2b5` y la identidad audiovisual son anclas históricas, no restricciones de layout;
+- la paleta moderna puede expandirse mediante tokens, sin renombrar el pasado ni borrar su color principal;
+- tipografía, escala, spacing, grids, superficies, navegación, estados y motion pueden evolucionar libremente si mantienen accesibilidad y trazabilidad;
+- no se sobrescriben originales para “optimizarlos”;
+- derivados visuales/media requieren proceso reproducible cuando sean necesarios;
+- no se reintroducen Bootstrap/AOS/Animate.css/CDN sólo por nostalgia visual;
+- `prefers-reduced-motion`, contraste, foco y legibilidad son invariantes;
+- cambios visuales importantes deben pasar QA de producción en anchos representativos.
+
+La meta es una UI claramente más madura en 2026 que siga siendo reconocible como evolución de El Núcleo, no como un producto sin relación con el repositorio histórico.
 
 ### Deploy
 
@@ -148,28 +168,42 @@ La raíz histórica sigue siendo la baseline desplegable hasta el cutover contro
 - 12/12 tests y browser QA 360/768/1440;
 - post-merge validation.
 
-### 🟡 Fase 4A — Equipo / referencias
+### ✅ Fase 4A — Equipo / referencias
 
 - dos personas preservadas como etiquetas/fotos del archivo 2022;
 - sin roles inventados ni vigencia 2026 asumida;
 - referencias `Argentina Cultura` y `Grupo del Sud` tratadas como etiquetas históricas, no endorsements actuales;
 - Instagram personales y hotlink remoto excluidos;
-- quality/browser QA requeridos antes del merge.
+- 16/16 tests, browser QA 360/768/1440 y post-merge validation.
 
-### ⏳ Fase 4B — Contacto
+### 🟡 Fase 4B — Contacto / qualified closure lane
 
-- decidir si la versión pública necesita un canal real de contacto;
-- si hay formulario, transporte, validación, privacidad, spam, loading/error/success deben ser reales;
-- si no hay transporte, usar CTA/contacto explícito sin simular submit.
+- autoridad tipada para el contrato exacto de la fuente 2022;
+- no se reproduce `GET` + action vacía;
+- no se recopilan ni transmiten datos personales;
+- campos históricos presentados como archivo no interactivo;
+- newsletter histórica contextualizada sin afirmar servicio actual;
+- no email/endpoint/success state inventado;
+- **19/19 tests**;
+- Prettier / ESLint / TypeScript / Vite build verdes;
+- Chrome 152.0.7977.82 browser QA en 360 / 768 / 1440;
+- cero formularios/controles de Contacto, cero transporte inventado, cero overflow y cero fallos de QA;
+- cleanup del workflow temporal + merge controlado + post-merge validation pendientes como último gate.
 
-### ⏳ Fase 5 — cierre cross-cutting + cutover
+### ⏳ Fase 5A — visual system + cross-cutting quality
 
-- accesibilidad final;
-- metadata/SEO social/canonical real;
-- performance y media sólo con medición;
-- QA desktop/tablet/mobile;
-- enlaces;
-- deploy target y base path;
+- consolidar tokens y reglas visuales 2026 sin tocar las fuentes 2022;
+- revisar jerarquía tipográfica, spacing, grids, navegación y consistencia entre slices;
+- contraste, focus-visible, reduced motion y responsive integral;
+- auditoría de media/dimensiones/layout shift;
+- metadata/SEO exacta y no comercialmente inventada;
+- QA visual integral desktop/tablet/mobile.
+
+### ⏳ Fase 5B — deploy + cutover
+
+- links y base path;
+- production URL/canonical reales;
+- estrategia GitHub Pages/deploy verificada;
 - rollback;
 - README final 2022 → 2026;
 - reemplazo controlado de la raíz.
@@ -180,6 +214,9 @@ La raíz histórica sigue siendo la baseline desplegable hasta el cutover contro
 - no borrar historia de Git;
 - no mega-PR;
 - no backend/CMS/IA sin necesidad real;
+- no recopilar datos personales sin transporte y privacidad definidos;
+- no fake-success;
+- no sobrescribir assets/SCSS/HTML históricos para hacer parecer moderna la fuente 2022;
 - generated output nunca es autoridad manual;
 - CI no se relaja para hacer pasar código;
 - third-party actions fijadas a commits inmutables;
@@ -198,10 +235,12 @@ La nueva versión reemplaza la raíz sólo cuando cumple en conjunto:
 - navegación usable por teclado;
 - focus visible y reduced motion;
 - layout sin overflow en anchos representativos;
+- sistema visual 2026 consistente y documentado;
+- identidad histórica trazable sin depender del CSS/JS heredado;
 - media con dimensiones/aspect ratio controlado;
 - sin secretos ni endpoints privados;
 - claims históricos con contexto verificable;
 - metadata/deploy URL reales;
-- Contacto sin comportamiento ficticio;
+- Contacto sin comportamiento ficticio ni fuga por query string;
 - rollback documentado;
 - README/documentación sincronizados con la implementación final.
