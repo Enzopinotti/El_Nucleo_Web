@@ -87,7 +87,15 @@ Primary navigation adds:
 
 Existing migrated anchors remain unchanged.
 
-## Test contract
+## Automated validation
+
+The permanent quality contract passed on the clean branch state after the one-shot formatter was removed:
+
+- Prettier — success;
+- ESLint — success;
+- TypeScript — success;
+- **16/16 Vitest tests — success**;
+- Vite production build — success.
 
 The application suite covers:
 
@@ -102,25 +110,36 @@ The application suite covers:
 - absence of Instagram, Argentina Cultura and Grupo del Sud external links in the modern surface;
 - all prior Home / Nosotros / Servicios / Backstage behavior contracts.
 
+## Production browser qualification
+
+A bounded one-shot workflow qualified the production build using **Google Chrome 152.0.7977.82**.
+
+The build was captured and validated at **360 / 768 / 1440 px**. Machine-readable evidence confirmed:
+
+- exactly one H1;
+- Equipo H2 present;
+- **2/2 historical team photographs loaded successfully**;
+- both historical person cards expose `Vigencia 2026 · no verificada`;
+- client labels are exactly `Argentina Cultura` and `Grupo del Sud`;
+- the current-truth boundary is present;
+- no Instagram, Argentina Cultura, Grupo del Sud, Facebook, YouTube, Vimeo or Twitter external link is exposed;
+- no horizontal overflow at mobile, tablet or desktop widths;
+- fresh-page first Tab lands on `Saltar al contenido` → `#main-content`;
+- reduced-motion scroll behavior resolves to `auto`;
+- browser qualification reported zero failures.
+
+Visual review confirmed that the two historical cards remain readable and balanced on desktop, stack cleanly on mobile, and keep the client-reference block visually secondary rather than presenting it as a current logo wall.
+
+Screenshots and `evidence.json` remain short-lived CI artifacts rather than permanent binary repository noise.
+
 ## Closure gate
 
-Equipo is not complete merely because the component renders.
+Implementation and qualification are complete. Before controlled merge the branch still requires only repository hygiene and final integration checks:
 
-Before controlled merge it must have:
-
-1. permanent `Modern app quality` green on the final branch HEAD;
-2. formatter/lint/typecheck/tests/build green without weakening checks;
-3. production-build browser QA at mobile, tablet and desktop widths;
-4. one H1 and no horizontal overflow;
-5. skip-link-first keyboard behavior preserved;
-6. reduced-motion behavior preserved;
-7. Equipo truth-boundary copy visible in production;
-8. exactly two historical team images visible with no remote client-image dependency;
-9. no unverified historical social/personal links exposed;
-10. temporary browser-QA tooling removed before merge;
-11. post-merge validation on `main`.
-
-Browser qualification evidence is recorded only after it has actually run.
+1. remove the temporary browser-QA workflow;
+2. run the permanent `Modern app quality` gate on the final closure HEAD;
+3. merge without altering the historical root implementation;
+4. confirm post-merge `main` validation succeeds.
 
 ## Non-goals
 
