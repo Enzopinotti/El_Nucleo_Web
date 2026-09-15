@@ -1,0 +1,60 @@
+name: Equipo canonical format once
+
+on:
+  push:
+    branches:
+      - modernize/2026-equipo
+    paths:
+      - .github/workflows/equipo-format-once.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: equipo-format-once
+  cancel-in-progress: true
+
+jobs:
+  format:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out Equipo branch
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: modernize/2026-equipo
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+        with:
+          version: 9.15.9
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: modern/pnpm-lock.yaml
+
+      - name: Install locked dependencies
+        working-directory: modern
+        run: pnpm install --frozen-lockfile
+
+      - name: Apply repository Prettier to Equipo-owned files
+        working-directory: modern
+        run: pnpm exec prettier --write src/App.test.tsx src/components/HistoricalTeam.tsx
+
+      - name: Commit canonical formatting when needed
+        run: |
+          if git diff --quiet -- modern/src/App.test.tsx modern/src/components/HistoricalTeam.tsx; then
+            echo "Equipo files are already formatter-canonical."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add modern/src/App.test.tsx modern/src/components/HistoricalTeam.tsx
+          git commit -m "chore(equipo): apply canonical formatting"
+          git push origin HEAD:modernize/2026-equipo
