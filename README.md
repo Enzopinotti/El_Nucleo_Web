@@ -42,19 +42,20 @@ pnpm check
 
 ## Estado de migración
 
-La reconstrucción ya superó la etapa de foundation. Están mergeados y revalidados en `main`:
+La foundation y cuatro slices de contenido están **mergeados y revalidados en `main`**:
 
 - **Home** — identidad, hero y archivo de las cuatro categorías históricas;
 - **Nosotros** — narrativa de 2022 con límites explícitos entre fuente histórica y vigencia actual;
-- **Servicios + Backstage** — una sola autoridad para las categorías y una grilla editorial sin Bootstrap/autoplay.
+- **Servicios + Backstage** — una sola autoridad para las categorías y una grilla editorial sin Bootstrap/autoplay;
+- **Equipo + referencias históricas** — nombres/fotos preservados como archivo, sin convertirlos en staff o clientes vigentes. Cerró con 16/16 tests y browser QA real en 360 / 768 / 1440 px.
 
-**Equipo / referencias históricas** ya completó implementación y calificación en su carril: 16/16 tests, quality gate completo y browser QA real con Chrome 152 en 360 / 768 / 1440 px. Conserva los dos nombres/fotos de 2022 como archivo, sin transformarlos en un directorio de equipo vigente, y mantiene `Argentina Cultura` / `Grupo del Sud` sólo como etiquetas históricas de la página original, sin endorsements ni links actuales.
+El slice activo es **Contacto**. El HTML de 2022 tenía `action=""` y `method="get"`, por lo que no existe un backend de entrega que deba fingirse como funcionalidad moderna. La reconstrucción conserva qué datos pedía la fuente —Nombre, Apellido, Correo, newsletter y Consulta— pero no renderiza un formulario operativo ni recopila/transmite datos personales hasta que exista un canal real con privacidad, anti-spam y estados de entrega verificables.
 
 Después siguen:
 
-1. Contacto, sin fake-success ni transporte inventado;
-2. cierre cross-cutting de accesibilidad, metadata/SEO y performance;
-3. cutover controlado con rollback documentado.
+1. cierre cross-cutting de accesibilidad, metadata/SEO y performance;
+2. verificación de deploy/base path, links y rollback;
+3. cutover controlado de la raíz histórica a la app moderna.
 
 La planificación principal se sigue en [#1](https://github.com/Enzopinotti/El_Nucleo_Web/issues/1) y el cierre global en [#5](https://github.com/Enzopinotti/El_Nucleo_Web/issues/5).
 
@@ -66,6 +67,7 @@ La planificación principal se sigue en [#1](https://github.com/Enzopinotti/El_N
 - usar una sola fuente de verdad por contenido compartido;
 - evitar dependencias sólo para replicar un efecto visual heredado;
 - no habilitar formularios o integraciones que aparenten funcionar sin un contrato real;
+- no enviar datos personales por query string ni simular éxito sin entrega;
 - trabajar en slices recuperables, con Draft PR, quality gate y browser QA;
 - eliminar tooling temporal de QA antes del merge;
 - no reemplazar la raíz histórica hasta completar el cutover.
@@ -79,7 +81,8 @@ La versión moderna conserva como archivo y referencia de diseño:
 - la identidad audiovisual;
 - Videoclips, Publicidad, Cortometrajes y Coberturas;
 - material de Backstage;
-- contenido institucional y de personas sólo con contexto histórico explícito.
+- contenido institucional y de personas sólo con contexto histórico explícito;
+- el contrato visible del Contacto 2022, sin reproducir su transporte inseguro/no funcional.
 
 ## Documentación
 
@@ -89,10 +92,11 @@ La versión moderna conserva como archivo y referencia de diseño:
 - [`docs/home-migration-2026.md`](docs/home-migration-2026.md) — Home;
 - [`docs/nosotros-migration-2026.md`](docs/nosotros-migration-2026.md) — Nosotros;
 - [`docs/servicios-migration-2026.md`](docs/servicios-migration-2026.md) — Servicios + Backstage;
-- [`docs/equipo-migration-2026.md`](docs/equipo-migration-2026.md) — Equipo y referencias históricas.
+- [`docs/equipo-migration-2026.md`](docs/equipo-migration-2026.md) — Equipo y referencias históricas;
+- [`docs/contacto-migration-2026.md`](docs/contacto-migration-2026.md) — Contacto, privacidad y límite de transporte.
 
 ## Deploy y cutover
 
 La raíz histórica sigue siendo la baseline desplegable. Que un slice moderno esté completo no implica que la nueva app haya reemplazado todavía el sitio original.
 
-El cutover se hará únicamente cuando contenido, accesibilidad, metadata, responsive, browser QA, build y rollback estén documentados y verdes en conjunto.
+El cutover se hará únicamente cuando contenido, accesibilidad, metadata, responsive, browser QA, build, deployment path y rollback estén documentados y verdes en conjunto.

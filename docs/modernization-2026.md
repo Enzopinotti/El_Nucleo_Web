@@ -39,11 +39,13 @@ La modernización funciona como una migración por slices: cada bloque preserva 
 **Equipo / referencias**
 - dos personas identificadas por nombre y fotografía;
 - enlaces personales de 2022;
-- dos referencias bajo el encabezado `Clientes Habituales`.
+- dos referencias bajo `Clientes Habituales`.
 
 **Contacto**
 - nombre, apellido, correo, newsletter y consulta;
-- `action=""`: no existía backend real de envío que deba preservarse como funcionalidad.
+- consulta limitada a 400 caracteres;
+- `action=""`, `method="get"`, `enctype="text/plain"`;
+- promesa visual de contacto posterior sin backend verificable en el repositorio.
 
 ## 3. Deuda histórica reemplazada o contenida
 
@@ -52,9 +54,8 @@ La modernización funciona como una migración por slices: cada bloque preserva 
 - elementos no estándar como `aside1` / `aside2`;
 - estilos inline y dimensiones rígidas;
 - navegación/footer duplicados;
-- media queries históricas concentradas en un parcial grande;
 - CSS compilado versionado junto al Sass fuente;
-- formulario sin transporte;
+- formulario sin transporte verificable y con GET para datos personales;
 - metadata/SEO antigua;
 - ausencia de package contract, tests, lint, typecheck, build y CI reproducible.
 
@@ -87,21 +88,21 @@ pnpm check
 
 ### Navegación
 
-La experiencia moderna actual es editorial y de una sola página con anchors semánticos. No se agregó React Router sólo para imitar los cinco HTML históricos.
-
-La decisión puede revisarse únicamente si una necesidad real de rutas/SEO/deep-linking lo justifica.
+La experiencia moderna es editorial y de una sola página con anchors semánticos. No se agregó React Router sólo para imitar los cinco HTML históricos.
 
 ### Contenido histórico vs. presente
 
-Cada claim heredado debe indicar su contexto. “Servicios”, “equipo” o “clientes” de 2022 no se transforman automáticamente en inventario comercial, staff o relaciones vigentes en 2026.
+Cada claim heredado indica su contexto. “Servicios”, “equipo” o “clientes” de 2022 no se transforman automáticamente en inventario comercial, staff o relaciones vigentes en 2026.
 
 ### Media
 
 Sólo se promueven assets realmente usados por un slice. Cada copia moderna conserva path + blob SHA de origen. Hotlinks remotos no se convierten en dependencias esenciales.
 
-### Formulario
+### Contacto / datos personales
 
-Contacto no se presenta como operativo hasta elegir un destino real. No habrá fake-success ni backend agregado sólo para exhibir tecnología.
+El formulario histórico no tiene un destino real verificable y usa GET. La aplicación moderna no reproduce ese transporte, no inventa un endpoint y no simula éxito.
+
+La autoridad moderna conserva el **contrato histórico** de campos como metadata no interactiva. Un futuro formulario operativo requiere un destino real, privacidad, validación, anti-spam y estados de entrega verificables.
 
 ### Deploy
 
@@ -148,27 +149,31 @@ La raíz histórica sigue siendo la baseline desplegable hasta el cutover contro
 - 12/12 tests y browser QA 360/768/1440;
 - post-merge validation.
 
-### 🟡 Fase 4A — Equipo / referencias
+### ✅ Fase 4A — Equipo / referencias
 
 - dos personas preservadas como etiquetas/fotos del archivo 2022;
 - sin roles inventados ni vigencia 2026 asumida;
 - referencias `Argentina Cultura` y `Grupo del Sud` tratadas como etiquetas históricas, no endorsements actuales;
 - Instagram personales y hotlink remoto excluidos;
-- quality/browser QA requeridos antes del merge.
+- 16/16 tests, browser QA 360/768/1440 y post-merge validation.
 
-### ⏳ Fase 4B — Contacto
+### 🟡 Fase 4B — Contacto
 
-- decidir si la versión pública necesita un canal real de contacto;
-- si hay formulario, transporte, validación, privacidad, spam, loading/error/success deben ser reales;
-- si no hay transporte, usar CTA/contacto explícito sin simular submit.
+- autoridad tipada para el contrato exacto de la fuente 2022;
+- no se reproduce `GET` + action vacía;
+- no se recopilan ni transmiten datos personales;
+- campos históricos presentados como archivo no interactivo;
+- newsletter histórica contextualizada sin afirmar servicio actual;
+- no email/endpoint/success state inventado;
+- quality + browser QA requeridos antes de merge.
 
 ### ⏳ Fase 5 — cierre cross-cutting + cutover
 
 - accesibilidad final;
 - metadata/SEO social/canonical real;
 - performance y media sólo con medición;
-- QA desktop/tablet/mobile;
-- enlaces;
+- QA desktop/tablet/mobile integral;
+- links;
 - deploy target y base path;
 - rollback;
 - README final 2022 → 2026;
@@ -180,6 +185,8 @@ La raíz histórica sigue siendo la baseline desplegable hasta el cutover contro
 - no borrar historia de Git;
 - no mega-PR;
 - no backend/CMS/IA sin necesidad real;
+- no recopilar datos personales sin transporte y privacidad definidos;
+- no fake-success;
 - generated output nunca es autoridad manual;
 - CI no se relaja para hacer pasar código;
 - third-party actions fijadas a commits inmutables;
@@ -202,6 +209,6 @@ La nueva versión reemplaza la raíz sólo cuando cumple en conjunto:
 - sin secretos ni endpoints privados;
 - claims históricos con contexto verificable;
 - metadata/deploy URL reales;
-- Contacto sin comportamiento ficticio;
+- Contacto sin comportamiento ficticio ni fuga por query string;
 - rollback documentado;
 - README/documentación sincronizados con la implementación final.
