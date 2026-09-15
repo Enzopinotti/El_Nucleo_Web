@@ -2,7 +2,7 @@
 
 Este repositorio conserva uno de mis primeros proyectos web públicos, realizado en 2022 mientras aprendía HTML, CSS y Sass. **El Núcleo CINE** nació en ese contexto como proyecto audiovisual experimental/en desarrollo y como entrega de Coderhouse; no se presenta hoy como una empresa audiovisual operativa ni como una historia comercial más madura de lo que realmente fue.
 
-La reconstrucción de 2026 no intenta borrar ese origen. El objetivo es mostrar una evolución real de ingeniería: preservar el baseline histórico, reconstruir la experiencia por slices recuperables, validar cada cambio con pruebas y CI, y separar explícitamente **archivo histórico**, **información verificada** y **capacidades futuras**.
+La reconstrucción de 2026 no intenta borrar ese origen. El objetivo es mostrar una evolución real de ingeniería: preservar el baseline histórico, reconstruir la experiencia por slices recuperables, validar cada cambio con pruebas y CI, y separar explícitamente **archivo histórico**, **información verificada**, **contenido todavía no verificado** y **capacidades futuras**.
 
 ## Baseline histórico
 
@@ -42,7 +42,7 @@ pnpm check
 
 ## Estado de la reconstrucción
 
-La foundation, el shell visual y **todos los slices históricos de contenido ya están integrados y revalidados**:
+La foundation, el shell visual, **todos los slices históricos de contenido** y el cierre transversal de calidad ya están integrados y revalidados en `main`:
 
 - **Home** — identidad, hero y archivo de las cuatro categorías históricas;
 - **Nosotros** — narrativa de 2022 con límites explícitos entre fuente histórica y vigencia actual;
@@ -52,9 +52,31 @@ La foundation, el shell visual y **todos los slices históricos de contenido ya 
 - **sistema visual 2026** — tokens, shell, navegación responsive, hero y composiciones históricas bajo un único lenguaje editorial/archivo/control-surface;
 - **calidad cross-cutting** — metadata honesta, navegación/landmarks, media local/lazy, contraste, reduced-motion, skip-link y límites de Contacto protegidos por tests y browser QA.
 
-El contrato permanente actual queda en **23/23 tests**, además de Prettier, ESLint, TypeScript y build de producción.
+La fase activa es **Content platform readiness (#26)**. El primer slice ya implementa en el Draft PR #28 una autoridad de contenido tipada y provenance-aware:
 
-La calificación integrada de navegador se ejecutó contra el build de producción en 360 / 768 / 1440 px y confirmó `failures: []`: cero overflow global, un único H1, shell semántico válido, navegación por fragmentos completa, imágenes locales cargadas con alt descriptivo, lazy loading debajo del hero, primer Tab hacia `#main-content`, reduced-motion correcto, Contacto sin controles interactivos y los pares principales de contraste por encima de 4.5:1.
+```text
+fuentes históricas 2022 + hechos/editorial 2026 revisados
+                         ↓
+                 LandingContent
+                         ↓
+              localLandingContent
+                         ↓
+                    React UI
+```
+
+La autoridad distingue explícitamente:
+
+- `historical`;
+- `verified-current`;
+- `unverified`;
+- `draft`;
+- publicación `public` o `withheld`.
+
+La identidad histórica `El Núcleo / CINE` y su logo viven en un dominio `historical`. El copy editorial de la reconstrucción —por ejemplo `Archivo 2022 · reconstrucción 2026`— vive en un dominio `verified-current`; no se mezclan ambos tiempos bajo una misma etiqueta de verdad.
+
+Los dominios futuros de **proyectos actuales** y **canales actuales de contacto** existen en el contrato pero permanecen deliberadamente vacíos, `unverified` y `withheld`. No se fabrica contenido sólo para llenar la landing.
+
+El quality gate de este slice pasa **29/29 tests**, Prettier, ESLint, TypeScript y build de producción. El browser QA del build de producción se vuelve a ejecutar antes del merge porque el refactor mueve autoridad sin estar autorizado a cambiar el comportamiento visual ya aprobado.
 
 ## Objetivo de producto 2026
 
@@ -64,15 +86,16 @@ Eso no significa copiar la arquitectura de otro proyecto ni agregar un CMS por d
 
 > **CMS-ready ahora; CMS sólo cuando exista una operación real de contenido que lo justifique.**
 
-La próxima capa está definida en [#26](https://github.com/Enzopinotti/El_Nucleo_Web/issues/26): separar contenido de presentación mediante un contrato tipado, mantener provenance/estado histórico explícito, consolidar un provider local y dejar una frontera limpia para una futura fuente remota o `/admin` sin volver a reescribir el frontend.
+La capa implementada en #26 desacopla contenido de presentación y deja una frontera limpia para una futura fuente remota o `/admin` sin obligar al frontend a reescribirse. No agrega todavía una interfaz `ContentProvider` artificial porque hoy sólo existe una fuente real: la autoridad local. Esa abstracción se incorpora cuando exista un segundo proveedor real o semántica asíncrona que justificar.
 
-Cuando se obtenga nueva información de las personas que participaron originalmente, debe ingresar como contenido revisado —con fuente, contexto temporal y estado de publicación— y no como cambios ad-hoc dispersos en JSX.
+Cuando se obtenga nueva información de las personas que participaron originalmente, debe ingresar como contenido revisado —con fuente, contexto temporal, permiso/provenance de media y estado de publicación— y no como cambios ad-hoc dispersos en JSX.
 
 ## Principios de la reconstrucción
 
 - preservar la historia del repositorio;
 - no inventar clientes, trabajos, roles, métricas ni actividad comercial actual;
-- distinguir `historical`, `verified-current`, `unknown/unverified` y `draft` cuando la nueva arquitectura de contenido lo requiera;
+- distinguir `historical`, `verified-current`, `unverified` y `draft` cuando una afirmación lo requiera;
+- separar estado de verdad de estado de publicación;
 - mantener provenance de cada asset histórico promovido;
 - usar una sola fuente de verdad por contenido compartido;
 - evitar dependencias sólo para replicar un efecto visual heredado;
@@ -108,11 +131,13 @@ La capa 2026 puede evolucionar composición, escala tipográfica, espaciado, gri
 
 El objetivo es que se vea claramente **más maduro en 2026** y, al mismo tiempo, siga siendo reconocible como la evolución del proyecto original.
 
-La autoridad visual y su orden de evolución están documentados en [`docs/visual-system-2026.md`](docs/visual-system-2026.md).
+La autoridad visual está documentada en [`docs/visual-system-2026.md`](docs/visual-system-2026.md).
 
 ## Metadata y media
 
 La metadata describe únicamente lo que el repositorio puede probar hoy: un proyecto audiovisual iniciado en 2022 y su reconstrucción 2026. No se publican URLs canónicas, `og:url`, `og:image`, sitemap ni decisiones de robots hasta conocer el origen de producción definitivo.
+
+El contrato de contenido ya representa esos inputs SEO, pero `modern/index.html` sigue siendo la autoridad runtime inicial para crawlers mientras no exista una necesidad real de generar metadata desde una pipeline de contenido/build.
 
 Los assets promovidos viven dentro de la frontera de la app moderna, mantienen trazabilidad hasta sus blobs históricos y no dependen de hotlinks esenciales. La política de optimización es medida: WebP/AVIF o derivados responsive se agregan cuando exista evidencia de transferencia/LCP o nuevos medios que lo justifiquen, no para sumar tecnología nominalmente.
 
@@ -120,6 +145,7 @@ Los assets promovidos viven dentro de la frontera de la app moderna, mantienen t
 
 - [`docs/modernization-2026.md`](docs/modernization-2026.md) — contrato y fases reales de la migración;
 - [`docs/modern-app-architecture.md`](docs/modern-app-architecture.md) — autoridad, arquitectura, content-platform boundary y cutover;
+- [`docs/content-platform-2026.md`](docs/content-platform-2026.md) — contrato tipado, verdad/publicación, provenance, data intake y frontera CMS/provider;
 - [`docs/visual-system-2026.md`](docs/visual-system-2026.md) — identidad, tokens, límites históricos y estrategia visual 2026;
 - [`docs/asset-provenance.md`](docs/asset-provenance.md) — origen exacto, baseline y política de media promovida;
 - [`docs/accessibility-media-qualification-2026.md`](docs/accessibility-media-qualification-2026.md) — invariantes de accesibilidad, media, contraste y browser QA;
@@ -132,10 +158,13 @@ Los assets promovidos viven dentro de la frontera de la app moderna, mantienen t
 
 ## Lo que sigue
 
-La reconstrucción visual/content-history ya no es el cuello de botella. El siguiente trabajo se divide en dos carriles controlados:
+El orden de cierre es deliberado:
 
-1. **Content platform readiness (#26)** — contrato tipado, provenance/status, provider local y futura frontera CMS/admin sin backend prematuro.
-2. **Deploy + cutover** — elegir el origen público, verificar base path/assets, completar canonical/social preview/sitemap/robots según ese origen, documentar rollback y sólo entonces decidir el reemplazo de la raíz histórica.
+1. terminar #26 con browser QA, documentación final, merge controlado y post-merge green;
+2. cerrar administrativamente los issues cross-cutting que ya estén realmente satisfechos, sin cerrar #6 mientras quede una auditoría de ingeniería pendiente;
+3. ejecutar una **auditoría completa del repositorio**: arquitectura, dependencias/supply-chain, seguridad/privacy, CI/CD, tests, accesibilidad, performance/media, SEO, provenance, deployment/release/cutover y experiencia de contribución;
+4. reutilizar issues existentes y crear nuevos sólo para deuda real encontrada;
+5. preparar **Deploy + cutover**: elegir origen público, verificar base path/assets, completar canonical/social preview/sitemap/robots según ese origen, documentar rollback y sólo entonces decidir el reemplazo de la raíz histórica.
 
 La planificación principal se sigue en [#1](https://github.com/Enzopinotti/El_Nucleo_Web/issues/1) y el cutover global en [#5](https://github.com/Enzopinotti/El_Nucleo_Web/issues/5).
 
