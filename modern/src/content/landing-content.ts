@@ -8,10 +8,7 @@ import type {
 } from "./historical-team";
 
 export type ContentTruthStatus =
-  | "historical"
-  | "verified-current"
-  | "unverified"
-  | "draft";
+  "historical" | "verified-current" | "unverified" | "draft";
 
 export type ContentPublicationState = "public" | "withheld";
 
