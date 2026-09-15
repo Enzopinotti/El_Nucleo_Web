@@ -6,7 +6,9 @@ The goal is discoverability **without converting historical material into invent
 
 ## Current authority
 
-The current metadata authority is `modern/index.html`.
+The runtime metadata authority remains `modern/index.html`.
+
+The typed content authority introduced under #26 also models the qualified SEO narrative in `localLandingContent.seo`. That model exists so future build/content integration can reuse the same truth boundary; it does **not** currently replace the crawler-visible static HTML authority.
 
 The document deliberately describes what the site can prove today:
 
@@ -56,17 +58,24 @@ If a social preview is added later:
 
 ## Content and SEO relationship
 
-Future structured content work is tracked in #26. Metadata should ultimately be derived from the same content authority rather than maintained as an unrelated second narrative.
+The #26 content-platform slice establishes the structured authority needed to keep SEO and public content semantically aligned:
 
-Until that architecture lands, `modern/index.html` is intentionally small and explicit.
+- `LandingContent` defines the aggregate contract;
+- `localLandingContent.seo` carries title/description/social-copy inputs plus unresolved deployment fields;
+- the SEO domain is `verified-current`, not historical;
+- `canonicalUrl` and `socialImage` remain explicitly `null` until deployment establishes stable values.
+
+For now, `modern/index.html` intentionally remains the runtime/crawler authority because React runtime injection would not improve this static landing's crawler determinism. If a future build pipeline starts generating metadata from the content authority, that change must make one source authoritative rather than maintaining two independently editable narratives.
 
 ## Test contract
 
-`modern/src/__tests__/document-contract.test.tsx` protects the current phase by checking that:
+`modern/src/__tests__/document-contract.test.tsx` protects the current runtime phase by checking that:
 
 - title/description remain meaningful;
 - Open Graph site name/locale remain present;
 - no `keywords` metadata returns;
 - canonical, `og:url` and `og:image` remain absent while production authority is unresolved.
 
-Once a real production origin exists, that final expectation must be changed in the same reviewed change that introduces the canonical URLs.
+`modern/src/content/local-content.test.ts` additionally protects the content-platform side by requiring deployment-specific SEO inputs to remain unresolved (`null`) until that authority exists.
+
+Once a real production origin exists, those expectations must be changed in the same reviewed change that introduces the canonical/social URLs.
