@@ -7,6 +7,14 @@ import { describe, expect, it } from "vitest";
 import { App } from "../App";
 
 const indexHtml = readFileSync(resolve(process.cwd(), "index.html"), "utf8");
+const robotsTxt = readFileSync(
+  resolve(process.cwd(), "public/robots.txt"),
+  "utf8",
+);
+const sitemapXml = readFileSync(
+  resolve(process.cwd(), "public/sitemap.xml"),
+  "utf8",
+);
 const productionOrigin = "https://el-nucleo-producciones.netlify.app/";
 const socialImage = `${productionOrigin}media/el-nucleo-logo.png`;
 
@@ -64,6 +72,22 @@ describe("cross-cutting public document contract", () => {
         .querySelector('meta[name="twitter:image"]')
         ?.getAttribute("content"),
     ).toBe(socialImage);
+  });
+
+  it("keeps robots and sitemap on the same production authority", () => {
+    expect(robotsTxt).toContain("User-agent: *");
+    expect(robotsTxt).toContain("Allow: /");
+    expect(robotsTxt).toContain(`Sitemap: ${productionOrigin}sitemap.xml`);
+
+    const sitemap = new DOMParser().parseFromString(
+      sitemapXml,
+      "application/xml",
+    );
+    const locations = [...sitemap.querySelectorAll("url > loc")].map(
+      (location) => location.textContent?.trim(),
+    );
+
+    expect(locations).toEqual([productionOrigin]);
   });
 
   it("keeps navigation targets, landmarks and the single-H1 hierarchy coherent", () => {
