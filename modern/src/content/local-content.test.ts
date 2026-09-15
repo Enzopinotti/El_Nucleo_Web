@@ -21,6 +21,18 @@ describe("localLandingContent", () => {
     }
   });
 
+  it("keeps 2026 shell copy outside the historical identity domain", () => {
+    expect(localLandingContent.shell.truth).toMatchObject({
+      status: "verified-current",
+      publication: "public",
+    });
+    expect(localLandingContent.shell.truth.sources.length).toBeGreaterThan(0);
+    expect(localLandingContent.siteIdentity.data).not.toHaveProperty("edition");
+    expect(localLandingContent.siteIdentity.data).not.toHaveProperty(
+      "footerLine",
+    );
+  });
+
   it("does not manufacture current projects or contact channels", () => {
     expect(localLandingContent.current.projects.data).toEqual([]);
     expect(localLandingContent.current.projects.truth).toMatchObject({
