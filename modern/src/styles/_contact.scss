@@ -1,4 +1,5 @@
 .historical-contact {
+  position: relative;
   display: grid;
   gap: var(--space-8);
   padding: var(--section-space) 0;
@@ -16,19 +17,40 @@
   margin: 0;
 }
 
+.historical-contact__intro h2 {
+  max-width: 18ch;
+  font-size: clamp(2.2rem, 6vw, 4.6rem);
+  line-height: 1.03;
+  letter-spacing: -0.052em;
+}
+
 .historical-contact__status,
 .historical-contact__source,
 .historical-contact__field,
 .historical-contact__promise {
   border: 1px solid var(--color-line);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   background: var(--color-surface);
 }
 
 .historical-contact__status {
+  position: relative;
+  overflow: hidden;
   display: grid;
   gap: var(--space-4);
   padding: var(--content-pad);
+  border-color: var(--color-line-strong);
+  background:
+    linear-gradient(90deg, rgb(131 210 181 / 12%), transparent 72%),
+    var(--color-bg-soft);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0.2rem;
+    background: var(--color-accent);
+  }
 }
 
 .historical-contact__status > div {
@@ -42,15 +64,16 @@
 .historical-contact__status-label,
 .historical-contact__eyebrow {
   color: var(--color-accent);
-  font-size: 0.78rem;
-  font-weight: 800;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 820;
   letter-spacing: var(--label-tracking);
   text-transform: uppercase;
 }
 
 .historical-contact__status strong {
   color: var(--color-accent);
-  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-size: clamp(1rem, 2vw, 1.25rem);
 }
 
 .historical-contact__status p,
@@ -69,37 +92,77 @@
 
 .historical-contact__source,
 .historical-contact__field {
+  position: relative;
   display: grid;
   gap: var(--space-5);
   padding: var(--content-pad);
 }
 
+.historical-contact__source {
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, var(--color-accent-soft), transparent 60%),
+    var(--color-surface);
+
+  &::after {
+    content: "GET / ∅";
+    position: absolute;
+    right: var(--space-4);
+    bottom: var(--space-3);
+    color: rgb(131 210 181 / 8%);
+    font-family: var(--font-mono);
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 900;
+    letter-spacing: -0.08em;
+    pointer-events: none;
+  }
+}
+
+.historical-contact__source h3 {
+  position: relative;
+  z-index: 1;
+  max-width: 18ch;
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
 .historical-contact__source dl,
 .historical-contact__field dl {
+  position: relative;
+  z-index: 1;
   display: grid;
-  gap: var(--space-3);
+  gap: 1px;
   margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-sm);
+  background: var(--color-line-soft);
 }
 
 .historical-contact__source dl > div,
 .historical-contact__field dl > div {
+  min-width: 0;
+  padding: 0.7rem 0.8rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-2) var(--space-4);
-  padding-bottom: 0.65rem;
-  border-bottom: 1px solid var(--color-line-soft);
+  background: rgb(11 16 14 / 88%);
 }
 
 .historical-contact__source dt,
 .historical-contact__field dt {
-  color: var(--color-muted);
+  color: var(--color-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
 }
 
 .historical-contact__source dd,
 .historical-contact__field dd {
   margin: 0;
-  font-weight: 700;
+  font-weight: 720;
   text-align: right;
 }
 
@@ -109,27 +172,78 @@
   overflow-wrap: anywhere;
 }
 
+.historical-contact__warning {
+  position: relative;
+  z-index: 1;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-line);
+}
+
 .historical-contact__fields {
+  counter-reset: contact-field;
   display: grid;
   gap: var(--space-4);
+}
+
+.historical-contact__field {
+  counter-increment: contact-field;
+  overflow: hidden;
+  background: var(--color-surface);
+
+  &::before {
+    content: "FIELD / 0" counter(contact-field);
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    color: rgb(131 210 181 / 26%);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+  }
+
+  h3 {
+    max-width: 22ch;
+    padding-right: 4.5rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    line-height: 1.25;
+  }
 }
 
 .historical-contact__field-note {
-  padding-top: 0.25rem;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-line-soft);
 }
 
 .historical-contact__promise {
+  position: relative;
   display: grid;
   gap: var(--space-4);
   margin: 0;
-  padding: clamp(1.5rem, 3vw, 2.25rem);
+  padding: clamp(1.5rem, 4vw, 2.7rem);
+  overflow: hidden;
+  border-color: var(--color-line-strong);
+  background:
+    linear-gradient(110deg, rgb(131 210 181 / 14%), transparent 62%),
+    var(--color-bg-soft);
+
+  &::before {
+    content: "ARCHIVE PROMISE";
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+  }
 }
 
 .historical-contact__promise p {
+  max-width: 38ch;
   margin: 0;
-  font-size: clamp(1.15rem, 2.5vw, 1.55rem);
-  font-weight: 700;
-  line-height: 1.45;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-weight: 760;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
 }
 
 @media (min-width: 48rem) {
