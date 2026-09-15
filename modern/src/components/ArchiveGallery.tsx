@@ -34,10 +34,8 @@ export function ArchiveGallery({ services }: ArchiveGalleryProps) {
           Cuatro categorías que definían la primera versión
         </h2>
         <p id="archive-note" className="section-note">
-          Videoclips, Publicidad, Cortometrajes y Coberturas son categorías que
-          el proyecto presentaba en 2022. Este material se conserva como
-          archivo y no representa por sí solo un catálogo comercial vigente en
-          2026.
+          Este material se conserva como archivo del proyecto original. No
+          representa por sí solo un catálogo comercial vigente en 2026.
         </p>
       </div>
 
