@@ -52,6 +52,8 @@ Repository-level migration evidence lives in `../docs/`.
 
 The foundation, **Home**, **Nosotros** and **Servicios + Backstage** are merged and independently revalidated on `main`.
 
+**Equipo** has completed implementation and qualification in its closure lane and is ready for controlled integration after temporary QA tooling is removed and the final permanent gate is green.
+
 ### Home
 
 Home preserves the `El Núcleo / CINE` identity and the historical green, and replaces four duplicate Bootstrap carousels with one controlled archive gallery. It passed behavior tests, permanent CI and production-build browser qualification.
@@ -66,20 +68,36 @@ Servicios reuses the single `historicalServices` authority from Home rather than
 
 The slice completed 12/12 behavior tests plus production browser qualification at 360 / 768 / 1440 px before controlled merge.
 
-### Equipo — active lane
+### Equipo — qualified closure lane
 
-Equipo is being migrated as a historical record, not as a current staff/client directory.
+Equipo is represented as a historical record, not as a current staff/client directory.
 
 The source page associated two local photographs with:
 
 - André Wilber Coronel Vargas;
 - Lautaro Weimer.
 
-The modern UI may preserve those source labels and exact historical photos, but explicitly states that 2026 membership, collaboration, role and relationship status are not verified.
+The modern UI preserves those source labels and exact historical photos while explicitly stating that 2026 membership, collaboration, role and relationship status are not verified.
 
 The source also placed `Argentina Cultura` and `Grupo del Sud` under `Clientes Habituales`. The modern app treats those as **source-attributed labels from the 2022 page**, not as current endorsements or commercial relationships.
 
 Personal Instagram links and the old remote Argentina Cultura logo are not promoted as modern dependencies.
+
+Equipo completed:
+
+- **16/16 Vitest tests**;
+- Prettier, ESLint, TypeScript and Vite production build;
+- Chrome **152.0.7977.82** browser qualification at 360 / 768 / 1440 px;
+- one H1;
+- **2/2 historical team photographs loaded**;
+- both `Vigencia 2026 · no verificada` boundaries present;
+- exact historical client labels present;
+- no inherited Instagram/client/generic-social external links;
+- no horizontal overflow in mobile/tablet/desktop;
+- fresh-page first Tab on the skip link;
+- reduced-motion scroll behavior = `auto`.
+
+Visual review confirmed clean mobile stacking, balanced desktop person cards and a deliberately secondary client-reference block rather than a present-day logo wall.
 
 ## Quality contract
 
@@ -93,41 +111,6 @@ Every slice must continue to satisfy:
 6. Permanent GitHub Actions remain read-only and pinned to immutable action SHAs.
 7. Browser QA covers responsive, keyboard, truth-boundary and reduced-motion behavior changed by the slice.
 8. Temporary formatter/visual qualification workflows are removed before final merge.
-
-## Completed qualification evidence
-
-### Home
-
-- 5/5 behavior tests on its closure state;
-- production browser evidence at 360 / 768 / 1440 px;
-- one H1;
-- no horizontal overflow;
-- skip-link-first keyboard focus;
-- reduced-motion behavior.
-
-### Nosotros
-
-- 9/9 behavior tests on its closure state;
-- Chrome 152 production-build qualification;
-- one H1 and correct heading hierarchy;
-- no horizontal overflow;
-- no unverified historical social links;
-- explicit current-truth boundary;
-- skip-link-first focus;
-- reduced-motion behavior.
-
-### Servicios + Backstage
-
-- 12/12 behavior tests on its closure state;
-- Prettier, ESLint, TypeScript and production build green;
-- Chrome 152.0.7977.82 browser qualification at 360 / 768 / 1440 px;
-- four Backstage images present;
-- zero Backstage controls/autoplay;
-- one H1;
-- no horizontal overflow;
-- no unverified generic social links;
-- fresh-page first Tab on `#main-content` skip link;
-- reduced-motion scroll behavior = `auto`.
 
 ## Accessibility baseline
 
@@ -150,7 +133,7 @@ For Equipo, the two people photographs are promoted byte-for-byte. Client logos 
 - `Home`: merged + post-merge validated.
 - `Nosotros`: merged + post-merge validated.
 - `Servicios + Backstage`: merged + post-merge validated.
-- `Equipo`: active implementation/qualification lane.
+- `Equipo`: implementation + automated/browser qualification complete; final integration gate pending.
 - `Contacto`: next; no fake-success submission and no invented transport.
 - cross-cutting accessibility / metadata / performance: final pass after content migration.
 - cutover: only after complete responsive/accessibility/browser QA plus rollback documentation.

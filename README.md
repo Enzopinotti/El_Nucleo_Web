@@ -42,13 +42,13 @@ pnpm check
 
 ## Estado de migración
 
-La reconstrucción ya superó la etapa de foundation. Los siguientes slices están **mergeados y revalidados en `main`**:
+La reconstrucción ya superó la etapa de foundation. Están mergeados y revalidados en `main`:
 
 - **Home** — identidad, hero y archivo de las cuatro categorías históricas;
 - **Nosotros** — narrativa de 2022 con límites explícitos entre fuente histórica y vigencia actual;
 - **Servicios + Backstage** — una sola autoridad para las categorías y una grilla editorial sin Bootstrap/autoplay.
 
-El slice activo es **Equipo / referencias históricas**. La migración conserva nombres y fotografías como evidencia de lo que mostraba la página de 2022, pero no los transforma en un directorio de equipo 2026 ni en claims actuales de clientes.
+**Equipo / referencias históricas** ya completó implementación y calificación en su carril: 16/16 tests, quality gate completo y browser QA real con Chrome 152 en 360 / 768 / 1440 px. Conserva los dos nombres/fotos de 2022 como archivo, sin transformarlos en un directorio de equipo vigente, y mantiene `Argentina Cultura` / `Grupo del Sud` sólo como etiquetas históricas de la página original, sin endorsements ni links actuales.
 
 Después siguen:
 
