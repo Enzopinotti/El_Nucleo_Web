@@ -187,28 +187,4 @@
   .about-archive-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .about-archive-card:first-child:nth-last-child(3) {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
-    column-gap: var(--space-8);
-    align-items: start;
-  }
-
-  .about-archive-card:first-child:nth-last-child(3) .about-archive-card__meta,
-  .about-archive-card:first-child:nth-last-child(3) h3 {
-    grid-column: 1;
-  }
-
-  .about-archive-card:first-child:nth-last-child(3) blockquote,
-  .about-archive-card:first-child:nth-last-child(3)
-    .about-archive-card__context {
-    grid-column: 2;
-  }
-
-  .about-archive-card:first-child:nth-last-child(3) blockquote {
-    grid-row: 1 / span 2;
-    margin-top: 0;
-  }
 }
