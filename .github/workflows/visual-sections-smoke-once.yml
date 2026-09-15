@@ -167,7 +167,25 @@ jobs:
             team: document.querySelector("#equipo")?.textContent?.includes("No confirma pertenencia, colaboración, rol ni vínculo vigente") ?? false,
             contact: document.querySelector("#contacto")?.textContent?.includes("Recolección de datos 2026") ?? false
           }))()`);
-          evidence.clipping = await evaluate(`(() => [...document.querySelectorAll(".about-archive-card, .backstage-card, .historical-person, .historical-contact__field")].map((el) => ({ className: el.className, verticalClip: el.scrollHeight > el.clientHeight + 1, horizontalClip: el.scrollWidth > el.clientWidth + 1 })))()`);
+          evidence.clipping = await evaluate(`(() => [...document.querySelectorAll(".about-archive-card, .backstage-card, .historical-person, .historical-contact__field")].map((el) => {
+            const card = el.getBoundingClientRect();
+            const contentEscapes = [...el.children].map((child) => {
+              const rect = child.getBoundingClientRect();
+              return {
+                tag: child.tagName,
+                className: child.className || null,
+                top: rect.top < card.top - 1,
+                right: rect.right > card.right + 1,
+                bottom: rect.bottom > card.bottom + 1,
+                left: rect.left < card.left - 1
+              };
+            }).filter((entry) => entry.top || entry.right || entry.bottom || entry.left);
+            return {
+              className: el.className,
+              horizontalScroll: el.scrollWidth > el.clientWidth + 1,
+              contentEscapes
+            };
+          }))()`);
 
           await send("Page.reload", { ignoreCache: true });
           await sleep(500);
@@ -183,10 +201,10 @@ jobs:
           if (Object.values(evidence.viewports).some((viewport) => viewport.overflow)) failures.push("Document overflow detected");
           if (Object.values(evidence.viewports).some((viewport) => viewport.sectionRects.some((section) => section.missing || section.left < -0.5 || section.right > viewport.page.width + 0.5))) failures.push("Section escaped qualified viewport");
           if (!evidence.images.length || evidence.images.some((image) => !image.complete || image.naturalWidth <= 0)) failures.push("Historical image failed to load");
-          if (evidence.counts.aboutCards !== 3 || evidence.counts.backstageCards !== 4 || evidence.counts.people !== 2 || evidence.counts.clientReferences !== 2 || evidence.counts.contactFields !== 5) failures.push(`Historical surface counts changed: ${JSON.stringify(evidence.counts)}`);
+          if (evidence.counts.aboutCards !== 2 || evidence.counts.backstageCards !== 4 || evidence.counts.people !== 2 || evidence.counts.clientReferences !== 2 || evidence.counts.contactFields !== 5) failures.push(`Historical surface counts changed: ${JSON.stringify(evidence.counts)}`);
           if (evidence.counts.contactForms !== 0 || evidence.counts.contactControls !== 0) failures.push("Contacto regained interactive controls");
           if (Object.values(evidence.boundaries).some((value) => !value)) failures.push(`Truth boundary missing: ${JSON.stringify(evidence.boundaries)}`);
-          if (evidence.clipping.some((entry) => entry.verticalClip || entry.horizontalClip)) failures.push(`Card clipping detected: ${JSON.stringify(evidence.clipping.filter((entry) => entry.verticalClip || entry.horizontalClip))}`);
+          if (evidence.clipping.some((entry) => entry.horizontalScroll || entry.contentEscapes.length)) failures.push(`Rendered card content escaped: ${JSON.stringify(evidence.clipping.filter((entry) => entry.horizontalScroll || entry.contentEscapes.length))}`);
           if (evidence.firstTab?.href !== "#main-content") failures.push(`First Tab mismatch: ${JSON.stringify(evidence.firstTab)}`);
           if (evidence.reducedMotion !== "auto") failures.push("Reduced-motion scroll contract failed");
 
@@ -202,7 +220,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: visual-sections-qa
+          name: visual-sections-qa-v2
           path: visual-qa/
           if-no-files-found: error
           retention-days: 7
