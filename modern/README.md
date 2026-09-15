@@ -2,7 +2,7 @@
 
 This directory contains the 2026 reconstruction of the original 2022 El Núcleo site.
 
-It remains intentionally isolated under `modern/` until the final controlled cutover. The historical root HTML/SCSS/CSS stays intact as source evidence while the modern app owns the new runtime, behavior, presentation and typed content authority.
+It remains intentionally isolated under `modern/` until the final controlled cutover. Historical root HTML/SCSS/CSS/assets stay intact as source evidence while the modern app owns the current runtime, behavior, presentation and typed content authority.
 
 ## Runtime
 
@@ -15,9 +15,12 @@ It remains intentionally isolated under `modern/` until the final controlled cut
 - Vitest + Testing Library
 - ESLint + Prettier
 
+The runtime declaration is synchronized across root `.nvmrc`, this package's `engines` field and CI.
+
 ## Local workflow
 
 ```bash
+nvm use
 cd modern
 pnpm install --frozen-lockfile
 pnpm dev
@@ -29,7 +32,16 @@ Before a PR is considered reviewable:
 pnpm check
 ```
 
-`pnpm check` validates formatting, lint, type safety, behavior/contract tests and the production build.
+`pnpm check` validates:
+
+- modern app formatting;
+- root README + repository docs formatting;
+- lint with zero warnings;
+- TypeScript;
+- Vitest behavior/contract tests;
+- production build.
+
+The same command is used by GitHub Actions.
 
 ## Source authority
 
@@ -42,70 +54,69 @@ pnpm check
 - `src/content/historical-backstage.ts`: Backstage archive and exact provenance.
 - `src/content/historical-team.ts`: historical people and client-reference labels from Equipo.
 - `src/content/historical-contact.ts`: exact historical Contacto transport/field contract.
-- `src/content/public-asset.ts`: shared application-owned public-media path helper.
-- `src/styles/_tokens.scss`: shared 2026 visual-system authority.
-- `src/styles/`: modern presentation modules only; they do not rewrite historical Sass.
+- `src/content/public-asset.ts`: application-owned public-media path helper.
+- `src/styles/_tokens.scss`: 2026 visual-system token authority.
+- `src/styles/`: modern presentation modules only.
 - `public/media/`: only historical media intentionally promoted into the modern app.
 - `dist/`: generated production output; never hand-edit.
 - `pnpm-lock.yaml`: reproducible dependency resolution.
 
-Repository-level migration evidence lives in `../docs/`.
+Repository-level evidence and decisions live in `../docs/`.
 
 ## Historical content status
 
-All historical content slices are **merged and independently revalidated on `main`**.
+All historical content slices are merged and revalidated on `main`.
 
 ### Home
 
-Home preserves the `El Núcleo / CINE` identity and historical green, and replaces four duplicate Bootstrap carousels with one controlled archive gallery.
+Preserves the `El Núcleo / CINE` identity and historical green, and replaces four duplicate Bootstrap carousels with one controlled archive gallery.
 
 ### Nosotros
 
-Nosotros preserves what the 2022 project said about itself while making the historical/current boundary explicit. Aspirations, NGO references and historical organization statements are not silently promoted into 2026 facts.
+Preserves what the 2022 project said about itself while keeping historical/current truth boundaries explicit.
 
 ### Servicios + Backstage
 
-Servicios reuses the single `historicalServices` authority from Home. Backstage exposes all four preserved frames as a semantic responsive contact sheet without autoplay or another stateful carousel.
+Servicios reuses one `historicalServices` authority. Backstage exposes the preserved archive as a responsive semantic contact sheet without autoplay or another stateful carousel.
 
 ### Equipo
 
-Equipo is represented as a historical record rather than a current staff/client directory. It preserves the two source labels/photos, omits unverified personal links and presents historical client references only with source-era context.
+Equipo is a historical record, not a 2026 staff/client directory. Names/photos and client-reference labels remain source-era evidence only.
 
 ### Contacto
 
-The 2022 source used:
+The historical source used:
 
 ```html
 <form action="" method="get" enctype="text/plain"></form>
 ```
 
-No verified delivery backend exists in the repository. The modern app therefore preserves the contact **contract** instead of pretending the form is operational.
-
-`HistoricalContact` renders no live form or data-entry controls, invents no current email/API/newsletter destination and documents the historical GET + empty-action behavior without reproducing it.
+No verified delivery backend exists in the repository. The modern app therefore preserves the historical field/transport contract as non-interactive archive metadata rather than pretending submission works.
 
 ## Visual and cross-cutting qualification
 
-The 2026 presentation direction is an **editorial production archive / contact sheet / control surface**, not generic SaaS.
+The accepted direction is an editorial production archive / contact sheet / control surface, not generic SaaS.
 
-The integrated app has already been qualified for:
+The integrated app has been qualified for:
 
 - 360 / 768 / 1440 responsive layouts;
-- no global horizontal overflow;
-- semantic header/nav/main/footer and a single H1;
-- skip-link as the first keyboard stop;
-- visible focus and reduced-motion behavior;
-- local media with useful alt text and lazy loading below the hero;
+- zero global horizontal overflow;
+- one H1 and semantic header/nav/main/footer;
+- skip-link as first keyboard stop;
+- visible focus and reduced motion;
+- local media with useful alt text;
+- lazy loading below the hero;
 - historical Contacto remaining non-interactive;
 - core rendered contrast pairs above 4.5:1;
 - metadata that does not invent canonical/social URLs before a production origin exists.
 
-Full visual contract: [`../docs/visual-system-2026.md`](../docs/visual-system-2026.md).
+Issues #10, #11, #12 and #22 are complete. Full visual contract: [`../docs/visual-system-2026.md`](../docs/visual-system-2026.md).
 
 ## Content platform 2026
 
-Issue #26 introduces the next maintainability boundary without adding a speculative CMS.
+Issue #26 is complete through PR #28.
 
-The current architecture is:
+Current architecture:
 
 ```text
 historical sources + reviewed 2026 editorial facts
@@ -117,7 +128,7 @@ historical sources + reviewed 2026 editorial facts
                React UI
 ```
 
-`LandingContent` carries truth/publication semantics for claim-bearing domains:
+`LandingContent` carries truth/publication semantics:
 
 - `historical`;
 - `verified-current`;
@@ -125,60 +136,103 @@ historical sources + reviewed 2026 editorial facts
 - `draft`;
 - `public` / `withheld`.
 
-The local authority composes the already-qualified historical modules; it does not duplicate or overwrite them.
+The local authority composes already-qualified historical modules rather than duplicating them.
 
-A review-specific invariant keeps **historical identity** separate from the **2026 editorial shell**:
+A contract invariant separates historical identity from the 2026 editorial shell:
 
-- `siteIdentity` contains only the historical `El Núcleo / CINE` name/tag/logo and remains `historical`;
-- `shell` owns `Archivo 2022 · reconstrucción 2026` and the modern footer line and remains `verified-current`.
+- `siteIdentity` contains only historical `El Núcleo / CINE` identity/logo;
+- `shell` owns current reconstruction labels/footer copy.
 
-Future current projects and current contact channels already have typed slots but are empty, `unverified` and `withheld` until real evidence exists.
+Current projects and current contact channels have typed slots but remain empty, `unverified` and `withheld` until real evidence exists.
 
-There is deliberately no remote provider interface, CMS dependency or `/admin` yet. A concrete second provider or asynchronous source semantics must exist before adding that abstraction.
+There is deliberately no remote provider, CMS dependency or `/admin`. A real second content source or asynchronous workflow must exist before that abstraction is justified.
 
 Full contract: [`../docs/content-platform-2026.md`](../docs/content-platform-2026.md).
 
 ## Quality contract
 
-Every visual/content slice must continue to satisfy:
+Every material change must preserve:
 
-1. `pnpm install --frozen-lockfile` succeeds on Node 24 with pnpm 9.15.9.
-2. `pnpm check` passes Prettier, ESLint, TypeScript, Vitest and the Vite production build.
-3. Historical claims/contracts remain represented through typed source/context data.
-4. Truth status and publication state cannot be inferred merely from record existence.
-5. Promoted historical media keeps path/blob provenance.
-6. Historical team/client/service/company claims are not promoted as current without verification.
-7. Personal-data collection is not enabled without a real transport/privacy contract.
-8. Permanent GitHub Actions remain read-only and pinned to immutable action SHAs.
-9. Browser QA covers responsive, keyboard, truth/privacy-boundary and reduced-motion behavior changed by a slice.
-10. Temporary formatter/visual qualification workflows are removed before final merge.
+1. Node 24 + pnpm 9.15.9 reproducibility;
+2. frozen install;
+3. `pnpm check` green;
+4. 29 existing behavior/contract tests unless intentionally evolved with the same change;
+5. historical truth/provenance boundaries;
+6. media provenance;
+7. no current staff/client/service/company claim without verification;
+8. no personal-data collection without real transport/privacy semantics;
+9. read-only SHA-pinned permanent GitHub Actions;
+10. browser QA when behavior/presentation changes;
+11. temporary QA tooling removed before merge.
 
-The current content-platform branch passes **29/29 tests** plus format, lint, TypeScript and production build before its final browser qualification.
+## Repository audit — active phase
 
-## Accessibility baseline
+Issue #29 now owns the pre-cutover engineering audit.
 
-The app includes semantic landmarks, one H1, a skip link, visible focus treatment, useful alt text, mobile-first layout and reduced-motion handling.
+The audit matrix is versioned in [`../docs/repository-audit-2026.md`](../docs/repository-audit-2026.md) and classifies findings as:
 
-Contacto deliberately avoids disabled or fake controls. A future live form must add accessible labels, validation errors and delivery status tied to actual submission outcomes.
+- `pass`;
+- `improve`;
+- `defer`;
+- `historical`;
+- `cutover-blocked`.
 
-A future editor/admin is held to the same standard; admin UI is not exempt from keyboard/focus/error semantics.
+The first hardening pass corrects three concrete forms of drift:
+
+- `.nvmrc` Node 22 → Node 24;
+- CI now reads Node from `.nvmrc`;
+- root README/docs/repository-authority changes now trigger the permanent quality job and are included in formatting checks.
+
+This avoids adding a second docs-only CI stack while keeping documentation-as-code enforceable.
+
+## TypeScript and lint posture
+
+TypeScript remains `strict: true`.
+
+`skipLibCheck: true` is under audit but is not treated as a defect by default for this small dependency surface. Type-aware linting or additional React lint plugins are also deferred until they demonstrate a real bug class instead of merely increasing rule count.
+
+## Testing posture
+
+Current baseline: **29/29 tests across 3 Vitest files**.
+
+No numeric coverage threshold is introduced merely for a badge. Tests are expected to protect behavior, document contracts, content truth/provenance and important interaction state.
+
+A minimal permanent production-browser smoke is still being evaluated in #29; current production-browser evidence already exists for all material migration lanes.
 
 ## Media policy
 
-Do not copy the entire historical asset tree into `modern/`.
+Promote only media used by the accepted modern product. Originals remain untouched and promoted files keep blob-level provenance.
 
-Only media used by an accepted slice is promoted. Originals remain untouched and promoted files keep documented blob-level provenance. Optimization derivatives require measured need, a reproducible process and visual review.
+Current promoted baseline: **11 files / 786,374 bytes (~768 KiB)**.
 
-## Next gates
+Responsive/WebP/AVIF derivatives require measured need and a reproducible process.
 
-1. qualify and merge #26 from a clean branch HEAD;
-2. verify `main` post-merge;
-3. close only the cross-cutting issues whose acceptance criteria are genuinely satisfied;
-4. run the promised repository-wide engineering audit;
-5. resolve deployment origin/base path/rollback and only then perform cutover.
+## Security/privacy posture
+
+The modern runtime currently has:
+
+- no third-party runtime scripts;
+- no analytics SDK;
+- no CMS/admin/auth;
+- no live contact transport;
+- no fake-success state;
+- no modern secret/env contract found by repository audit;
+- strict-origin referrer metadata.
+
+CSP/host headers remain deployment work because they depend on the real production host.
 
 ## Deployment boundary
 
-The historical root site remains the deployable baseline. Completion of content migration or content-platform readiness does not change that boundary.
+The historical root remains the deployable baseline.
 
-The modern application replaces the root only through an explicit controlled cutover with verified production origin, assets/base path, metadata, rollback and post-deploy checks.
+The modern application replaces it only through #5 after #29 leaves a cutover-only blocker list and the project has:
+
+- a chosen production host/origin;
+- verified base path/assets;
+- real canonical/social metadata;
+- sitemap/robots decisions where appropriate;
+- host-specific security/deploy configuration;
+- post-deploy smoke;
+- documented rollback to the preserved 2022 baseline.
+
+No placeholder origin is acceptable.
