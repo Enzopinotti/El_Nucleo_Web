@@ -116,12 +116,14 @@ export type LandingContent = {
   siteIdentity: ContentDomain<{
     name: string;
     tag: string;
-    edition: string;
-    footerLine: string;
     logo: {
       src: string;
       alt: string;
     };
+  }>;
+  shell: ContentDomain<{
+    edition: string;
+    footerLine: string;
   }>;
   navigation: readonly NavigationItem[];
   hero: ContentDomain<HeroContent>;
