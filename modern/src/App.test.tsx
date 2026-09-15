@@ -8,6 +8,7 @@ import {
 import { afterEach, describe, expect, it } from "vitest";
 
 import { App } from "./App";
+import { historicalServices } from "./content/historical-home";
 
 afterEach(() => {
   cleanup();
@@ -86,20 +87,37 @@ describe("El Núcleo modern migration", () => {
     }
   });
 
-  it("links the primary navigation to the migrated Nosotros section", () => {
+  it("links primary navigation to migrated historical sections", () => {
     render(<App />);
 
     expect(screen.getByRole("link", { name: "Nosotros" })).toHaveAttribute(
       "href",
       "#nosotros",
     );
+    expect(
+      screen.getByRole("link", { name: "Servicios 2022" }),
+    ).toHaveAttribute("href", "#servicios");
+    expect(screen.getByRole("link", { name: "Backstage" })).toHaveAttribute(
+      "href",
+      "#backstage",
+    );
   });
 
-  it("exposes the historical archive without presenting it as a current commercial catalog", () => {
+  it("keeps one canonical four-category service dataset", () => {
+    expect(historicalServices.map(({ title }) => title)).toEqual([
+      "Videoclips",
+      "Publicidad",
+      "Cortometrajes",
+      "Coberturas",
+    ]);
+  });
+
+  it("exposes the historical services without presenting them as a current commercial catalog", () => {
     render(<App />);
 
     const gallery = screen.getByRole("region", { name: /cuatro categorías/i });
 
+    expect(gallery).toHaveAttribute("id", "servicios");
     expect(
       within(gallery).getByRole("heading", { name: "Videoclips", level: 3 }),
     ).toBeInTheDocument();
@@ -153,6 +171,36 @@ describe("El Núcleo modern migration", () => {
     expect(within(gallery).getByRole("status")).toHaveTextContent(
       "4 de 4 — Coberturas",
     );
+  });
+
+  it("presents all four backstage frames at once without autoplay controls", () => {
+    render(<App />);
+
+    const backstage = screen.getByRole("region", {
+      name: /cuatro fotografías preservadas/i,
+    });
+    const images = within(backstage).getAllByRole("img");
+
+    expect(backstage).toHaveAttribute("id", "backstage");
+    expect(images).toHaveLength(4);
+    for (const image of images) {
+      expect(image).toHaveAttribute("loading", "lazy");
+    }
+    expect(within(backstage).queryByRole("button")).not.toBeInTheDocument();
+  });
+
+  it("keeps backstage media inside the historical truth boundary", () => {
+    render(<App />);
+
+    const backstage = screen.getByRole("region", {
+      name: /cuatro fotografías preservadas/i,
+    });
+
+    expect(
+      within(backstage).getByText(
+        /no confirma equipo, clientes, producciones ni relaciones vigentes en 2026/i,
+      ),
+    ).toBeInTheDocument();
   });
 
   it("keeps a keyboard-oriented skip link to the main content", () => {

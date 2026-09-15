@@ -24,11 +24,12 @@ export function ArchiveGallery({ services }: ArchiveGalleryProps) {
   return (
     <section
       className="archive-gallery"
+      id="servicios"
       aria-labelledby="archive-title"
       aria-describedby="archive-note"
     >
       <div className="archive-gallery__intro">
-        <p className="section-kicker">Archivo visual · 2022</p>
+        <p className="section-kicker">Servicios · archivo visual 2022</p>
         <h2 id="archive-title">
           Cuatro categorías que definían la primera versión
         </h2>
