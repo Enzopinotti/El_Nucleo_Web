@@ -2,24 +2,21 @@
 
 This directory contains the 2026 reconstruction of the original 2022 El Núcleo site.
 
-It remains intentionally isolated under `modern/` until the final controlled cutover. Historical root HTML/SCSS/CSS/assets stay intact as source evidence while the modern app owns the current runtime, behavior, presentation and typed content authority.
+Historical root HTML/SCSS/CSS/assets remain intact as source evidence. `modern/src` is the current application source authority and `modern/dist` is generated deployment output.
 
 ## Current phase
 
-The application, content migration, visual system, cross-cutting qualification, content-platform boundary and repository-wide audit are complete.
+The application, historical-content migration, visual system, cross-cutting qualification, content-platform boundary and repository-wide audit are complete.
 
-Completed lanes include:
+The only active lane is **#5 — production deploy and controlled root cutover**, currently implemented in PR #32.
 
-- historical migration;
-- accessibility/media/metadata qualification;
-- visual-system closure;
-- content platform #26 / PR #28;
-- repository audit #29 / PR #30;
-- post-merge quality #132 on `main`.
+The selected modern production authority is:
 
-The only active lane is now **#5 — production deploy and controlled root cutover**.
+```text
+https://el-nucleo-producciones.netlify.app/
+```
 
-No generic modernization cleanup remains open. Future changes in this directory should either preserve the accepted contracts or solve a concrete deployment blocker discovered by #5.
+The cutover is not considered complete until PR #32 merges, Netlify deploys the qualified `main` state and the real production URL passes the final smoke contract.
 
 ## Runtime
 
@@ -37,7 +34,7 @@ Runtime/package-manager authority is intentionally single-sourced:
 - root `.nvmrc` owns Node 24;
 - `package.json#packageManager` owns pnpm 11.26.0;
 - `package.json#engines` rejects an incompatible Node major;
-- GitHub Actions reads both authorities instead of duplicating version literals;
+- GitHub Actions reads those authorities instead of duplicating version literals;
 - ESLint rejects a TypeScript version outside the supported `typescript-eslint` range.
 
 ## Local workflow
@@ -79,21 +76,14 @@ It enforces:
 
 The 24-hour release-age boundary is deliberate. During the pnpm 11 migration it rejected a transitively selected `brace-expansion` release that had been published less than one day earlier. The policy was kept and the lockfile was re-resolved instead of whitelisting the young release.
 
-Sass brings `@parcel/watcher` as an optional dependency. The app's install, tests and Vite production build pass with its install script denied, so the repository does not grant native build-script execution that the product does not require.
-
-The final pnpm graph was checked with bounded advisory evidence:
-
-- production graph: no `moderate`-or-higher finding;
-- complete graph: no `high`-or-higher finding.
-
-Registry-backed advisory checks remain evidence rather than a permanent CI dependency. Frozen installation plus the version-age/build-script policy are the durable contracts.
+The final dependency graph also passed bounded advisory evidence at `moderate+` for production and `high+` for the complete tree.
 
 ## Source authority
 
-- `../index.html`, `../views/`, `../scss/`, `../css/`: historical 2022 implementation.
+- `../index.html`, `../views/`, `../scss/`, `../css/`: preserved historical 2022 source evidence.
 - `src/`: source authority for the 2026 application.
 - `src/content/landing-content.ts`: presentation-independent aggregate content contract.
-- `src/content/local-content.ts`: current provenance-aware local content authority.
+- `src/content/local-content.ts`: current provenance-aware local content authority, including production SEO inputs.
 - `src/content/historical-home.ts`: canonical four-category historical service dataset.
 - `src/content/historical-about.ts`: historical Nosotros statements and source context.
 - `src/content/historical-backstage.ts`: Backstage archive and exact provenance.
@@ -102,10 +92,13 @@ Registry-backed advisory checks remain evidence rather than a permanent CI depen
 - `src/content/public-asset.ts`: application-owned public-media path helper.
 - `src/styles/_tokens.scss`: 2026 visual-system token authority.
 - `src/styles/`: modern presentation modules only.
-- `public/media/`: only historical media intentionally promoted into the modern app.
+- `public/media/`: qualified historical media promoted into the modern app.
+- `public/robots.txt`: production crawl policy.
+- `public/sitemap.xml`: single-document production sitemap.
 - `pnpm-workspace.yaml`: pnpm 11 supply-chain/install policy.
 - `pnpm-lock.yaml`: reproducible dependency resolution under that policy.
-- `dist/`: generated production output; never hand-edit.
+- `dist/`: generated deployment output; never hand-edit.
+- `../netlify.toml`: Netlify build, publish, security-header and hashed-asset cache authority.
 
 Repository-level evidence and decisions live in `../docs/`.
 
@@ -153,16 +146,13 @@ The integrated app has been qualified for:
 - local media with useful alt text;
 - lazy loading below the hero;
 - historical Contacto remaining non-interactive;
-- core rendered contrast pairs above 4.5:1;
-- metadata that does not invent canonical/social URLs before a production origin exists.
+- core rendered contrast pairs above 4.5:1.
 
 Issues #10, #11, #12 and #22 are complete. Full visual contract: [`../docs/visual-system-2026.md`](../docs/visual-system-2026.md).
 
 ## Content platform 2026
 
 Issue #26 is complete through PR #28.
-
-Current architecture:
 
 ```text
 historical sources + reviewed 2026 editorial facts
@@ -182,40 +172,21 @@ historical sources + reviewed 2026 editorial facts
 - `draft`;
 - `public` / `withheld`.
 
-The local authority composes already-qualified historical modules rather than duplicating them.
-
-A contract invariant separates historical identity from the 2026 editorial shell:
-
-- `siteIdentity` contains only historical `El Núcleo / CINE` identity/logo;
-- `shell` owns current reconstruction labels/footer copy.
-
 Current projects and current contact channels have typed slots but remain empty, `unverified` and `withheld` until real evidence exists.
 
-There is deliberately no remote provider, CMS dependency or `/admin`. A real second content source or asynchronous workflow must exist before that abstraction is justified.
-
-Full contract: [`../docs/content-platform-2026.md`](../docs/content-platform-2026.md).
+There is deliberately no remote provider, CMS dependency or `/admin`.
 
 ## Repository audit — complete
 
 Issue #29 / PR #30 are complete.
 
-The hardening pass resolved or classified:
+The final audit merge is:
 
-- stale Node authority;
-- package-manager duplication;
-- pnpm 11 migration and supply-chain policy;
-- lockfile qualification;
-- docs-as-code CI coverage;
-- TypeScript/tooling compatibility;
-- tests by product risk;
-- dependency advisory evidence;
-- security/privacy posture;
-- performance/media posture;
-- browser-QA permanence decision;
-- governance and deliberate non-adoptions;
-- cutover-only blockers.
+```text
+7b0521b0331c42881d43ef7e894672125e9c1b66
+```
 
-The final merge is `7b0521b0331c42881d43ef7e894672125e9c1b66`, and post-merge Modern app quality #132 passed on that `main` state.
+Post-merge Modern app quality #132 passed on that `main` state. The later repository-documentation handoff PR #31 also passed post-merge quality #134.
 
 Audit matrix: [`../docs/repository-audit-2026.md`](../docs/repository-audit-2026.md).
 
@@ -226,49 +197,69 @@ Every material change must preserve:
 1. Node 24 + pnpm 11.26.0 reproducibility;
 2. frozen install under the committed pnpm policy;
 3. `pnpm check` green;
-4. 29 existing behavior/contract tests unless intentionally evolved with the same change;
+4. the current behavior/content/document contracts unless intentionally evolved with the same change;
 5. historical truth/provenance boundaries;
 6. media provenance;
 7. no current staff/client/service/company claim without verification;
 8. no personal-data collection without real transport/privacy semantics;
 9. read-only SHA-pinned permanent GitHub Actions;
-10. browser QA when behavior/presentation changes;
+10. relevant browser QA for public deployment changes;
 11. temporary qualification tooling removed before merge;
-12. repository-level README/docs synchronized when the project phase changes.
+12. repository-level README/docs synchronized when project authority changes.
+
+The #5 cutover extends the suite to **30 tests across 3 Vitest files** by adding a production-origin contract for canonical/robots/sitemap alongside the existing truth/provenance/behavior coverage.
 
 ## TypeScript and lint posture
 
 TypeScript remains `strict: true` on 6.0.3.
 
-TypeScript 7 exists, but the current `typescript-eslint` toolchain officially supports TypeScript `<6.1`. The repository therefore stays on the compatible TypeScript line and configures `onUnsupportedTypeScriptVersion: "error"` so a future incompatible bump cannot enter silently.
+TypeScript 7 exists, but the current `typescript-eslint` toolchain officially supports TypeScript `<6.1`. The repository therefore stays on the compatible TypeScript line and configures `onUnsupportedTypeScriptVersion: "error"` so an incompatible bump cannot enter silently.
 
 `skipLibCheck: true` remains deliberate for the current small dependency surface. Type-aware linting or additional React lint plugins are deferred until they demonstrate a real bug class instead of merely increasing rule count.
 
-## Testing posture
+## Production deployment authority
 
-Current baseline: **29/29 tests across 3 Vitest files**.
+PR #32 selects Netlify as the modern production provider.
 
-The suite is risk-oriented:
+Production origin:
 
-- 6 content authority tests for truth/publication/provenance;
-- 4 public-document contracts;
-- 19 visible behavior tests.
+```text
+https://el-nucleo-producciones.netlify.app/
+```
 
-No numeric coverage threshold is introduced merely for a badge.
+Build contract from repository root:
 
-A permanent Playwright/screenshot suite is not introduced before deploy. Major presentation changes already have production-build browser evidence, and stable DOM invariants live in Vitest/Testing Library. The highest-value browser automation is now the real-URL post-deploy smoke required by #5.
+```text
+cd modern && corepack pnpm install --frozen-lockfile && corepack pnpm build
+```
 
-## Media policy
+Publish directory:
 
-Promote only media used by the accepted modern product. Originals remain untouched and promoted files keep blob-level provenance.
+```text
+modern/dist
+```
 
-Current promoted baseline: **11 files / 786,374 bytes (~768 KiB)**.
+Keeping the repository root as Netlify's build base preserves root `.nvmrc` as the Node authority while Corepack resolves pnpm from this package's `packageManager` field.
 
-Responsive/WebP/AVIF derivatives require measured need and a reproducible process.
+## Production metadata authority
+
+The pre-cutover `null` metadata slots are now resolved because a real production origin has been selected:
+
+```text
+canonical: https://el-nucleo-producciones.netlify.app/
+og:url:    https://el-nucleo-producciones.netlify.app/
+og:image:  https://el-nucleo-producciones.netlify.app/media/el-nucleo-logo.png
+sitemap:   https://el-nucleo-producciones.netlify.app/sitemap.xml
+robots:    https://el-nucleo-producciones.netlify.app/robots.txt
+```
+
+`index.html`, `localLandingContent.seo`, tests, `robots.txt`, sitemap and deployment/SEO docs are required to agree on the same origin.
+
+The sitemap contains one document URL only; hash anchors are not modeled as separate pages.
 
 ## Security/privacy posture
 
-The modern runtime currently has:
+The modern runtime has:
 
 - no third-party runtime scripts;
 - no analytics SDK;
@@ -277,25 +268,66 @@ The modern runtime currently has:
 - no fake-success state;
 - no modern secret/env contract found by repository audit;
 - strict-origin referrer metadata;
-- a dependency graph re-resolved under pnpm 11 supply-chain rules;
-- clean one-shot advisory evidence at the chosen severity thresholds.
+- a dependency graph resolved under pnpm 11 supply-chain rules.
 
-CSP/host headers remain deployment work because they depend on the real production host.
+`../netlify.toml` adds an enforced CSP based on those actual runtime constraints plus Permissions-Policy, `nosniff` and frame denial.
 
-## Deployment boundary — active #5
+The CSP was executed successfully in a public Netlify deploy preview and Chrome rendered the React app without requiring a policy relaxation.
 
-The historical root remains the deployable baseline until cutover.
+## Preview qualification for cutover
 
-The modern application replaces or supersedes that authority only through #5 after the project has:
+PR #32 preview:
 
-- a chosen production host/origin;
-- verified base path/assets;
-- real canonical/social metadata;
-- sitemap/robots decisions where appropriate;
-- host-specific security/deploy configuration;
-- post-deploy smoke against the real URL;
-- documented rollback to the preserved 2022 baseline;
-- explicit source/artifact authority after deployment;
-- direct GitHub branch-protection/ruleset verification.
+```text
+https://deploy-preview-32--el-nucleo-producciones.netlify.app/
+```
 
-No placeholder origin or silent root replacement is acceptable.
+The final preview smoke validates:
+
+- modern 2026 HTML;
+- JS/CSS/media;
+- production canonical/OG/Twitter values;
+- security headers;
+- immutable cache for Vite fingerprinted assets;
+- `robots.txt` and one-URL sitemap;
+- Chrome render under the enforced CSP;
+- all primary page sections;
+- no live Contacto form.
+
+Before selecting Netlify, the same qualification lane directly probed both known public endpoints and proved that Netlify production and GitHub Pages still served the historical 2022 document.
+
+## GitHub Pages transition state
+
+GitHub Pages is not the modern canonical authority.
+
+Because it serves the preserved historical root, the preferred cleanup after Netlify production is verified is to disable/unpublish Pages in GitHub Settings rather than rewriting historical files merely to redirect them.
+
+That Settings action, along with direct verification of branch protection/rulesets, cannot be completed through the currently connected GitHub actions and remains an explicit final manual verification item in #5.
+
+## Rollback
+
+The deployment contract keeps two recovery paths:
+
+- Netlify deploy-history rollback;
+- Git revert of the cutover merge followed by permanent quality, redeploy and public smoke.
+
+Historical baseline:
+
+```text
+6b23035cb6fffebbdd8ecd57c6752eae36f09b31
+```
+
+Full contract: [`../docs/deployment-cutover-2026.md`](../docs/deployment-cutover-2026.md).
+
+## Remaining closure sequence
+
+1. normalize and pass the final PR #32 quality contract;
+2. remove temporary preview-smoke tooling;
+3. require a clean-head quality + Netlify preview success;
+4. merge only that qualified SHA;
+5. require post-merge quality on `main`;
+6. verify Netlify production now serves the modern app;
+7. run the public production smoke;
+8. document the final merge/deploy evidence;
+9. verify GitHub Pages and branch protection/ruleset directly in Settings;
+10. close #5 and #1 when no real blocker remains.
