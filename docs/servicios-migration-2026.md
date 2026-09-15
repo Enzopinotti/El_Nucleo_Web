@@ -73,35 +73,68 @@ The existing Home CTA continues to target `#archivo`, whose child service sectio
 
 There is still one H1 for the product identity; Servicios and Backstage are H2 sections.
 
-## Test contract
+## Automated test contract
 
-The slice extends the application suite to verify:
+The final permanent quality run validates **12/12 Vitest tests** plus Prettier, ESLint, TypeScript and the Vite production build.
 
-- the primary nav targets the migrated sections;
-- `historicalServices` remains exactly the four canonical historical categories;
-- the service section is explicitly historical and not a current catalog;
-- the existing keyboard-operable category gallery still wraps and advances correctly;
-- all four Backstage images are present at once and lazy-loaded;
-- Backstage introduces no carousel buttons/autoplay controls;
-- Backstage copy explicitly rejects current team/client/production assumptions;
-- generic unverified social links remain absent;
-- existing Home and Nosotros contracts remain green.
+The suite covers:
 
-## Quality and closure gate
+- primary navigation targets;
+- one canonical four-category service authority;
+- historical-not-current service wording;
+- existing gallery controls/wrapping;
+- four simultaneous lazy-loaded Backstage frames;
+- no Backstage carousel controls;
+- Backstage truth boundary;
+- continued omission of unverified social links;
+- existing Home and Nosotros regressions.
 
-The slice is not complete merely because the JSX renders.
+## Production browser qualification
 
-Before merge it must have:
+A bounded one-shot browser workflow qualified the production Vite build with **Google Chrome 152.0.7977.82**. Screenshots and machine-readable evidence were uploaded as short-lived CI artifacts rather than committed as repository noise.
 
-1. `pnpm check` green through the permanent quality workflow;
-2. production-build browser QA at mobile, tablet and desktop widths;
-3. one H1, no horizontal overflow and preserved skip-link behavior;
-4. reduced-motion regression review;
-5. service and Backstage truth-boundary copy visible in the production build;
-6. no temporary formatter/visual workflow left behind;
-7. historical root files unchanged.
+The production build was checked at:
 
-Browser qualification evidence is added only after it has actually run; this document does not pre-claim it.
+- **360 × 900 px** — full page width 360, no horizontal overflow;
+- **768 × 1024 px** — full page width 768, no horizontal overflow;
+- **1440 × 1000 px** — full page width 1440, no horizontal overflow.
+
+Machine-readable assertions confirmed:
+
+- exactly **one H1**;
+- Servicios H2 present;
+- the current-catalog truth boundary visible in the production DOM;
+- Backstage H2 present;
+- **4/4 Backstage images loaded successfully**;
+- **0 Backstage buttons/controls**, so no hidden carousel interaction returned;
+- Backstage current-team/client/production truth boundary visible;
+- **0** unverified Facebook/YouTube/Instagram/Vimeo/Twitter links;
+- fresh-page first Tab focuses `Saltar al contenido` with `href="#main-content"`;
+- `prefers-reduced-motion: reduce` resolves document scroll behavior to `auto`.
+
+Visual review of the captured mobile and desktop frames also confirmed that:
+
+- the service viewer keeps readable controls and category hierarchy at 360 px;
+- the service media retains its intended collage framing without horizontal clipping;
+- the Backstage grid stacks cleanly on mobile and resolves to a balanced two-column contact sheet on desktop;
+- historical photographs are shown without silent cropping;
+- captions remain visually subordinate to the archive imagery and do not read as current commercial proof.
+
+The one-shot browser workflow is removed before final review. The repository keeps only its permanent read-only quality workflow.
+
+## Closure result
+
+Servicios satisfies its slice-level closure contract:
+
+1. permanent `pnpm check` is green;
+2. browser QA covers mobile/tablet/desktop;
+3. one H1 and no horizontal overflow were confirmed;
+4. skip-link-first keyboard behavior is preserved;
+5. reduced-motion behavior is preserved;
+6. service and Backstage truth boundaries are visible in the production build;
+7. all four Backstage assets retain explicit source/blob provenance;
+8. the historical root remains unchanged and deployable;
+9. temporary visual tooling is removed before merge.
 
 ## Non-goals
 

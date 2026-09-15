@@ -47,7 +47,7 @@ pnpm check
 - `../docs/modern-app-architecture.md`: migration/cutover architecture.
 - `../docs/home-migration-2026.md`: Home-specific design and qualification evidence.
 - `../docs/nosotros-migration-2026.md`: historical narrative/truth-boundary decisions and browser qualification for Nosotros.
-- `../docs/servicios-migration-2026.md`: service/archive authority, Backstage design decision and closure gate.
+- `../docs/servicios-migration-2026.md`: service/archive authority, Backstage design decision and browser qualification.
 - `../docs/asset-provenance.md`: exact origin of promoted historical media.
 
 ## Current migration state
@@ -58,7 +58,7 @@ Home replaced four duplicate Bootstrap carousels with one accessible archive gal
 
 Nosotros preserves what the 2022 project said about itself while making the historical/current boundary explicit. The old `Somos un colectivo...` and `Visión` statements remain source material with year/path context; the 2026 surface does not infer that the same organization is still operating, that NGO collaborations or a feature film were completed, or that the old service/team model remains current.
 
-**Servicios** (#16) is the active migration lane. It reuses the existing four-category archive authority rather than inventing another catalog, and promotes only the four historical Backstage frames needed by this slice. Backstage is presented as a static responsive contact sheet instead of recreating the historical Bootstrap autoplay carousel.
+**Servicios** (#16) is implemented and fully qualified on its migration branch. It reuses the existing four-category archive authority rather than inventing another catalog, promotes only the four historical Backstage frames needed by the slice and replaces the historical Bootstrap autoplay carousel with a static responsive contact sheet.
 
 Generic Facebook/YouTube/Instagram/Vimeo/Twitter destinations from the old footer remain deliberately omitted because they were not verified El Núcleo accounts.
 
@@ -98,6 +98,26 @@ Production-build browser qualification with **Chrome 152** covered:
 - visual separation between historical quotations and 2026 editorial context;
 - regression review of Home/archive after adding the new section.
 
+## Completed Servicios evidence
+
+Servicios completes the current repository contract with **12/12 Vitest tests green**, plus Prettier, ESLint, TypeScript and the Vite production build.
+
+Production-build browser qualification with **Chrome 152.0.7977.82** covered:
+
+- full-page renders at 360 / 768 / 1440 px;
+- no horizontal overflow at any qualified width;
+- exactly one H1;
+- service-category truth-boundary copy visible in the production DOM;
+- Backstage H2 present with all **4/4 historical images loaded**;
+- zero Backstage carousel buttons/controls;
+- explicit no-current-team/client/production interpretation;
+- no unverified historical social links;
+- fresh-page first Tab on the skip link;
+- reduced-motion scroll behavior resolving to `auto`;
+- visual review of the service viewer and Backstage contact sheet on mobile and desktop.
+
+The browser evidence is retained only as short-lived CI artifacts. The temporary smoke workflow is removed before final review and does not become permanent automation.
+
 ## Servicios content model
 
 ```text
@@ -109,8 +129,6 @@ Production-build browser qualification with **Chrome 152** covered:
 The service categories remain historical source material. `Servicios Ofrecidos` is not silently converted into a current 2026 commercial offer.
 
 The four Backstage photographs are likewise archival evidence; they do not establish a current team, client, production or relationship.
-
-Browser qualification for Servicios is recorded only after it actually runs.
 
 ## Accessibility baseline
 
@@ -134,7 +152,7 @@ Migration continues in small reviewable slices rather than one rewrite:
 
 - `Home`: merged + post-merge validated;
 - `Nosotros`: merged + post-merge validated;
-- `Servicios`: implementation lane active; automated and browser qualification required before merge;
+- `Servicios`: implemented + automated/browser qualified; ready for final merge once the permanent gate passes on the closure commit;
 - `Equipo`: historical people and client references treated as archive unless separately verified as current;
 - `Contacto`: no fake-success form; transport, validation, spam/privacy behavior and failure states must be explicit before the form is presented as operational;
 - cutover: only after all migrated slices have green CI, responsive/accessibility review and a documented rollback path.
